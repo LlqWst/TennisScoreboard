@@ -54,6 +54,16 @@ public class PlayersServlet extends BasicServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        String name = request.getParameter("name");
+
+        PrintWriter writer = response.getWriter();
+        Player player = playerDao.save(name);
+
+        printPLayer(List.of(player), writer);
+        writer.write("<html><body>");
+        writer.write("<a href=\"index.jsp\">Menu</a>");
+        writer.write("</body></html>");
+        writer.close();
     }
 
 }

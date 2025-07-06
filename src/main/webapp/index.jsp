@@ -15,40 +15,15 @@
 <a href="findAllMatches">Matches</a>
 <br><br>
 
-<h2> Add Currency </h2>
-<form action="add-currency" method="post">
-    <label>Код валюты:
-        <input type="text" name="code" required>
+<h2> Add Player </h2>
+<form action="findAllPlayers" method="post">
+    <label>Name:
+        <input type="text" name="name" required>
     </label><br>
 
-    <label>Полное название:
-        <input type="text" name="fullName" required>
-    </label><br>
-
-    <label>Символ:
-        <input type="text" name="sign" required>
-    </label><br>
-
-    <button type="submit">Добавить</button>
+    <button type="submit">Submit</button>
 </form>
 <br>
-
-<h2> Add Rate </h2>
-<form action="add-rate" method="post">
-    <label>Base ID:
-        <input type="text" name="base" required>
-    </label><br>
-
-    <label>Target ID:
-        <input type="text" name="target" required>
-    </label><br>
-
-    <label>Rate:
-        <input type="text" name="rate" required>
-    </label><br>
-
-    <button type="submit">Добавить</button>
-</form>
 
 </body>
 </html>
