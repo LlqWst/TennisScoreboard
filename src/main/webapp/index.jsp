@@ -15,6 +15,9 @@
 <a href="findAllMatches">Matches</a>
 <br><br>
 
+<a href="new-match">Start new Match</a>
+<br><br>
+
 <h2> Add Player </h2>
 <form action="findAllPlayers" method="post">
     <label>Name:

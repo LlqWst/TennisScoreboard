@@ -1,15 +1,20 @@
 package dev.lqwd.dao;
 
 import dev.lqwd.entity.Player;
+import dev.lqwd.exception.DataBaseException;
 import dev.lqwd.utils.HibernateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 public class PlayerDao {
+
+    private final static String READ_DB_ERROR = "Failed to read Player name '%s' from the database";
+    private final static String SAVE_DB_ERROR = "Failed to save Player '%s' to the database";
 
     public List<Player> findAll() {
 
@@ -28,12 +33,12 @@ public class PlayerDao {
              return players;
 
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new DataBaseException(READ_DB_ERROR);
         }
 
     }
 
-    public Player findById(long id) {
+    public Optional<Player> findById(long id) {
 
         try (Session session = HibernateUtil.openSession()) {
             Transaction transaction = session.beginTransaction();
@@ -42,14 +47,14 @@ public class PlayerDao {
             Player player = session.byId(Player.class).load(id);
 
             transaction.commit();
-            return player;
+            return Optional.of(player);
 
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new DataBaseException(READ_DB_ERROR.formatted(id));
         }
     }
 
-    public Player findByName(String name) {
+    public Optional<Player> findByName(String name) {
 
         String hql = "SELECT p FROM Player AS p WHERE name = :playerName";
 
@@ -58,25 +63,28 @@ public class PlayerDao {
             log.trace("Transaction is created: {}", transaction);
 
             Player player = session.createQuery(hql, Player.class)
-                    .setParameter("playerName", name)
+                    .setParameter("playerName", name.toUpperCase())
                     .uniqueResult();
 
             transaction.commit();
-            return player;
 
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            return Optional.ofNullable(player);
+        } catch (Exception e){
+            throw new DataBaseException(READ_DB_ERROR.formatted(name));
         }
+
+
     }
 
 
     public Player save(String name) {
+
         try (Session session = HibernateUtil.openSession()) {
             Transaction transaction = session.beginTransaction();
             log.trace("Transaction is created: {}", transaction);
 
             Player player = Player.builder()
-                    .name(name)
+                    .name(name.toUpperCase())
                     .build();
 
             session.persist(player);
@@ -85,7 +93,7 @@ public class PlayerDao {
             return player;
 
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new DataBaseException(SAVE_DB_ERROR.formatted(name));
         }
 
     }

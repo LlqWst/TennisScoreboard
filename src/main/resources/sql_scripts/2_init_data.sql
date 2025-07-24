@@ -1,14 +1,12 @@
 
 INSERT INTO tennisScoreboard.Players (name)
 VALUES
-    ('Ivan'),
-    ('Maxim'),
-    ('Egor'),
-    ('Hope'),
-    ('Believe'),
-    ('Love');
-
-
+    ('IVAN'),
+    ('MAXIM'),
+    ('EGOR'),
+    ('HOPE'),
+    ('BELIEVE'),
+    ('LOVE');
 
 INSERT INTO tennisScoreboard.Matches (pLayer1, pLayer2, winner)
 VALUES

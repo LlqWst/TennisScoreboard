@@ -2,6 +2,7 @@ package dev.lqwd.servlets;
 
 import dev.lqwd.dao.PlayerDao;
 import dev.lqwd.entity.Player;
+import dev.lqwd.exception.BadRequestException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,6 +13,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @WebServlet("/findAllPlayers")
@@ -26,12 +28,13 @@ public class PlayersServlet extends BasicServlet {
 
         PrintWriter writer = response.getWriter();
 
-        Player player = playerDao.findById(2L);
-        Player player2 = playerDao.findByName("Ivan");
+//        Player player = playerDao.findById(2L).orElseThrow(() -> new BadRequestException("Incorrect ID"));
+//        Player player2 = playerDao.findByName("Ivan")
+//                .orElseThrow(() -> new BadRequestException("Incorrect Name"));
 
         printPLayer(players, writer); // перенести в тест
-        printPLayer(List.of(player), writer); // перенести в тест
-        printPLayer(List.of(player2), writer); // перенести в тест
+//        printPLayer(List.of(player), writer); // перенести в тест
+//        printPLayer(List.of(player2), writer); // перенести в тест
 
         writer.write("<html><body>");
         writer.write("<a href=\"index.jsp\">Menu</a>");

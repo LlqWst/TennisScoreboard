@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PlayerRequestDto {
+public class NewMatchRequestDto {
 
-    private String name;
+    private String player1;
+    private String player2;
 }
