@@ -10,7 +10,8 @@
 <head>
     <title>New Match</title>
     <form action="match-score" method="post">
-        <label>Player1
+        <p>${name1} score: ${score1}</p>
+        <label>
             <input type="hidden" name="id" value=${player1}>
         </label><br>
 
@@ -19,9 +20,11 @@
     <br>
 
     <form action="match-score" method="post">
-        <label>Player2
+        <p>${name2} score: ${score2}</p>
+        <label>
             <input type="hidden" name="id" value=${player2}>
         </label><br>
+
 
         <button type="submit">Point</button>
     </form>

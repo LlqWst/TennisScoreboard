@@ -11,7 +11,15 @@ public class MatchScoreCalculationService {
         MatchScoreDto matchScoreDto = scoreForUpdatingDto.getCurrentMatch();
         long id = scoreForUpdatingDto.getPointForId();
 
-        return ScoreUpdatedDto.builder().build();
+        if (id == matchScoreDto.getIdPlayer1()){
+            matchScoreDto.setScore1(matchScoreDto.getScore1() + 15);
+        } else {
+            matchScoreDto.setScore2(matchScoreDto.getScore2() + 15);
+        }
+
+        return ScoreUpdatedDto.builder()
+                .currentMatch(matchScoreDto)
+                .build();
     }
 
 }

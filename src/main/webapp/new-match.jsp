@@ -14,7 +14,6 @@
         <label>Player1
             <input type="text" name="player1" required>
         </label><br>
-
         <label>Player2
             <input type="text" name="player2" required>
         </label><br>
