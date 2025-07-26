@@ -9,8 +9,8 @@ public final class Validator {
     private Validator() {
     }
 
-    private static final Pattern PATTERN_NAME = Pattern.compile("^(?!\\s*$)[a-zA-Z ]{1,46}$");
-    private static final String SUPPORTS_CHARS_MESSAGE = "'Player name' supports latina only, max 46 chars";
+    private static final Pattern PATTERN_NAME = Pattern.compile("^(?!\\s*$)[a-zA-Z ]{1,15}$");
+    private static final String SUPPORTS_CHARS_MESSAGE = "'Player name' supports latina only, max 15 chars";
     private static final String MISSING_NAME_MESSAGE = "Please provide name for %s";
     private static final String EQUALS_NAMES_MESSAGE = "Players names should be different";
 

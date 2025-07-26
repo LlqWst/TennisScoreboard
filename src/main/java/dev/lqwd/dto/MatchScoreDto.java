@@ -9,6 +9,7 @@ import lombok.*;
 public class MatchScoreDto {
 
     private Long idPlayer1;
+
     private Long idPlayer2;
 
     @Builder.Default

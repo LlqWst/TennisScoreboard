@@ -14,7 +14,10 @@ import java.util.Optional;
 public class PlayerDao {
 
     private final static String READ_DB_ERROR = "Failed to read Player name '%s' from the database";
+    private final static String READ_ID_DB_ERROR = "Failed to read Player id '%d' from the database";
+    private final static String READ_ALL_DB_ERROR = "Failed to read Players from the database";
     private final static String SAVE_DB_ERROR = "Failed to save Player '%s' to the database";
+
 
     public List<Player> findAll() {
 
@@ -33,7 +36,7 @@ public class PlayerDao {
              return players;
 
         } catch (Exception e) {
-            throw new DataBaseException(READ_DB_ERROR);
+            throw new DataBaseException(READ_ALL_DB_ERROR);
         }
 
     }
@@ -50,20 +53,20 @@ public class PlayerDao {
             return Optional.of(player);
 
         } catch (Exception e) {
-            throw new DataBaseException(READ_DB_ERROR.formatted(id));
+            throw new DataBaseException(READ_ID_DB_ERROR.formatted(id));
         }
     }
 
     public Optional<Player> findByName(String name) {
 
-        String hql = "SELECT p FROM Player AS p WHERE name = :playerName";
+        String hql = "SELECT p FROM Player AS p WHERE upper(name) = upper(:playerName) ";
 
         try (Session session = HibernateUtil.openSession()) {
             Transaction transaction = session.beginTransaction();
             log.trace("Transaction is created: {}", transaction);
 
             Player player = session.createQuery(hql, Player.class)
-                    .setParameter("playerName", name.toUpperCase())
+                    .setParameter("playerName", name)
                     .uniqueResult();
 
             transaction.commit();
@@ -72,7 +75,6 @@ public class PlayerDao {
         } catch (Exception e){
             throw new DataBaseException(READ_DB_ERROR.formatted(name));
         }
-
 
     }
 
@@ -84,7 +86,7 @@ public class PlayerDao {
             log.trace("Transaction is created: {}", transaction);
 
             Player player = Player.builder()
-                    .name(name.toUpperCase())
+                    .name(name)
                     .build();
 
             session.persist(player);

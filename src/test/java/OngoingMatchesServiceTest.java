@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS) // Экземпляр класса создается один раз, поэтому поля сохраняют значения между тестами:
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class) // позволяет задавать очередность тестов
-public class MatchesTest {
+public class OngoingMatchesServiceTest {
 
     private static final Map<UUID, MatchScoreDto> matches = new HashMap<>();
     private  MatchScoreDto currentMatch;

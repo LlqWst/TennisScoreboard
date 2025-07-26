@@ -28,5 +28,11 @@
 </form>
 <br>
 
+<h2> Start new match </h2>
+<form action="new-match.jsp">
+
+    <button type="submit">Start</button>
+</form>
+
 </body>
 </html>

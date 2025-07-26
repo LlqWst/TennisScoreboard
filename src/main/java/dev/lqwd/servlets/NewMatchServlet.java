@@ -1,6 +1,6 @@
 package dev.lqwd.servlets;
 
-import dev.lqwd.utils.Matches;
+import dev.lqwd.service.OngoingMatchesService;
 import dev.lqwd.dto.MatchScoreDto;
 import dev.lqwd.dto.NewMatchRequestDto;
 import dev.lqwd.service.PlayerService;
@@ -19,12 +19,13 @@ import java.util.UUID;
 public class NewMatchServlet extends BasicServlet {
 
     private static final PlayerService playerService = new PlayerService();
+    private static final String MATCH_SCORE_URL = "match-score?uuid=%s";
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        String player1 = request.getParameter("player1");
-        String player2 = request.getParameter("player2");
+        String player1 = req.getParameter("player1");
+        String player2 = req.getParameter("player2");
 
         Validator.validate(player1, player2);
 
@@ -33,10 +34,14 @@ public class NewMatchServlet extends BasicServlet {
                 .player2(player2)
                 .build();
 
-        MatchScoreDto matchScoreDto = playerService.findPLayersId(newMatchRequestDto);
-        UUID key = Matches.add(matchScoreDto);
+        MatchScoreDto matchScoreDto = playerService.getPLayersId(newMatchRequestDto);
+        UUID key = OngoingMatchesService.getInstance().add(matchScoreDto);
 
-        doResponse(response, 200, Matches.getAll());
+        log.info("match created uuid: {}}", key);
+
+        resp.sendRedirect(MATCH_SCORE_URL.formatted(key));
+
+        //doResponse(response, SC_OK, Matches.getInstance.getAll());
 
     }
 

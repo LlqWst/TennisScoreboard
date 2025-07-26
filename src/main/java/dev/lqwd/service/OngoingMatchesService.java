@@ -1,4 +1,4 @@
-package dev.lqwd.utils;
+package dev.lqwd.service;
 
 import dev.lqwd.dto.MatchScoreDto;
 import dev.lqwd.dto.MatchesCurrentDto;
@@ -7,14 +7,23 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.*;
 
 @Slf4j
-public final class Matches {
+public class OngoingMatchesService {
 
-    private Matches() {
+    private static OngoingMatchesService instance;
+    private final Map<UUID, MatchScoreDto> matches;
+
+    private OngoingMatchesService() {
+        matches = new HashMap<>();
     }
 
-    private static Map<UUID, MatchScoreDto> matches = new HashMap<>();
+    public static OngoingMatchesService getInstance(){
+        if(instance == null){
+            instance = new OngoingMatchesService();
+        }
+        return instance;
+    }
 
-    public static UUID add(MatchScoreDto currentMatch) {
+    public  UUID add(MatchScoreDto currentMatch) {
 
         UUID key = UUID.randomUUID();
 
@@ -26,7 +35,7 @@ public final class Matches {
 
     }
 
-    public static void remove(UUID key) {
+    public void remove(UUID key) {
         matches.remove(key);
 
         if (!matches.containsKey(key)) {
@@ -37,13 +46,13 @@ public final class Matches {
 
     }
 
-    public static MatchScoreDto get(UUID key) {
+    public MatchScoreDto get(UUID key) {
 
         return matches.get(key);
 
     }
 
-    public static List<MatchesCurrentDto> getAll(){
+    public List<MatchesCurrentDto> getAll(){
 
         List<MatchesCurrentDto> list = new ArrayList<>();
 
@@ -56,7 +65,6 @@ public final class Matches {
             list.add(dto);
         }
         return list;
-//Map.Entry<Coordinates, Entity> entry : entities.entrySet()
     }
 
 }

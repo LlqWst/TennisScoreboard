@@ -5,20 +5,18 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
-
-// для теста
-
-
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MatchesCurrentDto {
+public class ScoreUpdatedDto {
 
-    private UUID id;
-    private Long id1;
-    private Long id2;
+    MatchScoreDto currentMatch;
+
+    @Builder.Default
+    Boolean isThereWinner = false;
+
+    @Builder.Default
+    Long winner = 0L;
 
 }
