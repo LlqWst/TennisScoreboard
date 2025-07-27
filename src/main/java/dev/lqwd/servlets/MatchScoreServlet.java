@@ -3,6 +3,8 @@ package dev.lqwd.servlets;
 import dev.lqwd.dao.PlayerDao;
 import dev.lqwd.dto.ScoreForUpdatingDto;
 import dev.lqwd.dto.ScoreUpdatedDto;
+import dev.lqwd.entity.Match;
+import dev.lqwd.service.FinishedMatchesPersistenceService;
 import dev.lqwd.service.MatchScoreCalculationService;
 import dev.lqwd.service.OngoingMatchesService;
 import jakarta.servlet.ServletException;
@@ -19,28 +21,28 @@ import java.util.UUID;
 public class MatchScoreServlet extends BasicServlet {
 
     private static final String MATCH_SCORE_URL = "match-score?uuid=%s";
-    private final MatchScoreCalculationService matchScoreCalculationService = new MatchScoreCalculationService();
+    private static final MatchScoreCalculationService matchScoreCalculationService = new MatchScoreCalculationService();
     private final PlayerDao playerDao = new PlayerDao();
-    private UUID key;
+    private static final FinishedMatchesPersistenceService finishedMatchesPersistenceService = new FinishedMatchesPersistenceService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        key = UUID.fromString(
-                req.getParameter("uuid")
-        );
+         UUID key = UUID.fromString(
+                    req.getParameter("uuid")
+            );
 
         log.info("uuid is redirected: {}}", key);
 
-
-        req.setAttribute("name1", playerDao.findById(OngoingMatchesService.getInstance().get(key).getIdPlayer1()).get().getName());
-        req.setAttribute("name2", playerDao.findById(OngoingMatchesService.getInstance().get(key).getIdPlayer2()).get().getName());
-        req.setAttribute("games1", OngoingMatchesService.getInstance().get(key).getGames1());
-        req.setAttribute("games2", OngoingMatchesService.getInstance().get(key).getGames2());
-        req.setAttribute("sets1", OngoingMatchesService.getInstance().get(key).getSets1());
-        req.setAttribute("sets2", OngoingMatchesService.getInstance().get(key).getSets2());
-        req.setAttribute("points1", OngoingMatchesService.getInstance().get(key).getPoints1());
-        req.setAttribute("points2", OngoingMatchesService.getInstance().get(key).getPoints2());
+        req.setAttribute("name1", playerDao.findById(OngoingMatchesService.getInstance().getMatch(key).getIdPlayer1()).get().getName());
+        req.setAttribute("name2", playerDao.findById(OngoingMatchesService.getInstance().getMatch(key).getIdPlayer2()).get().getName());
+        req.setAttribute("games1", OngoingMatchesService.getInstance().getMatch(key).getGames1());
+        req.setAttribute("games2", OngoingMatchesService.getInstance().getMatch(key).getGames2());
+        req.setAttribute("sets1", OngoingMatchesService.getInstance().getMatch(key).getSets1());
+        req.setAttribute("sets2", OngoingMatchesService.getInstance().getMatch(key).getSets2());
+        req.setAttribute("points1", OngoingMatchesService.getInstance().getMatch(key).getPoints1());
+        req.setAttribute("points2", OngoingMatchesService.getInstance().getMatch(key).getPoints2());
+        req.setAttribute("uuid", key);
         req.getRequestDispatcher("match-score.jsp").forward(req, resp);
 
     }
@@ -48,22 +50,42 @@ public class MatchScoreServlet extends BasicServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        int playerNumber = Integer.parseInt(
+        UUID key = UUID.fromString(
+                req.getParameter("uuid")
+        );
+
+        int position = Integer.parseInt(
                 req.getParameter("player")
         );
 
-        log.info("point for player number: {}}", playerNumber);
+        log.info("point for player number: {}}", position);
 
         ScoreForUpdatingDto updatingScoreDto = ScoreForUpdatingDto.builder()
-                .currentMatch(OngoingMatchesService.getInstance().get(key))
-                .pointWinnerNumber(playerNumber)
+                .matchScoreDto(OngoingMatchesService.getInstance().getMatch(key).toBuilder().build())
+                .pointWinnerPosition(position)
                 .build();
 
         ScoreUpdatedDto scoreUpdatedDto = matchScoreCalculationService.updateScore(updatingScoreDto);
 
-        OngoingMatchesService.getInstance().get(key).setPoints1(scoreUpdatedDto.getCurrentMatch().getPoints1());
-        OngoingMatchesService.getInstance().get(key).setPoints2(scoreUpdatedDto.getCurrentMatch().getPoints2());
-        resp.sendRedirect(MATCH_SCORE_URL.formatted(key));
+        if (scoreUpdatedDto.getIsWinner()){
+           OngoingMatchesService.getInstance().removeMatch(key);
+           Match match = finishedMatchesPersistenceService.saveMatch(scoreUpdatedDto);
+            req.setAttribute("name1", playerDao.findById(match.getPlayer1().getId()).get().getName());
+            req.setAttribute("name2", playerDao.findById(match.getPlayer2().getId()).get().getName());
+            req.setAttribute("games1", scoreUpdatedDto.getUpdatedScore().getGames1());
+            req.setAttribute("games2", scoreUpdatedDto.getUpdatedScore().getGames2());
+            req.setAttribute("sets1", scoreUpdatedDto.getUpdatedScore().getSets1());
+            req.setAttribute("sets2", scoreUpdatedDto.getUpdatedScore().getSets2());
+            req.setAttribute("points1", scoreUpdatedDto.getUpdatedScore().getPoints1());
+            req.setAttribute("points2", scoreUpdatedDto.getUpdatedScore().getPoints2());
+            req.setAttribute("winner", playerDao.findById(match.getWinner().getId()).get().getName());
+            req.getRequestDispatcher("match-score_winner.jsp").forward(req, resp);
+        } else {
+            OngoingMatchesService.getInstance().
+                    updateScore(key, scoreUpdatedDto.getUpdatedScore());
+            resp.sendRedirect(MATCH_SCORE_URL.formatted(key));
+
+        }
     }
 
 }

@@ -34,27 +34,27 @@ public class OngoingMatchesServiceTest {
 
     @Test
     @Order(1)
-    public void addTest(){
+    public void addMatchTest(){
         matches.put(key1, currentMatch);
         matches.put(key2, currentMatch2);
 
-        System.out.println("addTest: " + matches);
+        System.out.println("addMatchTest: " + matches);
     }
 
     @Test
     @Order(2)
-    public void removeTest(){
+    public void removeMatchTest(){
         System.out.println(matches);
 
         matches.remove(key1);
-        System.out.println("removeTest: " + matches);
+        System.out.println("removeMatchTest: " + matches);
 
     }
 
     @Test
     @Order(3)
-    public void getTest(){
-        System.out.println("getTest: " + matches.get(key2));
+    public void getMatchTest(){
+        System.out.println("getMatchTest: " + matches.get(key2));
 
     }
 }

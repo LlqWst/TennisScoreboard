@@ -8,8 +8,8 @@ import lombok.*;
 @NoArgsConstructor
 public class ScoreForUpdatingDto {
 
-    MatchScoreDto currentMatch;
+    MatchScoreDto matchScoreDto;
 
-    int pointWinnerNumber;
+    int pointWinnerPosition;
 
 }

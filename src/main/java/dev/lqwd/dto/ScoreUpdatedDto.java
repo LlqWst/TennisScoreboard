@@ -11,10 +11,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ScoreUpdatedDto {
 
-    MatchScoreDto currentMatch;
+    MatchScoreDto updatedScore;
 
     @Builder.Default
-    Boolean isThereWinner = false;
+    Boolean isWinner = false;
 
     @Builder.Default
     Long winner = 0L;

@@ -4,7 +4,7 @@ import dev.lqwd.exception.BadRequestException;
 import lombok.*;
 
 @Data
-@Builder
+@Builder (toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
 public class MatchScoreDto {
@@ -33,6 +33,18 @@ public class MatchScoreDto {
 
     @Builder.Default
     private String points2 = "0";
+
+    public long getIdByPosition(long position) {
+
+        if (position == 1) {
+            return idPlayer1;
+        } else if (position == 2) {
+            return idPlayer2;
+        } else {
+            throw new RuntimeException();
+        }
+
+    }
 
     public String getPointsByPosition(int position) {
 
@@ -67,7 +79,6 @@ public class MatchScoreDto {
         } else {
             throw new RuntimeException();
         }
-
 
     }
 

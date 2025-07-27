@@ -27,13 +27,13 @@ public class PlayerDao {
             Transaction transaction = session.beginTransaction();
             log.trace("Transaction is created: {}", transaction);
 
-             List<Player> players = session.createQuery(hql, Player.class)
+            List<Player> players = session.createQuery(hql, Player.class)
                     .setFirstResult(0)
                     .setMaxResults(10)
                     .list();
 
-             transaction.commit();
-             return players;
+            transaction.commit();
+            return players;
 
         } catch (Exception e) {
             throw new DataBaseException(READ_ALL_DB_ERROR);
@@ -63,6 +63,7 @@ public class PlayerDao {
 
         try (Session session = HibernateUtil.openSession()) {
             Transaction transaction = session.beginTransaction();
+
             log.trace("Transaction is created: {}", transaction);
 
             Player player = session.createQuery(hql, Player.class)
@@ -72,30 +73,26 @@ public class PlayerDao {
             transaction.commit();
 
             return Optional.ofNullable(player);
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new DataBaseException(READ_DB_ERROR.formatted(name));
         }
 
     }
 
-
-    public Player save(String name) {
+    public Player save(Player player) {
 
         try (Session session = HibernateUtil.openSession()) {
             Transaction transaction = session.beginTransaction();
             log.trace("Transaction is created: {}", transaction);
 
-            Player player = Player.builder()
-                    .name(name)
-                    .build();
-
             session.persist(player);
             transaction.commit();
 
+            log.trace("Player saved: {}", player);
             return player;
 
         } catch (Exception e) {
-            throw new DataBaseException(SAVE_DB_ERROR.formatted(name));
+            throw new DataBaseException(SAVE_DB_ERROR.formatted(player.getName()));
         }
 
     }

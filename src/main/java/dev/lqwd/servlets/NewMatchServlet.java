@@ -35,13 +35,10 @@ public class NewMatchServlet extends BasicServlet {
                 .build();
 
         MatchScoreDto matchScoreDto = playerService.getPLayersId(newMatchRequestDto);
-        UUID key = OngoingMatchesService.getInstance().add(matchScoreDto);
-
+        UUID key = OngoingMatchesService.getInstance().addMatch(matchScoreDto);
         log.info("match created uuid: {}}", key);
 
         resp.sendRedirect(MATCH_SCORE_URL.formatted(key));
-
-        //doResponse(response, SC_OK, Matches.getInstance.getAll());
 
     }
 
