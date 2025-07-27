@@ -9,6 +9,7 @@ import lombok.*;
 public class ScoreForUpdatingDto {
 
     MatchScoreDto currentMatch;
-    Long pointForId;
+
+    int pointWinnerNumber;
 
 }

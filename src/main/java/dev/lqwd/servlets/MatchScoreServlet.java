@@ -3,7 +3,6 @@ package dev.lqwd.servlets;
 import dev.lqwd.dao.PlayerDao;
 import dev.lqwd.dto.ScoreForUpdatingDto;
 import dev.lqwd.dto.ScoreUpdatedDto;
-import dev.lqwd.service.PlayerService;
 import dev.lqwd.service.MatchScoreCalculationService;
 import dev.lqwd.service.OngoingMatchesService;
 import jakarta.servlet.ServletException;
@@ -13,7 +12,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
-import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
@@ -34,12 +32,15 @@ public class MatchScoreServlet extends BasicServlet {
 
         log.info("uuid is redirected: {}}", key);
 
-        req.setAttribute("player1", OngoingMatchesService.getInstance().get(key).getIdPlayer1());
-        req.setAttribute("player2", OngoingMatchesService.getInstance().get(key).getIdPlayer2());
+
         req.setAttribute("name1", playerDao.findById(OngoingMatchesService.getInstance().get(key).getIdPlayer1()).get().getName());
         req.setAttribute("name2", playerDao.findById(OngoingMatchesService.getInstance().get(key).getIdPlayer2()).get().getName());
-        req.setAttribute("score1", OngoingMatchesService.getInstance().get(key).getScore1());
-        req.setAttribute("score2", OngoingMatchesService.getInstance().get(key).getScore2());
+        req.setAttribute("games1", OngoingMatchesService.getInstance().get(key).getGames1());
+        req.setAttribute("games2", OngoingMatchesService.getInstance().get(key).getGames2());
+        req.setAttribute("sets1", OngoingMatchesService.getInstance().get(key).getSets1());
+        req.setAttribute("sets2", OngoingMatchesService.getInstance().get(key).getSets2());
+        req.setAttribute("points1", OngoingMatchesService.getInstance().get(key).getPoints1());
+        req.setAttribute("points2", OngoingMatchesService.getInstance().get(key).getPoints2());
         req.getRequestDispatcher("match-score.jsp").forward(req, resp);
 
     }
@@ -47,20 +48,21 @@ public class MatchScoreServlet extends BasicServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        long pointForId = Long.parseLong(
-                req.getParameter("id")
+        int playerNumber = Integer.parseInt(
+                req.getParameter("player")
         );
 
-        log.info("point for id: {}}", pointForId);
+        log.info("point for player number: {}}", playerNumber);
 
         ScoreForUpdatingDto updatingScoreDto = ScoreForUpdatingDto.builder()
                 .currentMatch(OngoingMatchesService.getInstance().get(key))
-                .pointForId(pointForId)
+                .pointWinnerNumber(playerNumber)
                 .build();
 
         ScoreUpdatedDto scoreUpdatedDto = matchScoreCalculationService.updateScore(updatingScoreDto);
-        OngoingMatchesService.getInstance().get(key).setScore1(scoreUpdatedDto.getCurrentMatch().getScore1());
-        OngoingMatchesService.getInstance().get(key).setScore2(scoreUpdatedDto.getCurrentMatch().getScore2());
+
+        OngoingMatchesService.getInstance().get(key).setPoints1(scoreUpdatedDto.getCurrentMatch().getPoints1());
+        OngoingMatchesService.getInstance().get(key).setPoints2(scoreUpdatedDto.getCurrentMatch().getPoints2());
         resp.sendRedirect(MATCH_SCORE_URL.formatted(key));
     }
 
