@@ -16,7 +16,7 @@ import java.util.UUID;
 
 @Slf4j
 @WebServlet("/new-match")
-public class NewMatchServlet extends BasicServlet {
+public class NewMatchController extends BasicServlet {
 
     private static final PlayerService playerService = new PlayerService();
     private static final String MATCH_SCORE_URL = "match-score?uuid=%s";
@@ -36,6 +36,7 @@ public class NewMatchServlet extends BasicServlet {
 
         MatchScoreDto matchScoreDto = playerService.getPLayersId(newMatchRequestDto);
         UUID key = OngoingMatchesService.getInstance().addMatch(matchScoreDto);
+
         log.info("match created uuid: {}}", key);
 
         resp.sendRedirect(MATCH_SCORE_URL.formatted(key));

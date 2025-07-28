@@ -15,7 +15,7 @@ public class OngoingMatchesService {
         matches = new HashMap<>();
     }
 
-    public static synchronized  OngoingMatchesService getInstance(){
+    public static OngoingMatchesService getInstance(){
         if(instance == null){
             instance = new OngoingMatchesService();
         }
@@ -50,9 +50,7 @@ public class OngoingMatchesService {
     }
 
     public MatchScoreDto getMatch(UUID key) {
-
         return matches.get(key);
-
     }
 
 }

@@ -18,19 +18,18 @@ import java.util.UUID;
 
 @Slf4j
 @WebServlet("/match-score")
-public class MatchScoreServlet extends BasicServlet {
+public class MatchScoreController extends BasicServlet {
 
     private static final String MATCH_SCORE_URL = "match-score?uuid=%s";
     private static final MatchScoreCalculationService matchScoreCalculationService = new MatchScoreCalculationService();
-    private final PlayerDao playerDao = new PlayerDao();
+    private static final PlayerDao playerDao = new PlayerDao();
     private static final FinishedMatchesPersistenceService finishedMatchesPersistenceService = new FinishedMatchesPersistenceService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-         UUID key = UUID.fromString(
-                    req.getParameter("uuid")
-            );
+        UUID key = UUID.fromString(
+                req.getParameter("uuid"));
 
         log.info("uuid is redirected: {}}", key);
 
@@ -43,6 +42,7 @@ public class MatchScoreServlet extends BasicServlet {
         req.setAttribute("points1", OngoingMatchesService.getInstance().getMatch(key).getPoints1());
         req.setAttribute("points2", OngoingMatchesService.getInstance().getMatch(key).getPoints2());
         req.setAttribute("uuid", key);
+
         req.getRequestDispatcher("match-score.jsp").forward(req, resp);
 
     }
@@ -68,8 +68,10 @@ public class MatchScoreServlet extends BasicServlet {
         UpdatedScoreDto updatedScoreDto = matchScoreCalculationService.updateScore(updatingScoreDto);
 
         if (updatedScoreDto.getIsWinner()){
+
            OngoingMatchesService.getInstance().removeMatch(key);
            Match match = finishedMatchesPersistenceService.saveMatch(updatedScoreDto);
+
             req.setAttribute("name1", playerDao.findById(match.getPlayer1().getId()).get().getName());
             req.setAttribute("name2", playerDao.findById(match.getPlayer2().getId()).get().getName());
             req.setAttribute("games1", updatedScoreDto.getUpdatedScore().getGames1());
@@ -79,13 +81,19 @@ public class MatchScoreServlet extends BasicServlet {
             req.setAttribute("points1", updatedScoreDto.getUpdatedScore().getPoints1());
             req.setAttribute("points2", updatedScoreDto.getUpdatedScore().getPoints2());
             req.setAttribute("winner", playerDao.findById(match.getWinner().getId()).get().getName());
-            req.getRequestDispatcher("match-score_winner.jsp").forward(req, resp);
-        } else {
-            OngoingMatchesService.getInstance().
-                    updateScore(key, updatedScoreDto.getUpdatedScore());
-            resp.sendRedirect(MATCH_SCORE_URL.formatted(key));
 
+            req.getRequestDispatcher("match-score_winner.jsp").forward(req, resp);
+
+        } else {
+
+            OngoingMatchesService.getInstance().updateScore(key, updatedScoreDto.getUpdatedScore());
+
+            log.info("score updated for key: {}, score: {} }", key, updatedScoreDto);
+
+            resp.sendRedirect(MATCH_SCORE_URL.formatted(key));
         }
+
+
     }
 
 }

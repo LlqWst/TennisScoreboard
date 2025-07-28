@@ -36,6 +36,7 @@ public class PlayerDao {
             return players;
 
         } catch (Exception e) {
+            log.error("Failed to read all Players");
             throw new DataBaseException(READ_ALL_DB_ERROR);
         }
 
@@ -53,6 +54,7 @@ public class PlayerDao {
             return Optional.of(player);
 
         } catch (Exception e) {
+            log.error("Failed to read transaction for id {}:", id);
             throw new DataBaseException(READ_ID_DB_ERROR.formatted(id));
         }
     }
@@ -92,6 +94,7 @@ public class PlayerDao {
             return player;
 
         } catch (Exception e) {
+            log.error("Failed to save transaction for player {}:", player);
             throw new DataBaseException(SAVE_DB_ERROR.formatted(player.getName()));
         }
 
