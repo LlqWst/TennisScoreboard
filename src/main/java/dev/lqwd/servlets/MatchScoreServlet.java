@@ -2,7 +2,7 @@ package dev.lqwd.servlets;
 
 import dev.lqwd.dao.PlayerDao;
 import dev.lqwd.dto.ScoreForUpdatingDto;
-import dev.lqwd.dto.ScoreUpdatedDto;
+import dev.lqwd.dto.UpdatedScoreDto;
 import dev.lqwd.entity.Match;
 import dev.lqwd.service.FinishedMatchesPersistenceService;
 import dev.lqwd.service.MatchScoreCalculationService;
@@ -65,24 +65,24 @@ public class MatchScoreServlet extends BasicServlet {
                 .pointWinnerPosition(position)
                 .build();
 
-        ScoreUpdatedDto scoreUpdatedDto = matchScoreCalculationService.updateScore(updatingScoreDto);
+        UpdatedScoreDto updatedScoreDto = matchScoreCalculationService.updateScore(updatingScoreDto);
 
-        if (scoreUpdatedDto.getIsWinner()){
+        if (updatedScoreDto.getIsWinner()){
            OngoingMatchesService.getInstance().removeMatch(key);
-           Match match = finishedMatchesPersistenceService.saveMatch(scoreUpdatedDto);
+           Match match = finishedMatchesPersistenceService.saveMatch(updatedScoreDto);
             req.setAttribute("name1", playerDao.findById(match.getPlayer1().getId()).get().getName());
             req.setAttribute("name2", playerDao.findById(match.getPlayer2().getId()).get().getName());
-            req.setAttribute("games1", scoreUpdatedDto.getUpdatedScore().getGames1());
-            req.setAttribute("games2", scoreUpdatedDto.getUpdatedScore().getGames2());
-            req.setAttribute("sets1", scoreUpdatedDto.getUpdatedScore().getSets1());
-            req.setAttribute("sets2", scoreUpdatedDto.getUpdatedScore().getSets2());
-            req.setAttribute("points1", scoreUpdatedDto.getUpdatedScore().getPoints1());
-            req.setAttribute("points2", scoreUpdatedDto.getUpdatedScore().getPoints2());
+            req.setAttribute("games1", updatedScoreDto.getUpdatedScore().getGames1());
+            req.setAttribute("games2", updatedScoreDto.getUpdatedScore().getGames2());
+            req.setAttribute("sets1", updatedScoreDto.getUpdatedScore().getSets1());
+            req.setAttribute("sets2", updatedScoreDto.getUpdatedScore().getSets2());
+            req.setAttribute("points1", updatedScoreDto.getUpdatedScore().getPoints1());
+            req.setAttribute("points2", updatedScoreDto.getUpdatedScore().getPoints2());
             req.setAttribute("winner", playerDao.findById(match.getWinner().getId()).get().getName());
             req.getRequestDispatcher("match-score_winner.jsp").forward(req, resp);
         } else {
             OngoingMatchesService.getInstance().
-                    updateScore(key, scoreUpdatedDto.getUpdatedScore());
+                    updateScore(key, updatedScoreDto.getUpdatedScore());
             resp.sendRedirect(MATCH_SCORE_URL.formatted(key));
 
         }

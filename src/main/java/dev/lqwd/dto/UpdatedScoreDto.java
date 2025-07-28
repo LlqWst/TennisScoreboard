@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ScoreUpdatedDto {
+public class UpdatedScoreDto {
 
     MatchScoreDto updatedScore;
 
