@@ -5,7 +5,6 @@ import dev.lqwd.dto.MatchFilterRequestDto;
 import dev.lqwd.entity.Match;
 
 import java.util.List;
-import java.util.Optional;
 
 public class FilterMatchesService {
 

@@ -9,11 +9,8 @@
 </h1>
 <br/>
 
-<h2> Start new match </h2>
-<form action="new-match.jsp">
+<h2> Tennis Scoreboard </h2>
 
-    <button type="submit">Start</button>
-</form>
-
+<a href="new-match" class="button"> Start a new match </a>
 </body>
 </html>

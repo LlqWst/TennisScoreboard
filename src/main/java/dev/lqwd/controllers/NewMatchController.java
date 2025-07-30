@@ -1,5 +1,7 @@
-package dev.lqwd.servlets;
+package dev.lqwd.controllers;
 
+import dev.lqwd.dto.MatchFilterRequestDto;
+import dev.lqwd.entity.Match;
 import dev.lqwd.service.OngoingMatchesService;
 import dev.lqwd.dto.MatchScoreDto;
 import dev.lqwd.dto.NewMatchRequestDto;
@@ -20,6 +22,15 @@ public class NewMatchController extends BasicServlet {
 
     private static final PlayerService playerService = new PlayerService();
     private static final String MATCH_SCORE_URL = "match-score?uuid=%s";
+
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        req.getRequestDispatcher("new-match.jsp").forward(req, resp);
+
+    }
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

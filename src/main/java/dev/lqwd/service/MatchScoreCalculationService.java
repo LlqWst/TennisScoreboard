@@ -54,18 +54,19 @@ public class MatchScoreCalculationService {
 
     private static UpdatedScoreDto updateScoreBasedOnTieBreak(MatchScoreDto matchScoreDto) {
 
-        int gamePointsWinner = matchScoreDto.getGamesByPosition(pointWinner) + POINT;
-        int gamePointsNextPlayer = matchScoreDto.getGamesByPosition(nextPlayer);
+        int gamePointsWinner = Integer.parseInt(matchScoreDto.getPointsByPosition(pointWinner)) + POINT;
+        int gamePointsNextPlayer = Integer.parseInt(matchScoreDto.getPointsByPosition(nextPlayer));
         int pointsDiff = Math.abs(gamePointsWinner - gamePointsNextPlayer);
 
         if (isTieBreakWinner(gamePointsWinner, pointsDiff)) {
 
             updateSetsPoints(matchScoreDto);
+            clearPoints(matchScoreDto);
             matchScoreDto.setTieBreak(false);
 
         } else {
 
-            matchScoreDto.setGamesByPosition(pointWinner, gamePointsWinner);
+            matchScoreDto.setPointsByPosition(pointWinner, Integer.toString(gamePointsWinner));
             matchScoreDto.setTieBreak(true);
 
         }
@@ -123,6 +124,25 @@ public class MatchScoreCalculationService {
         }
     }
 
+    private static UpdatedScoreDto setGamesPoints(MatchScoreDto matchScoreDto) {
+        if (shouldStartTieBreak(matchScoreDto)) {
+
+            matchScoreDto.setTieBreak(true);
+            clearPoints(matchScoreDto);
+
+        } else if (ShouldAddSetsPoint(matchScoreDto)) {
+
+            updateSetsPoints(matchScoreDto);
+            clearPoints(matchScoreDto);
+
+        }
+
+        return UpdatedScoreDto.builder()
+                .updatedScore(matchScoreDto)
+                .build();
+
+    }
+
     private static String updateWinnerPoints(MatchScoreDto matchScoreDto){
         return Integer.toString(
                 Integer.parseInt(
@@ -138,26 +158,6 @@ public class MatchScoreCalculationService {
 
         matchScoreDto.setGamesByPosition(pointWinner, matchScoreDto.getGamesByPosition(pointWinner) + POINT);
         clearPoints(matchScoreDto);
-
-    }
-
-    private static UpdatedScoreDto setGamesPoints(MatchScoreDto matchScoreDto) {
-        if (shouldStartTieBreak(matchScoreDto)) {
-
-            matchScoreDto.setTieBreak(true);
-            clearPoints(matchScoreDto);
-            clearGames(matchScoreDto);
-
-        } else if (ShouldAddSetsPoint(matchScoreDto)) {
-
-            updateSetsPoints(matchScoreDto);
-            clearPoints(matchScoreDto);
-
-        }
-
-        return UpdatedScoreDto.builder()
-                .updatedScore(matchScoreDto)
-                .build();
 
     }
 

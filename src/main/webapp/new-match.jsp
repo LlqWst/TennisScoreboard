@@ -9,7 +9,7 @@
 <html>
 <head>
     <title>New Match</title>
-    <h2> Start new match </h2>
+    <h2> New Match </h2>
     <form action="new-match" method="post">
         <label>Player1
             <input type="text" name="player1" required>

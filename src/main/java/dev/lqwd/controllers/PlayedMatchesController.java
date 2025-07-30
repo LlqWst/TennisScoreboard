@@ -1,6 +1,5 @@
-package dev.lqwd.servlets;
+package dev.lqwd.controllers;
 
-import dev.lqwd.dao.MatchesDao;
 import dev.lqwd.dto.MatchFilterRequestDto;
 import dev.lqwd.entity.Match;
 import dev.lqwd.service.FilterMatchesService;
@@ -12,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @WebServlet("/matches")

@@ -14,7 +14,7 @@
         <label>
             <input type="hidden" name="player" value=1>
             <input type="hidden" name="uuid" value=${uuid}>
-        </label><br>
+        </label>
 
         <button type="submit">Point</button>
     </form>
@@ -25,8 +25,7 @@
         <label>
             <input type="hidden" name="player" value=2>
             <input type="hidden" name="uuid" value=${uuid}>
-        </label><br>
-
+        </label>
 
         <button type="submit">Point</button>
     </form>

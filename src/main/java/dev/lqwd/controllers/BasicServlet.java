@@ -1,4 +1,4 @@
-package dev.lqwd.servlets;
+package dev.lqwd.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServlet;
