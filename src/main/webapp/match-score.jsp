@@ -9,22 +9,20 @@
 <html>
 <head>
     <title>Score</title>
-    <form action="match-score" method="post">
-        <p>${name1} sets: ${sets1}, games: ${games1}, points: ${points1}</p>
+    <form action="match-score?uuid=${param.uuid}" method="post">
+        <p>${name1} sets: ${match.sets1}, games: ${match.games1}, points: ${match.points1}</p>
         <label>
-            <input type="hidden" name="player" value=1>
-            <input type="hidden" name="uuid" value=${uuid}>
+            <input type="hidden" name="playerNumber" value=${numberPlayer1}>
         </label>
 
         <button type="submit">Point</button>
     </form>
     <br>
 
-    <form action="match-score" method="post">
-        <p>${name2} sets: ${sets2}, games: ${games2}, points: ${points2}</p>
+    <form action="match-score?uuid=${param.uuid}" method="post">
+        <p>${name2} sets: ${match.sets2}, games: ${match.games2}, points: ${match.points2}</p>
         <label>
-            <input type="hidden" name="player" value=2>
-            <input type="hidden" name="uuid" value=${uuid}>
+            <input type="hidden" name="playerNumber" value=${numberPlayer2}>
         </label>
 
         <button type="submit">Point</button>

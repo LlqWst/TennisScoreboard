@@ -10,13 +10,12 @@
 <head>
     <title>Score winner </title>
         <p> winner is  ${winner} !!! </p>
-        <p>${name1} sets: ${sets1}, games: ${games1}, points: ${points1}</p>
+        <p>${name1} sets: ${match.sets1}, games: ${match.games1}, points: ${match.points1}</p>
     <br>
-        <p>${name2} sets: ${sets2}, games: ${games2}, points: ${points2}</p>
+        <p>${name2} sets: ${match.sets2}, games: ${match.games2}, points: ${match.points2}</p>
 
-    <form action="index.jsp">
-        <button type="submit">Home</button>
-    </form>
+
+    <a href="${pageContext.request.contextPath}" class="button"> Home </a>
 
 </head>
 <body>

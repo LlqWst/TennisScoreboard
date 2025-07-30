@@ -1,6 +1,5 @@
 package dev.lqwd.dto;
 
-import dev.lqwd.exception.BadRequestException;
 import lombok.*;
 
 @Data
@@ -34,11 +33,11 @@ public class MatchScoreDto {
     @Builder.Default
     private String points2 = "0";
 
-    public long getIdByPosition(long position) {
+    public long getIdByNumber(int number) {
 
-        if (position == 1) {
+        if (number == 1) {
             return idPlayer1;
-        } else if (position == 2) {
+        } else if (number == 2) {
             return idPlayer2;
         } else {
             throw new RuntimeException();
@@ -46,11 +45,11 @@ public class MatchScoreDto {
 
     }
 
-    public String getPointsByPosition(int position) {
+    public String getPointsByNumber(int number) {
 
-        if (position == 1) {
+        if (number == 1) {
             return points1;
-        } else if (position == 2) {
+        } else if (number == 2) {
             return points2;
         } else {
             throw new RuntimeException();
@@ -58,11 +57,11 @@ public class MatchScoreDto {
 
     }
 
-    public void setPointsByPosition(int position, String value) {
+    public void setPointsByNumber(int number, String value) {
 
-        if (position == 1) {
+        if (number == 1) {
             this.points1 = value;
-        } else if (position == 2) {
+        } else if (number == 2) {
             this.points2 = value;
         } else {
             throw new RuntimeException();
@@ -70,11 +69,11 @@ public class MatchScoreDto {
 
     }
 
-    public int getGamesByPosition(int position) {
+    public int getGamesByNumber(int number) {
 
-        if (position == 1) {
+        if (number == 1) {
             return games1;
-        } else if (position == 2) {
+        } else if (number == 2) {
             return games2;
         } else {
             throw new RuntimeException();
@@ -82,11 +81,11 @@ public class MatchScoreDto {
 
     }
 
-    public void setGamesByPosition(int position, int value) {
+    public void setGamesByNumber(int number, int value) {
 
-        if (position == 1) {
+        if (number == 1) {
             this.games1 = value;
-        } else if (position == 2) {
+        } else if (number == 2) {
             this.games2 = value;
         } else {
             throw new RuntimeException();
@@ -94,24 +93,23 @@ public class MatchScoreDto {
 
     }
 
-    public int getSetsByPosition(int position) {
+    public int getSetsByNumber(int number) {
 
-        if (position == 1) {
+        if (number == 1) {
             return sets1;
-        } else if (position == 2) {
+        } else if (number == 2) {
             return sets2;
         } else {
             throw new RuntimeException();
         }
 
-
     }
 
-    public void setSetsByPosition(int position, int value) {
+    public void setSetsByNumber(int number, int value) {
 
-        if (position == 1) {
+        if (number == 1) {
             this.sets1 = value;
-        } else if (position == 2) {
+        } else if (number == 2) {
             this.sets2 = value;
         } else {
             throw new RuntimeException();

@@ -27,8 +27,8 @@ public class MatchScoreCalculationService {
 
     public UpdatedScoreDto updateScore(ScoreForUpdatingDto scoreForUpdatingDto) {
 
-        pointWinner = scoreForUpdatingDto.getPointWinnerPosition();
-        nextPlayer = findSecondPlayerPosition(pointWinner);
+        pointWinner = scoreForUpdatingDto.getPointWinnerNumber();
+        nextPlayer = findSecondPlayerNumber(pointWinner);
         MatchScoreDto matchScoreDto = scoreForUpdatingDto.getMatchScoreDto();
 
         UpdatedScoreDto updatedScoreDto;
@@ -41,21 +41,21 @@ public class MatchScoreCalculationService {
 
         if (isWinner(matchScoreDto)) {
             updatedScoreDto.setIsWinner(true);
-            updatedScoreDto.setWinner(matchScoreDto.getIdByPosition(pointWinner));
+            updatedScoreDto.setWinner(matchScoreDto.getIdByNumber(pointWinner));
         }
 
         return updatedScoreDto;
 
     }
 
-    private static int findSecondPlayerPosition(int pointWinner) {
+    private static int findSecondPlayerNumber(int pointWinner) {
         return pointWinner == PLAYER_1 ? PLAYER_2 : PLAYER_1;
     }
 
     private static UpdatedScoreDto updateScoreBasedOnTieBreak(MatchScoreDto matchScoreDto) {
 
-        int gamePointsWinner = Integer.parseInt(matchScoreDto.getPointsByPosition(pointWinner)) + POINT;
-        int gamePointsNextPlayer = Integer.parseInt(matchScoreDto.getPointsByPosition(nextPlayer));
+        int gamePointsWinner = Integer.parseInt(matchScoreDto.getPointsByNumber(pointWinner)) + POINT;
+        int gamePointsNextPlayer = Integer.parseInt(matchScoreDto.getPointsByNumber(nextPlayer));
         int pointsDiff = Math.abs(gamePointsWinner - gamePointsNextPlayer);
 
         if (isTieBreakWinner(gamePointsWinner, pointsDiff)) {
@@ -66,7 +66,7 @@ public class MatchScoreCalculationService {
 
         } else {
 
-            matchScoreDto.setPointsByPosition(pointWinner, Integer.toString(gamePointsWinner));
+            matchScoreDto.setPointsByNumber(pointWinner, Integer.toString(gamePointsWinner));
             matchScoreDto.setTieBreak(true);
 
         }
@@ -97,21 +97,21 @@ public class MatchScoreCalculationService {
     }
 
     private static void setDeuce(MatchScoreDto matchScoreDto){
-        matchScoreDto.setPointsByPosition(nextPlayer, FORTY);
+        matchScoreDto.setPointsByNumber(nextPlayer, FORTY);
     }
 
     private static void setPoints(MatchScoreDto matchScoreDto) {
         String winnerPoints = updateWinnerPoints(matchScoreDto);
 
-        String nextPlayerPoints = matchScoreDto.getPointsByPosition(nextPlayer);
+        String nextPlayerPoints = matchScoreDto.getPointsByNumber(nextPlayer);
 
         if (isAdvantageIn(winnerPoints, nextPlayerPoints)) {
 
-            matchScoreDto.setPointsByPosition(pointWinner, ADVANTAGE);
+            matchScoreDto.setPointsByNumber(pointWinner, ADVANTAGE);
 
         } else if (winnerPoints.equals(THREE_POINTS)) {
 
-            matchScoreDto.setPointsByPosition(pointWinner, FORTY);
+            matchScoreDto.setPointsByNumber(pointWinner, FORTY);
 
         } else if (winnerPoints.equals(FOUR_POINTS)) {
 
@@ -119,7 +119,7 @@ public class MatchScoreCalculationService {
 
         } else {
 
-            matchScoreDto.setPointsByPosition(pointWinner, winnerPoints);
+            matchScoreDto.setPointsByNumber(pointWinner, winnerPoints);
 
         }
     }
@@ -146,7 +146,7 @@ public class MatchScoreCalculationService {
     private static String updateWinnerPoints(MatchScoreDto matchScoreDto){
         return Integer.toString(
                 Integer.parseInt(
-                        matchScoreDto.getPointsByPosition(pointWinner)
+                        matchScoreDto.getPointsByNumber(pointWinner)
                 ) + SCORE_POINTS);
     }
 
@@ -156,39 +156,39 @@ public class MatchScoreCalculationService {
 
     private static void addGamePoint(MatchScoreDto matchScoreDto) {
 
-        matchScoreDto.setGamesByPosition(pointWinner, matchScoreDto.getGamesByPosition(pointWinner) + POINT);
+        matchScoreDto.setGamesByNumber(pointWinner, matchScoreDto.getGamesByNumber(pointWinner) + POINT);
         clearPoints(matchScoreDto);
 
     }
 
     private static void updateSetsPoints(MatchScoreDto matchScoreDto) {
 
-        int updatedSetsPoints = matchScoreDto.getSetsByPosition(pointWinner) + POINT;
-        matchScoreDto.setSetsByPosition(pointWinner, updatedSetsPoints);
+        int updatedSetsPoints = matchScoreDto.getSetsByNumber(pointWinner) + POINT;
+        matchScoreDto.setSetsByNumber(pointWinner, updatedSetsPoints);
         clearGames(matchScoreDto);
 
     }
 
     private static void clearPoints(MatchScoreDto matchScoreDto) {
 
-        matchScoreDto.setPointsByPosition(pointWinner, ZERO_STRING);
-        matchScoreDto.setPointsByPosition(nextPlayer, ZERO_STRING);
+        matchScoreDto.setPointsByNumber(pointWinner, ZERO_STRING);
+        matchScoreDto.setPointsByNumber(nextPlayer, ZERO_STRING);
 
     }
 
     private static void clearGames(MatchScoreDto matchScoreDto) {
 
-        matchScoreDto.setGamesByPosition(pointWinner, ZERO_INT);
-        matchScoreDto.setGamesByPosition(nextPlayer, ZERO_INT);
+        matchScoreDto.setGamesByNumber(pointWinner, ZERO_INT);
+        matchScoreDto.setGamesByNumber(nextPlayer, ZERO_INT);
 
     }
 
     private static boolean hasWinnerAdvantage(MatchScoreDto matchScoreDto) {
-        return matchScoreDto.getPointsByPosition(pointWinner).equals(ADVANTAGE);
+        return matchScoreDto.getPointsByNumber(pointWinner).equals(ADVANTAGE);
     }
 
     private static boolean hasNextPlayerAdvantage(MatchScoreDto matchScoreDto) {
-        return matchScoreDto.getPointsByPosition(nextPlayer).equals(ADVANTAGE);
+        return matchScoreDto.getPointsByNumber(nextPlayer).equals(ADVANTAGE);
     }
 
     private static boolean isTieBreakWinner(int gamePointsWinner, int pointsDiff) {
@@ -196,18 +196,18 @@ public class MatchScoreCalculationService {
     }
 
     private static boolean ShouldAddSetsPoint(MatchScoreDto matchScoreDto) {
-        return matchScoreDto.getGamesByPosition(pointWinner) == MIN_GAMES_POINTS
-               && matchScoreDto.getGamesByPosition(nextPlayer) <= MIN_DIFF_FOR_SET_POINT
-               || matchScoreDto.getGamesByPosition(pointWinner) > MIN_GAMES_POINTS;
+        return matchScoreDto.getGamesByNumber(pointWinner) == MIN_GAMES_POINTS
+               && matchScoreDto.getGamesByNumber(nextPlayer) <= MIN_DIFF_FOR_SET_POINT
+               || matchScoreDto.getGamesByNumber(pointWinner) > MIN_GAMES_POINTS;
     }
 
     private static boolean shouldStartTieBreak(MatchScoreDto matchScoreDto) {
-        return matchScoreDto.getGamesByPosition(pointWinner) == MIN_GAMES_POINTS
-               && matchScoreDto.getGamesByPosition(nextPlayer) == MIN_GAMES_POINTS;
+        return matchScoreDto.getGamesByNumber(pointWinner) == MIN_GAMES_POINTS
+               && matchScoreDto.getGamesByNumber(nextPlayer) == MIN_GAMES_POINTS;
     }
 
     private static Boolean isWinner(MatchScoreDto matchScoreDto) {
-        return matchScoreDto.getSetsByPosition(pointWinner) == SETS_TO_WIN;
+        return matchScoreDto.getSetsByNumber(pointWinner) == SETS_TO_WIN;
     }
 
 }

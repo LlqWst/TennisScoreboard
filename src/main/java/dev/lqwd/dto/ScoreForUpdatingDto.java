@@ -10,6 +10,6 @@ public class ScoreForUpdatingDto {
 
     MatchScoreDto matchScoreDto;
 
-    int pointWinnerPosition;
+    int pointWinnerNumber;
 
 }
