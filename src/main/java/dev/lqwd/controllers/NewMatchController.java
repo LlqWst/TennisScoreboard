@@ -1,7 +1,5 @@
 package dev.lqwd.controllers;
 
-import dev.lqwd.dto.MatchFilterRequestDto;
-import dev.lqwd.entity.Match;
 import dev.lqwd.service.OngoingMatchesService;
 import dev.lqwd.dto.MatchScoreDto;
 import dev.lqwd.dto.NewMatchRequestDto;
@@ -30,7 +28,6 @@ public class NewMatchController extends BasicServlet {
         req.getRequestDispatcher("new-match.jsp").forward(req, resp);
 
     }
-
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

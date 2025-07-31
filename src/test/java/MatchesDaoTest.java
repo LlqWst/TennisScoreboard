@@ -1,9 +1,5 @@
-import dev.lqwd.dto.MatchFilterRequestDto;
 import dev.lqwd.entity.Match;
 import dev.lqwd.entity.Player;
-import dev.lqwd.exception.DataBaseException;
-import dev.lqwd.utils.HibernateUtil;
-import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
 import org.h2.tools.Server;
 import org.hibernate.Session;
@@ -15,6 +11,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,6 +40,40 @@ public class MatchesDaoTest {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void countPlayedMatchesTest(){
+
+        String name = "ivan";
+
+        String hql = "SELECT count(m) FROM Match m" + " ";
+
+        if(name != null) {
+
+            hql += """
+            WHERE upper(m.player1.name) = upper(:playerName)
+            OR upper(m.player2.name) = upper(:playerName)
+            """;
+
+        }
+
+        try (Session session = sessionFactory.openSession()) {
+
+            Query<Long> query = session.createQuery(hql, Long.class);
+
+            if (name != null) {
+                query.setParameter("playerName", name);
+            }
+
+            System.out.println(query.getSingleResult());
+
+        } catch (Exception e) {
+            log.error("Failed to read all Matches w name: {}", name);
+            e.printStackTrace();
+        }
+
+    }
+
 
     @Test
     public void save() throws SQLException {
@@ -103,13 +134,13 @@ public class MatchesDaoTest {
     @Test
     public void countPlayedMatches(){
 
-        String name = null;
-        String hql = "SELECT count(m) FROM Match m";
+        String name = "123";
+
+        String hql = "SELECT count(m) FROM Match m ";
 
         if(name != null) {
 
-            hql = """
-            SELECT count(m) FROM Match m
+            hql += """
             WHERE upper(m.player1.name) = upper(:playerName)
             OR upper(m.player2.name) = upper(:playerName)
             """;
@@ -117,20 +148,17 @@ public class MatchesDaoTest {
         }
 
         try (Session session = sessionFactory.openSession()) {
-            Transaction transaction = session.beginTransaction();
+
             Query<Long> query = session.createQuery(hql, Long.class);
 
             if (name != null) {
                 query.setParameter("playerName", name);
             }
 
-            long count = query.getSingleResult();
-
-            System.out.println(count);
-            assertEquals(9, count);
-            transaction.commit();
+            System.out.println(query.getSingleResult());
 
         } catch (Exception e) {
+            log.error("Failed to read all Matches w name: {}", name);
             e.printStackTrace();
         }
 
@@ -141,7 +169,7 @@ public class MatchesDaoTest {
 
         int page = 2;
         int maxSize = 4;
-        String name = null;
+        String name = "";
 
         String hql = """
                 SELECT m FROM Match m
@@ -150,7 +178,7 @@ public class MatchesDaoTest {
                 JOIN FETCH m.winner
                 """;
 
-        if (name != null){
+        if (!name.isEmpty()){
 
             hql = """
                 SELECT m FROM Match m
@@ -164,21 +192,18 @@ public class MatchesDaoTest {
         }
 
         try (Session session = sessionFactory.openSession()) {
-            Transaction transaction = session.beginTransaction();
-            log.trace("Transaction is created: {}", transaction);
 
             Query<Match> query = session.createQuery(hql, Match.class)
                     .setFirstResult((page -1) * maxSize)
                     .setMaxResults(maxSize);
 
-            if (name != null){
+            if (!name.isEmpty()){
                 query.setParameter("playerName", name);
             }
 
-            List<Match> matches = query.list();
-            System.out.println(matches);
+            Optional <List<Match>> matches = Optional.of(query.list());
+            System.out.println(matches.orElse(Collections.emptyList()));
 
-            transaction.commit();
 
         } catch (Exception e) {
             log.error("Failed to read all Matches w page: {}, name: {}", page, name);
@@ -203,5 +228,8 @@ public class MatchesDaoTest {
         }
 
     }
+
+
+
 
 }

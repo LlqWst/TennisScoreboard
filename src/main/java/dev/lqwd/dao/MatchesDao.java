@@ -1,6 +1,6 @@
 package dev.lqwd.dao;
 
-import dev.lqwd.dto.MatchFilterRequestDto;
+import dev.lqwd.dto.FinishedMatchRequestDto;
 import dev.lqwd.entity.Match;
 import dev.lqwd.exception.DataBaseException;
 import dev.lqwd.utils.HibernateUtil;
@@ -20,8 +20,9 @@ public class MatchesDao {
     private final static String SAVE_DB_ERROR = "Failed to save Match '%s' to the database";
     private final static String READ_ALL_W_FILTERS_DB_ERROR = "Failed to read Matches from the database w filters: %s, %s";
     private final static String COUNT_W_FILTERS_DB_ERROR = "Failed to count Matches from the database w name: %s";
+    private final static String SPACE = " ";
 
-    public List<Match> findAll() {
+    public Optional<List<Match>> findAll() {
 
         String hql = """
                 SELECT m FROM Match m
@@ -31,16 +32,12 @@ public class MatchesDao {
                 """;
 
         try (Session session = HibernateUtil.openSession()) {
-            Transaction transaction = session.beginTransaction();
-            log.trace("Transaction is created: {}", transaction);
 
-            List<Match> matches = session.createQuery(hql, Match.class)
+            return Optional.of(session.createQuery(hql, Match.class)
                     .setFirstResult(0)
                     .setMaxResults(10)
-                    .list();
-
-            transaction.commit();
-            return matches;
+                    .list()
+            );
 
         } catch (Exception e) {
             log.error("Failed to read all Matches");
@@ -49,85 +46,68 @@ public class MatchesDao {
 
     }
 
-    public long countPlayedMatches(String name){
+    public long countPlayedMatches(String name) {
 
-        String hql = "SELECT count(m) FROM Match m";
+        String hql = "SELECT count(m) FROM Match m" + SPACE;
 
-        if(name != null) {
+        if (!name.isEmpty()) {
 
-            hql = """
-            SELECT count(m) FROM Match m
-            WHERE upper(m.player1.name) = upper(:playerName)
-            OR upper(m.player2.name) = upper(:playerName)
-            """;
+            hql += """
+                    WHERE upper(m.player1.name) = upper(:playerName)
+                    OR upper(m.player2.name) = upper(:playerName)
+                    """;
 
         }
 
         try (Session session = HibernateUtil.openSession()) {
-            Transaction transaction = session.beginTransaction();
-
-            log.trace("Transaction is created: {}", transaction);
 
             Query<Long> query = session.createQuery(hql, Long.class);
 
-            if (name != null) {
+            if (!name.isEmpty()) {
                 query.setParameter("playerName", name);
             }
 
-            long count = query.getSingleResult();
-
-            transaction.commit();
-            return count;
+            return query.getSingleResult();
 
         } catch (Exception e) {
-            log.error("Failed to read all Matches w name: {}", name);
+            log.error("Failed to read all Matches for name: {}", name);
             throw new DataBaseException(COUNT_W_FILTERS_DB_ERROR.formatted(name));
         }
 
     }
 
-    public List<Match> findAllByFilters(MatchFilterRequestDto matchFilterRequestDto) {
+    public Optional<List<Match>> findAllByFilters(FinishedMatchRequestDto finishedMatchRequestDto) {
 
-        int page = matchFilterRequestDto.getPage();
-        int maxSize = matchFilterRequestDto.getMaxSize();
-        String name = matchFilterRequestDto.getName();
+        int page = finishedMatchRequestDto.getPage();
+        int maxSize = finishedMatchRequestDto.getMaxSize();
+        String name = finishedMatchRequestDto.getName();
 
         String hql = """
-                SELECT m FROM Match m
-                JOIN FETCH m.player1
-                JOIN FETCH m.player2
-                JOIN FETCH m.winner
-                """;
+                    SELECT m FROM Match m
+                    JOIN FETCH m.player1
+                    JOIN FETCH m.player2
+                    JOIN FETCH m.winner
+                    """
+                     + SPACE;
 
-        if (name != null){
-
-            hql = """
-                SELECT m FROM Match m
-                JOIN FETCH m.player1
-                JOIN FETCH m.player2
-                JOIN FETCH m.winner
-                WHERE upper(m.player1.name) = upper(:playerName)
-                   OR upper(m.player2.name) = upper(:playerName)
-                """;
-
+        if (!name.isEmpty()) {
+            hql += """
+                    WHERE upper(m.player1.name) = upper(:playerName)
+                       OR upper(m.player2.name) = upper(:playerName)
+                    """;
         }
 
         try (Session session = HibernateUtil.openSession()) {
-            Transaction transaction = session.beginTransaction();
-            log.trace("Transaction is created: {}", transaction);
 
             Query<Match> query = session.createQuery(hql, Match.class)
-                    .setFirstResult((page -1) * maxSize)
+                    .setFirstResult((page - 1) * maxSize)
                     .setMaxResults(maxSize);
 
-            if (name != null){
+            if (!name.isEmpty()) {
                 query.setParameter("playerName", name);
             }
 
-            List<Match> matches = query.list();
-
-            transaction.commit();
-            return matches;
+            return Optional.of(query.list());
 
         } catch (Exception e) {
             log.error("Failed to read all Matches w page: {}, name: {}", page, name);
@@ -136,16 +116,12 @@ public class MatchesDao {
 
     }
 
-    public Match findById(long id) {
+    public Optional<Match> findById(long id) {
 
         try (Session session = HibernateUtil.openSession()) {
-            Transaction transaction = session.beginTransaction();
-            log.trace("Transaction is created: {}", transaction);
 
-            Match match = session.byId(Match.class).load(id);
-            transaction.commit();
+            return Optional.of(session.byId(Match.class).load(id));
 
-            return match;
         } catch (Exception e) {
             log.error("Failed to read transaction for id {}:", id);
             throw new DataBaseException(READ_ID_DB_ERROR.formatted(id));

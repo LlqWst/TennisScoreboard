@@ -1,5 +1,6 @@
 package dev.lqwd.dto;
 
+import dev.lqwd.entity.Player;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,10 +10,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class NewMatchRequestDto {
+public class FinishedMatchResponseDto {
 
-    private String player1;
+    Player player1;
 
-    private String player2;
+    Player player2;
+
+    Player winner;
 
 }

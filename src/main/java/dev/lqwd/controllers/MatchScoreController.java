@@ -1,8 +1,10 @@
 package dev.lqwd.controllers;
 
 import dev.lqwd.dao.PlayerDao;
-import dev.lqwd.dto.ScoreForUpdatingDto;
+import dev.lqwd.dto.MatchScoreDto;
+import dev.lqwd.dto.RequestForScoreUpdateDto;
 import dev.lqwd.dto.UpdatedScoreDto;
+import dev.lqwd.exception.NotFoundException;
 import dev.lqwd.service.FinishedMatchesPersistenceService;
 import dev.lqwd.service.MatchScoreCalculationService;
 import dev.lqwd.service.OngoingMatchesService;
@@ -20,6 +22,7 @@ import java.util.UUID;
 public class MatchScoreController extends BasicServlet {
 
     private static final String MATCH_SCORE_URL = "match-score?uuid=%s";
+    private static final String NOT_FOUND_NAME_ERROR_MESSAGE = "The player with id: %s not found";
     private static final MatchScoreCalculationService matchScoreCalculationService = new MatchScoreCalculationService();
     private static final PlayerDao playerDao = new PlayerDao();
     private static final FinishedMatchesPersistenceService finishedMatchesPersistenceService = new FinishedMatchesPersistenceService();
@@ -32,7 +35,7 @@ public class MatchScoreController extends BasicServlet {
 
         log.info("uuid is redirected: {}}", uuid);
 
-        setGetParameters(req, uuid);
+        setMatchAttributes(req, uuid);
 
         req.getRequestDispatcher("match-score.jsp").forward(req, resp);
 
@@ -49,19 +52,19 @@ public class MatchScoreController extends BasicServlet {
 
         log.info("point for player number: {}}", pointWinnerNumber);
 
-        ScoreForUpdatingDto updatingScoreDto = ScoreForUpdatingDto.builder()
+        RequestForScoreUpdateDto updatingScoreDto = RequestForScoreUpdateDto.builder()
                 .matchScoreDto(OngoingMatchesService.getInstance().getMatch(uuid).toBuilder().build())
                 .pointWinnerNumber(pointWinnerNumber)
                 .build();
 
         UpdatedScoreDto updatedScoreDto = matchScoreCalculationService.updateScore(updatingScoreDto);
 
-        if (updatedScoreDto.getIsWinner()){
+        if (updatedScoreDto.getIsWinner()) {
 
             OngoingMatchesService.getInstance().removeMatch(uuid);
             finishedMatchesPersistenceService.saveMatch(updatedScoreDto);
 
-            setPostParameters(req, updatedScoreDto);
+            setWinnerAttributes(req, updatedScoreDto);
             req.getRequestDispatcher("match-score_winner.jsp").forward(req, resp);
 
         } else {
@@ -75,20 +78,50 @@ public class MatchScoreController extends BasicServlet {
 
     }
 
-    private void setGetParameters(HttpServletRequest req, UUID uuid){
+    private void setMatchAttributes(HttpServletRequest req, UUID uuid) {
+
         req.setAttribute("match", OngoingMatchesService.getInstance().getMatch(uuid));
+
         req.setAttribute("numberPlayer1", 1);
+
         req.setAttribute("numberPlayer2", 2);
-        req.setAttribute("name1", playerDao.findById(OngoingMatchesService.getInstance().getMatch(uuid).getIdPlayer1()).get().getName());
-        req.setAttribute("name2", playerDao.findById(OngoingMatchesService.getInstance().getMatch(uuid).getIdPlayer2()).get().getName());
+
+        MatchScoreDto matchScoreDto = OngoingMatchesService.getInstance().getMatch(uuid);
+        long player1Id = matchScoreDto.getIdPlayer1();
+        long player2Id = matchScoreDto.getIdPlayer2();
+
+        req.setAttribute("name1", playerDao.findById(player1Id)
+                .orElseThrow(() -> new NotFoundException(NOT_FOUND_NAME_ERROR_MESSAGE))
+                .getName());
+
+        req.setAttribute("name2", playerDao.findById(player2Id)
+                .orElseThrow(() -> new NotFoundException(NOT_FOUND_NAME_ERROR_MESSAGE))
+                .getName());
+
         req.setAttribute("uuid", uuid);
+
     }
 
-    private void setPostParameters(HttpServletRequest req, UpdatedScoreDto updatedScoreDto){
-        req.setAttribute("name1", playerDao.findById(updatedScoreDto.getUpdatedScore().getIdPlayer1()).get().getName());
-        req.setAttribute("name2", playerDao.findById(updatedScoreDto.getUpdatedScore().getIdPlayer2()).get().getName());
-        req.setAttribute("winner", playerDao.findById(updatedScoreDto.getWinner()).get().getName());
+    private void setWinnerAttributes(HttpServletRequest req, UpdatedScoreDto updatedScoreDto) {
+
+        long player1Id = updatedScoreDto.getUpdatedScore().getIdPlayer1();
+        long player2Id = updatedScoreDto.getUpdatedScore().getIdPlayer2();
+        long winnerId = updatedScoreDto.getWinner();
+
+        req.setAttribute("name1", playerDao.findById(player1Id)
+                .orElseThrow(() -> new NotFoundException(NOT_FOUND_NAME_ERROR_MESSAGE.formatted(player1Id)))
+                .getName());
+
+        req.setAttribute("name2", playerDao.findById(player2Id)
+                .orElseThrow(() -> new NotFoundException(NOT_FOUND_NAME_ERROR_MESSAGE.formatted(player2Id)))
+                .getName());
+
+        req.setAttribute("winner", playerDao.findById(winnerId)
+                .orElseThrow(() -> new NotFoundException(NOT_FOUND_NAME_ERROR_MESSAGE.formatted(winnerId)))
+                .getName());
+
         req.setAttribute("match", updatedScoreDto.getUpdatedScore());
+
     }
 
 }

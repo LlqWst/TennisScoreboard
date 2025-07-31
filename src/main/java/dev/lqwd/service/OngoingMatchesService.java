@@ -15,10 +15,12 @@ public class OngoingMatchesService {
         matches = new HashMap<>();
     }
 
-    public static OngoingMatchesService getInstance(){
-        if(instance == null){
+    public static OngoingMatchesService getInstance() {
+
+        if (instance == null) {
             instance = new OngoingMatchesService();
         }
+
         return instance;
     }
 
@@ -50,7 +52,9 @@ public class OngoingMatchesService {
     }
 
     public MatchScoreDto getMatch(UUID key) {
+
         return matches.get(key);
+
     }
 
 }

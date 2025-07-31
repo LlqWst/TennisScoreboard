@@ -6,7 +6,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ScoreForUpdatingDto {
+public class RequestForScoreUpdateDto {
 
     MatchScoreDto matchScoreDto;
 

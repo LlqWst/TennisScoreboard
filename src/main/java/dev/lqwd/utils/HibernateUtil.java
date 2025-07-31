@@ -39,13 +39,13 @@ public final class HibernateUtil implements ServletContextListener {
         }
     }
 
-    public static Session openSession() throws RuntimeException{
+    public static Session openSession() throws RuntimeException {
         return sessionFactory.openSession();
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        if(sessionFactory != null){
+        if (sessionFactory != null) {
             sessionFactory.close();
         }
     }

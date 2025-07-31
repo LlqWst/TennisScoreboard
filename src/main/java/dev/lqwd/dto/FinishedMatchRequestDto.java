@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MatchFilterRequestDto {
+public class FinishedMatchRequestDto {
 
     private int page;
     private String name;

@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpFilter;
 import java.io.IOException;
 
 
-@WebFilter({"/new-match", "/match-score/*"})
+@WebFilter({"/new-match", "/match-score", "/matches"})
 public class ContentTypeFilter extends HttpFilter {
 
 
@@ -19,7 +19,6 @@ public class ContentTypeFilter extends HttpFilter {
 
         servletRequest.setCharacterEncoding("UTF-8");
         servletResponse.setCharacterEncoding("UTF-8");
-        //servletResponse.setContentType("application/json");
 
         super.doFilter(servletRequest, servletResponse, chain);
     }

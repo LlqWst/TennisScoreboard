@@ -14,6 +14,24 @@ public final class Validator {
     private static final String MISSING_NAME_MESSAGE = "Please provide name for %s";
     private static final String EQUALS_NAMES_MESSAGE = "Players names should be different";
 
+    public static int parseParameter (String parameter, int defaultValue){
+
+        if (parameter != null && !parameter.isBlank()){
+            return Integer.parseInt(parameter);
+        }
+
+        return defaultValue;
+    }
+
+    public static String parseParameter (String parameter, String defaultValue){
+
+        if (parameter != null && !parameter.isBlank()){
+            return parameter.trim();
+        }
+
+        return defaultValue;
+    }
+
     public static void validate(String name1, String name2) throws BadRequestException {
 
         validateName(name1, "Player1");

@@ -13,27 +13,22 @@ import java.util.Optional;
 @Slf4j
 public class PlayerDao {
 
-    private final static String READ_DB_ERROR = "Failed to read Player name '%s' from the database";
-    private final static String READ_ID_DB_ERROR = "Failed to read Player id '%d' from the database";
+    private final static String READ_DB_ERROR = "Failed to read Player with name '%s' from the database";
+    private final static String READ_ID_DB_ERROR = "Failed to read Player with id '%d' from the database";
     private final static String READ_ALL_DB_ERROR = "Failed to read Players from the database";
-    private final static String SAVE_DB_ERROR = "Failed to save Player '%s' to the database";
+    private final static String SAVE_DB_ERROR = "Failed to save Player with name '%s' to the database";
 
-
-    public List<Player> findAll() {
+    public Optional <List<Player>> findAll() {
 
         String hql = "SELECT p FROM Player p";
 
         try (Session session = HibernateUtil.openSession()) {
-            Transaction transaction = session.beginTransaction();
-            log.trace("Transaction is created: {}", transaction);
 
-            List<Player> players = session.createQuery(hql, Player.class)
+            return Optional.of(session.createQuery(hql, Player.class)
                     .setFirstResult(0)
                     .setMaxResults(10)
-                    .list();
-
-            transaction.commit();
-            return players;
+                    .list()
+            );
 
         } catch (Exception e) {
             log.error("Failed to read all Players");
@@ -45,16 +40,12 @@ public class PlayerDao {
     public Optional<Player> findById(long id) {
 
         try (Session session = HibernateUtil.openSession()) {
-            Transaction transaction = session.beginTransaction();
-            log.trace("Transaction is created: {}", transaction);
 
-            Player player = session.byId(Player.class).load(id);
-
-            transaction.commit();
-            return Optional.of(player);
+            return Optional.of(
+                    session.byId(Player.class).load(id));
 
         } catch (Exception e) {
-            log.error("Failed to read transaction for id {}:", id);
+            log.error("Failed to find name for id {}:", id);
             throw new DataBaseException(READ_ID_DB_ERROR.formatted(id));
         }
     }
@@ -64,18 +55,14 @@ public class PlayerDao {
         String hql = "SELECT p FROM Player AS p WHERE upper(name) = upper(:playerName) ";
 
         try (Session session = HibernateUtil.openSession()) {
-            Transaction transaction = session.beginTransaction();
 
-            log.trace("Transaction is created: {}", transaction);
-
-            Player player = session.createQuery(hql, Player.class)
+            return Optional.ofNullable(
+                    session.createQuery(hql, Player.class)
                     .setParameter("playerName", name)
-                    .uniqueResult();
+                    .uniqueResult());
 
-            transaction.commit();
-
-            return Optional.ofNullable(player);
         } catch (Exception e) {
+            log.error("Failed to read player with name {}:", name);
             throw new DataBaseException(READ_DB_ERROR.formatted(name));
         }
 
@@ -99,6 +86,5 @@ public class PlayerDao {
         }
 
     }
-
 
 }
