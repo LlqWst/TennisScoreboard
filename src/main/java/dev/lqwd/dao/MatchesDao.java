@@ -83,11 +83,11 @@ public class MatchesDao {
         String name = finishedMatchRequestDto.getName();
 
         String hql = """
-                    SELECT m FROM Match m
-                    JOIN FETCH m.player1
-                    JOIN FETCH m.player2
-                    JOIN FETCH m.winner
-                    """
+                             SELECT m FROM Match m
+                             JOIN FETCH m.player1
+                             JOIN FETCH m.player2
+                             JOIN FETCH m.winner
+                             """
                      + SPACE;
 
         if (!name.isEmpty()) {

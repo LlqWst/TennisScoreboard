@@ -11,7 +11,7 @@ public class FinishedMatchesPersistenceService {
 
     private static final MatchesDao matchesDao = new MatchesDao();
 
-    public Match saveMatch(MatchScoreDto MatchScoreUpdatedDto){
+    public Match saveMatch(MatchScoreDto MatchScoreUpdatedDto) {
 
         return matchesDao.save(Match.builder()
                 .player1(Player.builder()

@@ -3,7 +3,7 @@ package dev.lqwd.dto.match_score;
 import lombok.*;
 
 @Data
-@Builder (toBuilder = true)
+@Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
 public class MatchScoreDto {

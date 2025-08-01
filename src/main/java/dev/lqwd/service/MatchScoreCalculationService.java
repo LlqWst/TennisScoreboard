@@ -54,18 +54,18 @@ public class MatchScoreCalculationService {
 
     private static MatchScoreDto updateScoreBasedOnTieBreak(MatchScoreDto matchScoreForUpdateDto) {
 
-        int gamePointsWinner = Integer.parseInt(matchScoreForUpdateDto.getPointsByNumber(pointWinner)) + POINT;
-        int gamePointsNextPlayer = Integer.parseInt(matchScoreForUpdateDto.getPointsByNumber(nextPlayer));
-        int pointsDiff = Math.abs(gamePointsWinner - gamePointsNextPlayer);
+        int winnerPoints = Integer.parseInt(matchScoreForUpdateDto.getPointsByNumber(pointWinner)) + POINT;
+        int nextPlayerPoints = Integer.parseInt(matchScoreForUpdateDto.getPointsByNumber(nextPlayer));
+        int pointsDiff = Math.abs(winnerPoints - nextPlayerPoints);
 
-        if (isTieBreakWinner(gamePointsWinner, pointsDiff)) {
+        if (isTieBreakWinner(winnerPoints, pointsDiff)) {
 
             updateSetsPoints(matchScoreForUpdateDto);
             clearPoints(matchScoreForUpdateDto);
 
         } else {
 
-            matchScoreForUpdateDto.setPointsByNumber(pointWinner, Integer.toString(gamePointsWinner));
+            matchScoreForUpdateDto.setPointsByNumber(pointWinner, Integer.toString(winnerPoints));
 
         }
         return matchScoreForUpdateDto;

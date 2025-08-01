@@ -18,7 +18,7 @@ public class PlayerDao {
     private final static String READ_ALL_DB_ERROR = "Failed to read Players from the database";
     private final static String SAVE_DB_ERROR = "Failed to save Player with name '%s' to the database";
 
-    public Optional <List<Player>> findAll() {
+    public Optional<List<Player>> findAll() {
 
         String hql = "SELECT p FROM Player p";
 
@@ -58,8 +58,8 @@ public class PlayerDao {
 
             return Optional.ofNullable(
                     session.createQuery(hql, Player.class)
-                    .setParameter("playerName", name)
-                    .uniqueResult());
+                            .setParameter("playerName", name)
+                            .uniqueResult());
 
         } catch (Exception e) {
             log.error("Failed to read player with name {}:", name);
