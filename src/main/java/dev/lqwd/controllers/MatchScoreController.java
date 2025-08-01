@@ -27,6 +27,9 @@ public class MatchScoreController extends BasicServlet {
     private static final MatchScoreCalculationService matchScoreCalculationService = new MatchScoreCalculationService();
     private static final PlayerDao playerDao = new PlayerDao();
     private static final FinishedMatchesPersistenceService finishedMatchesPersistenceService = new FinishedMatchesPersistenceService();
+    private static final int PLAYER_1_NUMBER = 1;
+    private static final int PLAYER_2_NUMBER = 2;
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -93,8 +96,8 @@ public class MatchScoreController extends BasicServlet {
 
         return MatchScoreUpdatedResponseDto.builder()
                 .matchScoreDto(matchScoreDtoForUpdate)
-                .numberPlayer1(1)
-                .numberPlayer2(2)
+                .numberPlayer1(PLAYER_1_NUMBER)
+                .numberPlayer2(PLAYER_2_NUMBER)
                 .player1Name(playerDao.findById(player1Id)
                         .orElseThrow(() -> new NotFoundException(NOT_FOUND_NAME_ERROR_MESSAGE.formatted(player1Id)))
                         .getName())
