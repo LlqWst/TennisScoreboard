@@ -1,8 +1,8 @@
 package dev.lqwd.controllers;
 
 import dev.lqwd.FinishedMatchMapper;
-import dev.lqwd.dto.FinishedMatchResponseDto;
-import dev.lqwd.dto.FinishedMatchRequestDto;
+import dev.lqwd.dto.finished_match.FinishedMatchResponseDto;
+import dev.lqwd.dto.finished_match.FinishedMatchRequestDto;
 import dev.lqwd.service.FinishedMatchesService;
 import dev.lqwd.utils.Validator;
 import jakarta.servlet.ServletException;

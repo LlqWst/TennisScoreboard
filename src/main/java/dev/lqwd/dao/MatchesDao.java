@@ -1,6 +1,6 @@
 package dev.lqwd.dao;
 
-import dev.lqwd.dto.FinishedMatchRequestDto;
+import dev.lqwd.dto.finished_match.FinishedMatchRequestDto;
 import dev.lqwd.entity.Match;
 import dev.lqwd.exception.DataBaseException;
 import dev.lqwd.utils.HibernateUtil;
@@ -141,7 +141,7 @@ public class MatchesDao {
             return match;
 
         } catch (Exception e) {
-            log.error("Failed to save transaction for match {}:", match);
+            log.error("Failed to save transaction for matchScoreDto {}:", match);
             throw new DataBaseException(SAVE_DB_ERROR.formatted(match));
         }
     }

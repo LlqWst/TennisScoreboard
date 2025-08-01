@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpFilter;
 import java.io.IOException;
 
 
-@WebFilter({"/new-match", "/match-score", "/matches"})
+@WebFilter({"/new-match", "/match-score"})
 public class ContentTypeFilter extends HttpFilter {
 
 

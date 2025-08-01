@@ -1,7 +1,7 @@
 package dev.lqwd.service;
 
 import dev.lqwd.dao.PlayerDao;
-import dev.lqwd.dto.MatchScoreDto;
+import dev.lqwd.dto.match_score.MatchScoreDto;
 import dev.lqwd.dto.NewMatchRequestDto;
 import dev.lqwd.entity.Player;
 

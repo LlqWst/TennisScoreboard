@@ -1,7 +1,7 @@
 package dev.lqwd.service;
 
 import dev.lqwd.dao.MatchesDao;
-import dev.lqwd.dto.UpdatedScoreDto;
+import dev.lqwd.dto.match_score.MatchScoreDto;
 import dev.lqwd.entity.Match;
 import dev.lqwd.entity.Player;
 import lombok.extern.slf4j.Slf4j;
@@ -11,17 +11,17 @@ public class FinishedMatchesPersistenceService {
 
     private static final MatchesDao matchesDao = new MatchesDao();
 
-    public Match saveMatch(UpdatedScoreDto updatedScoreDto){
+    public Match saveMatch(MatchScoreDto MatchScoreUpdatedDto){
 
         return matchesDao.save(Match.builder()
                 .player1(Player.builder()
-                        .id(updatedScoreDto.getUpdatedScore().getIdPlayer1())
+                        .id(MatchScoreUpdatedDto.getIdPlayer1())
                         .build())
                 .player2(Player.builder()
-                        .id(updatedScoreDto.getUpdatedScore().getIdPlayer2())
+                        .id(MatchScoreUpdatedDto.getIdPlayer2())
                         .build())
                 .winner(Player.builder()
-                        .id(updatedScoreDto.getWinner())
+                        .id(MatchScoreUpdatedDto.getIdWinner())
                         .build())
                 .build()
         );

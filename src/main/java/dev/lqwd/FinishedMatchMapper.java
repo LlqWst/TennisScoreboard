@@ -1,6 +1,6 @@
 package dev.lqwd;
 
-import dev.lqwd.dto.FinishedMatchResponseDto;
+import dev.lqwd.dto.finished_match.FinishedMatchResponseDto;
 import dev.lqwd.entity.Match;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

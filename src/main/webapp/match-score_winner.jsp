@@ -9,10 +9,10 @@
 <html>
 <head>
     <title>Score winner </title>
-        <p> winner is  ${winner} !!! </p>
-        <p>${name1} sets: ${match.sets1}, games: ${match.games1}, points: ${match.points1}</p>
+        <p> winner is  ${matchScore.winnerName} !!! </p>
+        <p>${matchScore.player1Name} sets: ${matchScore.matchScoreDto.sets1}, games: ${matchScore.matchScoreDto.games1}, points: ${matchScore.matchScoreDto.points1}</p>
     <br>
-        <p>${name2} sets: ${match.sets2}, games: ${match.games2}, points: ${match.points2}</p>
+        <p>${matchScore.player2Name} sets: ${matchScore.matchScoreDto.sets2}, games: ${matchScore.matchScoreDto.games2}, points: ${matchScore.matchScoreDto.points2}</p>
 
 
     <a href="${pageContext.request.contextPath}" class="button"> Home </a>

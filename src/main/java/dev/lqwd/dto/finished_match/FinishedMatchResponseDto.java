@@ -1,4 +1,4 @@
-package dev.lqwd.dto;
+package dev.lqwd.dto.finished_match;
 
 import dev.lqwd.entity.Player;
 import lombok.AllArgsConstructor;

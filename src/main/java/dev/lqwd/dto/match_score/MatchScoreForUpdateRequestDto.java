@@ -1,4 +1,4 @@
-package dev.lqwd.dto;
+package dev.lqwd.dto.match_score;
 
 import lombok.*;
 
@@ -6,7 +6,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RequestForScoreUpdateDto {
+public class MatchScoreForUpdateRequestDto {
 
     MatchScoreDto matchScoreDto;
 

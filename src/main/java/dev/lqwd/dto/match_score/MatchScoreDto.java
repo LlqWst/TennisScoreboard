@@ -1,4 +1,4 @@
-package dev.lqwd.dto;
+package dev.lqwd.dto.match_score;
 
 import lombok.*;
 
@@ -12,8 +12,8 @@ public class MatchScoreDto {
 
     private Long idPlayer2;
 
-    @Builder.Default
-    private boolean isTieBreak = false;
+    private Long idWinner;
+
 
     @Builder.Default
     private int sets1 = 0;

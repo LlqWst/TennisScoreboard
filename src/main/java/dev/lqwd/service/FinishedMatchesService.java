@@ -1,7 +1,7 @@
 package dev.lqwd.service;
 
 import dev.lqwd.dao.MatchesDao;
-import dev.lqwd.dto.FinishedMatchRequestDto;
+import dev.lqwd.dto.finished_match.FinishedMatchRequestDto;
 import dev.lqwd.entity.Match;
 
 import java.util.Collections;

@@ -1,6 +1,6 @@
 import dev.lqwd.FinishedMatchMapper;
-import dev.lqwd.dto.FinishedMatchResponseDto;
-import dev.lqwd.dto.FinishedMatchRequestDto;
+import dev.lqwd.dto.finished_match.FinishedMatchResponseDto;
+import dev.lqwd.dto.finished_match.FinishedMatchRequestDto;
 import dev.lqwd.entity.Match;
 import dev.lqwd.entity.Player;
 import dev.lqwd.service.FinishedMatchesService;

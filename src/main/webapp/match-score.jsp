@@ -10,9 +10,9 @@
 <head>
     <title>Score</title>
     <form action="match-score?uuid=${param.uuid}" method="post">
-        <p>${name1} sets: ${match.sets1}, games: ${match.games1}, points: ${match.points1}</p>
+        <p>${matchScore.player1Name} sets: ${matchScore.matchScoreDto.sets1}, games: ${matchScore.matchScoreDto.games1}, points: ${matchScore.matchScoreDto.points1}</p>
         <label>
-            <input type="hidden" name="playerNumber" value=${numberPlayer1}>
+            <input type="hidden" name="playerNumber" value=${matchScore.numberPlayer1}>
         </label>
 
         <button type="submit">Point</button>
@@ -20,9 +20,9 @@
     <br>
 
     <form action="match-score?uuid=${param.uuid}" method="post">
-        <p>${name2} sets: ${match.sets2}, games: ${match.games2}, points: ${match.points2}</p>
+        <p>${matchScore.player2Name} sets: ${matchScore.matchScoreDto.sets2}, games: ${matchScore.matchScoreDto.games2}, points: ${matchScore.matchScoreDto.points2}</p>
         <label>
-            <input type="hidden" name="playerNumber" value=${numberPlayer2}>
+            <input type="hidden" name="playerNumber" value=${matchScore.numberPlayer2}>
         </label>
 
         <button type="submit">Point</button>

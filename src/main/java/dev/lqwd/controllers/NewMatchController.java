@@ -1,7 +1,7 @@
 package dev.lqwd.controllers;
 
 import dev.lqwd.service.OngoingMatchesService;
-import dev.lqwd.dto.MatchScoreDto;
+import dev.lqwd.dto.match_score.MatchScoreDto;
 import dev.lqwd.dto.NewMatchRequestDto;
 import dev.lqwd.service.PlayerService;
 import dev.lqwd.utils.Validator;
@@ -32,8 +32,8 @@ public class NewMatchController extends BasicServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        String player1 = req.getParameter("player1");
-        String player2 = req.getParameter("player2");
+        String player1 = req.getParameter("player1Name");
+        String player2 = req.getParameter("player2Name");
 
         Validator.validate(player1, player2);
 
@@ -45,7 +45,7 @@ public class NewMatchController extends BasicServlet {
         MatchScoreDto matchScoreDto = playerService.getPLayersId(newMatchRequestDto);
         UUID key = OngoingMatchesService.getInstance().addMatch(matchScoreDto);
 
-        log.info("match created uuid: {}}", key);
+        log.info("matchScoreDto created uuid: {}}", key);
 
         resp.sendRedirect(MATCH_SCORE_URL.formatted(key));
 

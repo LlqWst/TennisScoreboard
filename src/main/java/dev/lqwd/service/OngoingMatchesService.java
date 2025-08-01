@@ -1,6 +1,6 @@
 package dev.lqwd.service;
 
-import dev.lqwd.dto.MatchScoreDto;
+import dev.lqwd.dto.match_score.MatchScoreDto;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
@@ -30,7 +30,7 @@ public class OngoingMatchesService {
 
         matches.put(key, currentMatch);
 
-        log.info("match is created: {}}", currentMatch);
+        log.info("matchScoreDto is created: {}}", currentMatch);
 
         return key;
 
@@ -40,18 +40,20 @@ public class OngoingMatchesService {
         matches.remove(key);
 
         if (!matches.containsKey(key)) {
-            log.info("match is deleted: {}}", key);
+            log.info("matchScoreDto is deleted: {}}", key);
         } else {
-            log.error("match is NOT deleted: {}}", key);
+            log.error("matchScoreDto is NOT deleted: {}}", key);
         }
 
     }
 
     public void updateScore(UUID key, MatchScoreDto matchScoreDto) {
+
         matches.put(key, matchScoreDto);
+
     }
 
-    public MatchScoreDto getMatch(UUID key) {
+    public MatchScoreDto getMatchScoreDto(UUID key) {
 
         return matches.get(key);
 

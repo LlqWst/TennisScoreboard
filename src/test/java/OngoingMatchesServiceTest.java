@@ -1,4 +1,4 @@
-import dev.lqwd.dto.MatchScoreDto;
+import dev.lqwd.dto.match_score.MatchScoreDto;
 import org.junit.jupiter.api.*;
 
 import java.util.HashMap;
@@ -53,8 +53,8 @@ public class OngoingMatchesServiceTest {
 
     @Test
     @Order(3)
-    public void getMatchTest(){
-        System.out.println("getMatchTest: " + matches.get(key2));
+    public void getMatchScoreDtoTest(){
+        System.out.println("getMatchScoreDtoTest: " + matches.get(key2));
 
     }
 }

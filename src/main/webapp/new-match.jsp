@@ -13,12 +13,12 @@
     <form action="new-match" method="post">
         <label>Player1
 
-            <input type="text" name="player1" required>
+            <input type="text" name="player1Name" required>
 
         </label><br>
 
         <label>Player2
-            <input type="text" name="player2" required>
+            <input type="text" name="player2Name" required>
 
         </label><br>
 
