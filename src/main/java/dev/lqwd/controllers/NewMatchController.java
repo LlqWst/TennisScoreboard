@@ -1,5 +1,6 @@
 package dev.lqwd.controllers;
 
+import dev.lqwd.exception.BadRequestException;
 import dev.lqwd.service.OngoingMatchesService;
 import dev.lqwd.dto.match_score.MatchScoreDto;
 import dev.lqwd.dto.NewMatchRequestDto;
@@ -13,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.util.UUID;
+
+import static jakarta.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 
 @Slf4j
 @WebServlet("/new-match")
@@ -35,7 +38,19 @@ public class NewMatchController extends BasicServlet {
         String player1 = req.getParameter("player1Name");
         String player2 = req.getParameter("player2Name");
 
-        Validator.validate(player1, player2);
+
+        try {
+
+            Validator.validate(player1, player2);
+
+        } catch (BadRequestException e) {
+
+            req.setAttribute("error", e.getMessage());
+            resp.setStatus(SC_BAD_REQUEST);
+            req.getRequestDispatcher("new-match.jsp").forward(req, resp);
+            return;
+
+        }
 
         NewMatchRequestDto newMatchRequestDto = NewMatchRequestDto.builder()
                 .player1(player1)

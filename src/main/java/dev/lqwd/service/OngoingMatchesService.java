@@ -39,12 +39,17 @@ public class OngoingMatchesService {
     public void removeMatch(UUID key) {
         matches.remove(key);
 
-        if (!matches.containsKey(key)) {
+        if (!isContainsKey(key)) {
             log.info("matchScoreDto is deleted: {}}", key);
         } else {
             log.error("matchScoreDto is NOT deleted: {}}", key);
+            throw new RuntimeException("matchScoreDto is NOT deleted: %s".formatted(key));
         }
 
+    }
+
+    public boolean isContainsKey(UUID key){
+        return matches.containsKey(key);
     }
 
     public void updateScore(UUID key, MatchScoreDto matchScoreDto) {
@@ -55,7 +60,12 @@ public class OngoingMatchesService {
 
     public MatchScoreDto getMatchScoreDto(UUID key) {
 
-        return matches.get(key);
+        if (isContainsKey(key)){
+            return matches.get(key);
+        }
+        log.error("Match with uuid: {} don't exist", key);
+        throw new RuntimeException("There is no match with uuid: %s".formatted(key));
+
 
     }
 

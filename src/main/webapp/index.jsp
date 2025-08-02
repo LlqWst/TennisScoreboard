@@ -1,12 +1,17 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
-<head>
+    <head>
 
-    <title>Home</title>
+        <title>Home</title>
 
-</head>
+    </head>
+
     <body>
+
+        <p>${error}</p>
+
+        <br>
 
         <h1> <%= "Home" %> </h1>
         <br/>

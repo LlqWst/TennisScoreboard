@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: applo
@@ -7,25 +8,32 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<head>
-    <title>New Match</title>
-    <h2> New Match </h2>
-    <form action="new-match" method="post">
-        <label>Player1
+    <head>
+        <title>New Match</title>
 
-            <input type="text" name="player1Name" required>
+        <h2> New Match </h2>
 
-        </label><br>
+    </head>
+    <body>
 
-        <label>Player2
-            <input type="text" name="player2Name" required>
+        <p>${error}</p>
 
-        </label><br>
+        <br>
 
-        <button type="submit">Start</button>
-    </form>
-</head>
-<body>
+        <form action="new-match" method="post">
+            <label>Player1
 
-</body>
+                <input type="text" name="player1Name" required>
+
+            </label><br>
+
+            <label>Player2
+                <input type="text" name="player2Name" required>
+
+            </label><br>
+
+            <button type="submit">Start</button>
+        </form>
+
+    </body>
 </html>

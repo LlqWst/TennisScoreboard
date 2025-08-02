@@ -23,6 +23,7 @@ public class MatchScoreCalculationServiceTest {
     private static final long PLAYER_2_ID = 2L;
     private static final int PLAYER_1_NUMBER = 1;
     private static final int MIN_POINTS_FOR_GAME = 4;
+    private static final int SETS_TO_WIN = 2;
 
     @InjectMocks
     private MatchScoreCalculationService service;
@@ -435,7 +436,7 @@ public class MatchScoreCalculationServiceTest {
                 .points2(ZERO_AS_STRING)
                 .games1(ZERO_AS_INT)
                 .games2(ZERO_AS_INT)
-                .sets1(2)
+                .sets1(SETS_TO_WIN)
                 .sets2(ZERO_AS_INT)
                 .build();
 

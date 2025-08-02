@@ -35,6 +35,7 @@ public final class HibernateUtil implements ServletContextListener {
             sessionFactory = configuration.buildSessionFactory();
             log.info("sessionFactory is build: {}}", sessionFactory);
         } catch (Exception e) {
+            log.error("Error on initialisation BD, message: {}, stack.trace: {}", e.getMessage(), e.getStackTrace());
             throw new RuntimeException("Error on initialisation BD", e);
         }
     }
