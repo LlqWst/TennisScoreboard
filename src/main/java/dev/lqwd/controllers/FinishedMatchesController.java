@@ -26,11 +26,6 @@ public class FinishedMatchesController extends BasicServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        int x = 1;
-
-        if (x == 1) {
-            throw new RuntimeException("123");
-        }
         int page = Validator.parseParameter(
                 req.getParameter("page"), DEFAULT_PAGE);
 

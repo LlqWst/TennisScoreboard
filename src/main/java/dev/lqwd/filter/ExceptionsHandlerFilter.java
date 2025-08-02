@@ -24,7 +24,7 @@ public class ExceptionsHandlerFilter extends HttpFilter {
         } catch (Exception e) {
 
             log.error("error to e.message: {}, e.stack.trace: {}", e.getMessage(), e.getStackTrace());
-            req.setAttribute("error", "Error: Internal Error");
+            req.setAttribute("error", "Message: Internal Error");
 
             req.getRequestDispatcher("home.jsp").forward(req, res);
 
