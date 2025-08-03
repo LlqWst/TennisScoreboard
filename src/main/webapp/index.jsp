@@ -35,12 +35,10 @@
 
         </main>
         <footer>
-
             <p class="footer_button">
                 by<a href="https://github.com/LlqWst/TennisScoreboard">LlqWst</a> All Rights DGAF<br>
                 &copy;  Tennis Scoreboard, project from<a href="https://zhukovsd.github.io/java-backend-learning-course/">Sergey Zhukov's Roadmap</a>
             </p>
-
         </footer>
     </body>
 </html>

@@ -18,7 +18,11 @@
                 <div class="image-buttons-wrapper">
                     <img src="${pageContext.request.contextPath}/images/match-winner.jpg" alt="Tennis" class="tennis-image">
                     <div class="header-column">
-                        <p class="match-score-winner">!!! Winner is  ${matchScore.winnerName} !!!</p>
+                        <p class="match-score-winner">
+                            <span class="match-score-winner-text">!!! Winner is </span>
+                            <span class="match-score-winner-name">${matchScore.winnerName}</span>
+                            <span class="match-score-winner-text"> !!!</span>
+                        </p>
                         <a href="${pageContext.request.contextPath}" class="button_home">Home</a>
                     </div>
                 </div>

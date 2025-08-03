@@ -19,7 +19,7 @@
                 <div class="image-buttons-wrapper">
                     <img src="${pageContext.request.contextPath}/images/new-match.png" alt="Tennis" class="tennis-image">
                     <div class="buttons-column">
-                        <p class="new-match_header"> Ready to Play? </p>
+                        <p class="new-match_header"> New Match </p>
                         <p class="error-message">${error}</p>
                         <form action="new-match" method="post">
                             <div class="form-group">

@@ -90,7 +90,8 @@
 }
 
 .match-score td:nth-child(1) { /* Первый столбец */
-    background-color: #22429E; /* Синий */
+    background-color: #22429E;
+    text-align: left;/* Синий */
 }
 
 .match-score td:nth-child(3) { /* Первый столбец */

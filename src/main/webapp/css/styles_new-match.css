@@ -18,7 +18,7 @@
 .image-buttons-wrapper {
     display: flex;
     align-items: flex-start; /* Выравнивание по верхнему краю */
-    gap: 60px; /* Расстояние между изображением и кнопками */
+    gap: 20px; /* Расстояние между изображением и кнопками */
     max-width: 1200px;
     width: 100%;
     padding: 0 20px; /* Боковые отступы */
@@ -31,10 +31,14 @@
 }
 
 .buttons-column {
+    background: #EBF5FB;
+    border-radius: 30px;
+    padding: 20px 20px 20px 20px;
     display: flex;
     flex-direction: column;
+    margin: 40px;
     gap: 15px; /* Уменьшаем общий промежуток между элементами */
-    margin-top: 60px; /* Уменьшаем отступ сверху */
+    justify-content: center/* Уменьшаем отступ сверху */
 }
 
 .form-container {
@@ -51,7 +55,7 @@
 .form-label {
     display: block;
     margin-bottom: 8px; /* Отступ между лейблом и полем */
-    font-size: 13px;
+    font-size: 15px;
     color: #16213c;
     font-weight: 550;
     font-family: sans-serif;
