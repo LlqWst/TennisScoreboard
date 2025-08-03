@@ -1,39 +1,46 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: applo
-  Date: 26.07.2025
-  Time: 1:56
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <html>
     <head>
         <title>New Match</title>
-
-        <h2> New Match </h2>
-
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
     </head>
     <body>
+        <header>
 
-        <p>${error}</p>
+            <a href="${pageContext.request.contextPath}" class="button"> Home </a>
+            <a href="matches" class="button"> Finished Matches </a>
+            <a href="new-match" class="button"> Start a new match </a>
 
-        <br>
+        </header>
+        <main>
+            <p>${error}</p>
 
-        <form action="new-match" method="post">
-            <label>Player1
+            <br>
 
-                <input type="text" name="player1Name" required>
+            <form action="new-match" method="post">
+                <label>Player1
 
-            </label><br>
+                    <input type="text" name="player1Name" required>
 
-            <label>Player2
-                <input type="text" name="player2Name" required>
+                </label><br>
 
-            </label><br>
+                <label>Player2
+                    <input type="text" name="player2Name" required>
 
-            <button type="submit">Start</button>
-        </form>
+                </label><br>
 
+                <button type="submit">Start</button>
+            </form>
+        </main>
+        <footer>
+
+            <p class="button_footer">
+                by<a href="https://github.com/LlqWst/TennisScoreboard">LlqWst</a> All Rights DGAF<br>
+                &copy;  Tennis Scoreboard, project from<a href="https://zhukovsd.github.io/java-backend-learning-course/">Sergey Zhukov's Roadmap</a>
+            </p>
+
+        </footer>
     </body>
 </html>

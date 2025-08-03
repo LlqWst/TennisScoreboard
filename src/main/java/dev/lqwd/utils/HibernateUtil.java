@@ -22,8 +22,8 @@ public final class HibernateUtil implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         try {
 
-            Server.createWebServer("-web", "-webAllowOthers", "-webPort", "8082").start();
-            Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", "9092").start();
+            //Server.createWebServer("-web", "-webAllowOthers", "-webPort", "8082").start();
+            //Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", "9092").start();
 
             Configuration configuration = new Configuration();
 
