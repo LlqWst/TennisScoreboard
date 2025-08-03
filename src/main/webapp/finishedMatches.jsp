@@ -13,38 +13,46 @@
     <title>All Finished matches</title>
 </head>
 <body>
-    <h2>All Finished matches</h2>
+<h2>All Finished matches</h2>
 
-    <br><br>
-    <a href="${pageContext.request.contextPath}" class="button"> Home </a>
-    <br><br>
+<br><br>
+<a href="${pageContext.request.contextPath}" class="button"> Home </a>
+<br><br>
 
-    <form action="matches?filter_by_player_name=${filter_by_player_name}" method="get">
-        <label>Player
-
-            <input type="text" name="filter_by_player_name">
-
-        </label><br>
-
-        <button type="submit">Search</button>
-    </form>
-
+<form action="matches" method="get">
+    <label>
+        Player
+        <input type="text" name="filter_by_player_name">
+    </label>
     <br>
+    <button type="submit">Search</button>
+</form>
 
-    <c:forEach items="${allFinishedMatches}" var="match">
-        <div>
-                player1: ${match.player1.name} | player2: ${match.player2.name} | winner: ${match.winner.name}
-        </div>
-    </c:forEach>
+<br>
 
-    <br><br>
+<c:forEach items="${FinishedMatches}" var="match">
+    <div>
+        player1: ${match.player1.name} | player2: ${match.player2.name} | winner: ${match.winner.name}
+    </div>
+</c:forEach>
 
-    <c:forEach begin= "1" end="${pages}" var="page_number">
-        <div>
-            <a href="matches?page=${page_number}&filter_by_player_name=${param.filter_by_player_name}" class="button"> ${page_number} </a>
-        </div>
-    </c:forEach>
+<br><br>
+
+<c:forEach begin="1" end="${pages}" var="page_number">
+    <div>
+
+        <a href="<c:url value='/matches'>
+                <c:param name='page' value='${page_number}'/>
+                <c:if test='${not empty param.filter_by_player_name}'>
+                    <c:param name='filter_by_player_name' value='${param.filter_by_player_name}'/>
+                </c:if>
+                </c:url>"
+           class="button"> ${page_number}
+        </a>
+
+    </div>
+</c:forEach>
 
 
-    </body>
+</body>
 </html>

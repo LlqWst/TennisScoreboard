@@ -11,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 @WebFilter("/*")
 public class ExceptionsHandlerFilter extends HttpFilter {
 
+    private static final String ERROR_MESSAGE = "Oops.. something went wrong";
+
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws ServletException, IOException {
 
@@ -24,9 +26,9 @@ public class ExceptionsHandlerFilter extends HttpFilter {
         } catch (Exception e) {
 
             log.error("error to e.message: {}, e.stack.trace: {}", e.getMessage(), e.getStackTrace());
-            req.setAttribute("error", "Message: Internal Error");
+            req.setAttribute("error", ERROR_MESSAGE);
 
-            req.getRequestDispatcher("home.jsp").forward(req, res);
+            req.getRequestDispatcher("index.jsp").forward(req, res);
 
         }
     }

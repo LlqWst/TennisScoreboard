@@ -45,7 +45,7 @@ public class FinishedMatchesController extends BasicServlet {
                 .map(mapper::toMatchResponseDto)
                 .toList();
 
-        req.setAttribute("allFinishedMatches", finishedMatchesResponseDto);
+        req.setAttribute("FinishedMatches", finishedMatchesResponseDto);
         req.setAttribute("pages", pages);
 
         req.getRequestDispatcher("finishedMatches.jsp").forward(req, resp);

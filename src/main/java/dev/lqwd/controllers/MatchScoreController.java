@@ -69,8 +69,10 @@ public class MatchScoreController extends BasicServlet {
             OngoingMatchesService.getInstance().removeMatch(uuid);
             finishedMatchesPersistenceService.saveMatch(matchScoreDtoUpdated);
 
+            log.trace("matched removed and saved: {}}", matchScoreDtoUpdated);
+
             req.setAttribute("matchScore", setWinnerMatchScore(matchScoreDtoUpdated));
-            req.getRequestDispatcher("match-score_winner.jsp").forward(req, resp);
+            req.getRequestDispatcher("match-winner.jsp").forward(req, resp);
 
         } else {
 
