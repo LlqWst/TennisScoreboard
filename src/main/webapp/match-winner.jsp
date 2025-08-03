@@ -1,18 +1,57 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
-<head>
-    <title>Score winner </title>
-        <p> winner is  ${matchScore.winnerName} !!! </p>
-        <p>${matchScore.player1Name} sets: ${matchScore.matchScoreDto.sets1}, games: ${matchScore.matchScoreDto.games1}, points: ${matchScore.matchScoreDto.points1}</p>
-    <br>
-        <p>${matchScore.player2Name} sets: ${matchScore.matchScoreDto.sets2}, games: ${matchScore.matchScoreDto.games2}, points: ${matchScore.matchScoreDto.points2}</p>
+    <head>
+        <title>Score winner </title>
+        <title>Match-Score</title>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles_main.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles_match-winner.css">
+    </head>
+    <body>
+        <header>
+            <a href="${pageContext.request.contextPath}" class="header_button"> Home </a>
+            <a href="matches" class="header_button"> Finished Matches </a>
+            <a href="new-match" class="header_button"> Start a new match </a>
+        </header>
+        <main>
+            <div class="top-centered-container">
+                <div class="image-buttons-wrapper">
+                    <img src="${pageContext.request.contextPath}/images/match-winner.jpg" alt="Tennis" class="tennis-image">
+                    <div class="header-column">
+                        <p class="match-score-winner">!!! Winner is  ${matchScore.winnerName} !!!</p>
+                        <a href="${pageContext.request.contextPath}" class="button_home">Home</a>
+                    </div>
+                </div>
+            </div>
 
-
-    <a href="${pageContext.request.contextPath}" class="button"> Home </a>
-
-</head>
-<body>
-
-</body>
+            <div class="score">
+                <table class="match-score">
+                    <tr>
+                        <th>Name</th>
+                        <th>Sets</th>
+                        <th>Games</th>
+                        <th>Points</th>
+                    </tr>
+                    <tr>
+                        <td>${matchScore.player1Name}</td>
+                        <td>${matchScore.matchScoreDto.sets1}</td>
+                        <td>${matchScore.matchScoreDto.games1}</td>
+                        <td>${matchScore.matchScoreDto.points1}</td>
+                    </tr>
+                    <tr>
+                        <td>${matchScore.player2Name}</td>
+                        <td>${matchScore.matchScoreDto.sets2}</td>
+                        <td>${matchScore.matchScoreDto.games2}</td>
+                        <td>${matchScore.matchScoreDto.points2}</td>
+                    </tr>
+                </table>
+            </div>
+        </main>
+        <footer>
+            <p class="footer_button">
+                by<a href="https://github.com/LlqWst/TennisScoreboard">LlqWst</a> All Rights DGAF<br>
+                &copy;  Tennis Scoreboard, project from<a href="https://zhukovsd.github.io/java-backend-learning-course/">Sergey Zhukov's Roadmap</a>
+            </p>
+        </footer>
+    </body>
 </html>

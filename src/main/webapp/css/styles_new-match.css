@@ -1,0 +1,100 @@
+.new-match_header {
+    font-family: sans-serif;
+    font-size: 40px;
+    font-weight: 800;
+    color: #1E3A8A;
+    margin: 0 0 10px 0; /* Уменьшаем нижний отступ */
+    text-align: center;
+    padding: 0;
+}
+
+.top-centered-container {
+    display: flex;
+    justify-content: center; /* Горизонтальное центрирование */
+    padding-top: 80px; /* Отступ сверху */
+    width: 100%;
+}
+
+.image-buttons-wrapper {
+    display: flex;
+    align-items: flex-start; /* Выравнивание по верхнему краю */
+    gap: 60px; /* Расстояние между изображением и кнопками */
+    max-width: 1200px;
+    width: 100%;
+    padding: 0 20px; /* Боковые отступы */
+}
+
+.tennis-image {
+    width: 700px; /* Фиксированная ширина изображения */
+    height: auto;
+    border-radius: 70px;
+}
+
+.buttons-column {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Уменьшаем общий промежуток между элементами */
+    margin-top: 60px; /* Уменьшаем отступ сверху */
+}
+
+.form-container {
+    max-width: 500px;
+    margin: 30px auto;
+    padding: 20px;
+    font-family: sans-serif;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px; /* Отступ между лейблом и полем */
+    font-size: 13px;
+    color: #16213c;
+    font-weight: 550;
+    font-family: sans-serif;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #1C3782;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #3B82F6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+.button-container {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.submit-button {
+    background-color: #1F7F21;
+    font-family: sans-serif;
+    font-weight: bold;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 25px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submit-button:hover {
+    background-color: #249427;
+}
