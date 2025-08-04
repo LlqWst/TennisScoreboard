@@ -48,7 +48,7 @@ public class OngoingMatchesService {
 
     }
 
-    public boolean isContainsKey(UUID key){
+    public boolean isContainsKey(UUID key) {
         return matches.containsKey(key);
     }
 
@@ -60,7 +60,7 @@ public class OngoingMatchesService {
 
     public MatchScoreDto getMatchScoreDto(UUID key) {
 
-        if (isContainsKey(key)){
+        if (isContainsKey(key)) {
             return matches.get(key);
         }
         log.error("Match with uuid: {} don't exist", key);

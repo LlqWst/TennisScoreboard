@@ -1,5 +1,7 @@
 import dev.lqwd.dto.match_score.MatchScoreDto;
 import dev.lqwd.dto.match_score.MatchScoreForUpdateRequestDto;
+import dev.lqwd.dto.match_score.Score;
+import dev.lqwd.entity.Player;
 import dev.lqwd.service.MatchScoreCalculationService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,29 +36,47 @@ public class MatchScoreCalculationServiceTest {
         MatchScoreForUpdateRequestDto request =
                 MatchScoreForUpdateRequestDto.builder()
                         .matchScoreDto(MatchScoreDto.builder()
-                                .idPlayer1(PLAYER_1_ID)
-                                .idPlayer2(PLAYER_2_ID)
-                                .points1(ZERO_AS_STRING)
-                                .points2(ZERO_AS_STRING)
-                                .games1(ZERO_AS_INT)
-                                .games2(ZERO_AS_INT)
-                                .sets1(ZERO_AS_INT)
-                                .sets2(ZERO_AS_INT)
+                                .player1(Player.builder()
+                                        .id(PLAYER_1_ID)
+                                        .build())
+                                .player2(Player.builder()
+                                        .id(PLAYER_2_ID)
+                                        .build())
+                                .winner(null)
+                                .score1(Score.builder()
+                                        .points(ZERO_AS_STRING)
+                                        .games(ZERO_AS_INT)
+                                        .sets(ZERO_AS_INT)
+                                        .build())
+                                .score2(Score.builder()
+                                        .points(ZERO_AS_STRING)
+                                        .games(ZERO_AS_INT)
+                                        .sets(ZERO_AS_INT)
+                                        .build())
                                 .build())
                         .pointWinnerNumber(PLAYER_1_NUMBER)
                         .build();
 
-        MatchScoreDto expected = MatchScoreDto.builder()
-                .idPlayer1(PLAYER_1_ID)
-                .idPlayer2(PLAYER_2_ID)
-                .idWinner(null)
-                .points1(ZERO_AS_STRING)
-                .points2(ZERO_AS_STRING)
-                .games1(POINT)
-                .games2(ZERO_AS_INT)
-                .sets1(ZERO_AS_INT)
-                .sets2(ZERO_AS_INT)
-                .build();
+        MatchScoreDto expected =
+                MatchScoreDto.builder()
+                        .player1(Player.builder()
+                                .id(PLAYER_1_ID)
+                                .build())
+                        .player2(Player.builder()
+                                .id(PLAYER_2_ID)
+                                .build())
+                        .winner(null)
+                        .score1(Score.builder()
+                                .points(ZERO_AS_STRING)
+                                .games(POINT)
+                                .sets(ZERO_AS_INT)
+                                .build())
+                        .score2(Score.builder()
+                                .points(ZERO_AS_STRING)
+                                .games(ZERO_AS_INT)
+                                .sets(ZERO_AS_INT)
+                                .build())
+                        .build();
 
         MatchScoreDto actual = null;
 
@@ -72,32 +92,51 @@ public class MatchScoreCalculationServiceTest {
 
     @Test
     void should_ReturnAdvantage_When_PlayerWinsPointAtDeuce() {
+
         MatchScoreForUpdateRequestDto request =
                 MatchScoreForUpdateRequestDto.builder()
                         .matchScoreDto(MatchScoreDto.builder()
-                                .idPlayer1(PLAYER_1_ID)
-                                .idPlayer2(PLAYER_2_ID)
-                                .points1(FORTY)
-                                .points2(FORTY)
-                                .games1(ZERO_AS_INT)
-                                .games2(ZERO_AS_INT)
-                                .sets1(ZERO_AS_INT)
-                                .sets2(ZERO_AS_INT)
+                                .player1(Player.builder()
+                                        .id(PLAYER_1_ID)
+                                        .build())
+                                .player2(Player.builder()
+                                        .id(PLAYER_2_ID)
+                                        .build())
+                                .winner(null)
+                                .score1(Score.builder()
+                                        .points(FORTY)
+                                        .games(ZERO_AS_INT)
+                                        .sets(ZERO_AS_INT)
+                                        .build())
+                                .score2(Score.builder()
+                                        .points(FORTY)
+                                        .games(ZERO_AS_INT)
+                                        .sets(ZERO_AS_INT)
+                                        .build())
                                 .build())
                         .pointWinnerNumber(PLAYER_1_NUMBER)
                         .build();
 
-        MatchScoreDto expected = MatchScoreDto.builder()
-                .idPlayer1(PLAYER_1_ID)
-                .idPlayer2(PLAYER_2_ID)
-                .idWinner(null)
-                .points1(ADVANTAGE)
-                .points2(FORTY)
-                .games1(ZERO_AS_INT)
-                .games2(ZERO_AS_INT)
-                .sets1(ZERO_AS_INT)
-                .sets2(ZERO_AS_INT)
-                .build();
+        MatchScoreDto expected =
+                MatchScoreDto.builder()
+                        .player1(Player.builder()
+                                .id(PLAYER_1_ID)
+                                .build())
+                        .player2(Player.builder()
+                                .id(PLAYER_2_ID)
+                                .build())
+                        .winner(null)
+                        .score1(Score.builder()
+                                .points(ADVANTAGE)
+                                .games(ZERO_AS_INT)
+                                .sets(ZERO_AS_INT)
+                                .build())
+                        .score2(Score.builder()
+                                .points(FORTY)
+                                .games(ZERO_AS_INT)
+                                .sets(ZERO_AS_INT)
+                                .build())
+                        .build();
 
         MatchScoreDto actual = service.calculateScore(request);
 
@@ -108,32 +147,51 @@ public class MatchScoreCalculationServiceTest {
 
     @Test
     void should_ReturnGame_When_PlayerWinsPointAtAdvantage() {
+
         MatchScoreForUpdateRequestDto request =
                 MatchScoreForUpdateRequestDto.builder()
                         .matchScoreDto(MatchScoreDto.builder()
-                                .idPlayer1(PLAYER_1_ID)
-                                .idPlayer2(PLAYER_2_ID)
-                                .points1(ADVANTAGE)
-                                .points2(FORTY)
-                                .games1(ZERO_AS_INT)
-                                .games2(ZERO_AS_INT)
-                                .sets1(ZERO_AS_INT)
-                                .sets2(ZERO_AS_INT)
+                                .player1(Player.builder()
+                                        .id(PLAYER_1_ID)
+                                        .build())
+                                .player2(Player.builder()
+                                        .id(PLAYER_2_ID)
+                                        .build())
+                                .winner(null)
+                                .score1(Score.builder()
+                                        .points(ADVANTAGE)
+                                        .games(ZERO_AS_INT)
+                                        .sets(ZERO_AS_INT)
+                                        .build())
+                                .score2(Score.builder()
+                                        .points(FORTY)
+                                        .games(ZERO_AS_INT)
+                                        .sets(ZERO_AS_INT)
+                                        .build())
                                 .build())
                         .pointWinnerNumber(PLAYER_1_NUMBER)
                         .build();
 
-        MatchScoreDto expected = MatchScoreDto.builder()
-                .idPlayer1(PLAYER_1_ID)
-                .idPlayer2(PLAYER_2_ID)
-                .idWinner(null)
-                .points1(ZERO_AS_STRING)
-                .points2(ZERO_AS_STRING)
-                .games1(POINT)
-                .games2(ZERO_AS_INT)
-                .sets1(ZERO_AS_INT)
-                .sets2(ZERO_AS_INT)
-                .build();
+        MatchScoreDto expected =
+                MatchScoreDto.builder()
+                        .player1(Player.builder()
+                                .id(PLAYER_1_ID)
+                                .build())
+                        .player2(Player.builder()
+                                .id(PLAYER_2_ID)
+                                .build())
+                        .winner(null)
+                        .score1(Score.builder()
+                                .points(ZERO_AS_STRING)
+                                .games(POINT)
+                                .sets(ZERO_AS_INT)
+                                .build())
+                        .score2(Score.builder()
+                                .points(ZERO_AS_STRING)
+                                .games(ZERO_AS_INT)
+                                .sets(ZERO_AS_INT)
+                                .build())
+                        .build();
 
         MatchScoreDto actual = service.calculateScore(request);
 
@@ -144,32 +202,51 @@ public class MatchScoreCalculationServiceTest {
 
     @Test
     void should_ReturnDeuce_When_PlayerWinsPointAtNextPlayerHasAdvantage() {
+
         MatchScoreForUpdateRequestDto request =
                 MatchScoreForUpdateRequestDto.builder()
                         .matchScoreDto(MatchScoreDto.builder()
-                                .idPlayer1(PLAYER_1_ID)
-                                .idPlayer2(PLAYER_2_ID)
-                                .points1(FORTY)
-                                .points2(ADVANTAGE)
-                                .games1(ZERO_AS_INT)
-                                .games2(ZERO_AS_INT)
-                                .sets1(ZERO_AS_INT)
-                                .sets2(ZERO_AS_INT)
+                                .player1(Player.builder()
+                                        .id(PLAYER_1_ID)
+                                        .build())
+                                .player2(Player.builder()
+                                        .id(PLAYER_2_ID)
+                                        .build())
+                                .winner(null)
+                                .score1(Score.builder()
+                                        .points(FORTY)
+                                        .games(ZERO_AS_INT)
+                                        .sets(ZERO_AS_INT)
+                                        .build())
+                                .score2(Score.builder()
+                                        .points(ADVANTAGE)
+                                        .games(ZERO_AS_INT)
+                                        .sets(ZERO_AS_INT)
+                                        .build())
                                 .build())
                         .pointWinnerNumber(PLAYER_1_NUMBER)
                         .build();
 
-        MatchScoreDto expected = MatchScoreDto.builder()
-                .idPlayer1(PLAYER_1_ID)
-                .idPlayer2(PLAYER_2_ID)
-                .idWinner(null)
-                .points1(FORTY)
-                .points2(FORTY)
-                .games1(ZERO_AS_INT)
-                .games2(ZERO_AS_INT)
-                .sets1(ZERO_AS_INT)
-                .sets2(ZERO_AS_INT)
-                .build();
+        MatchScoreDto expected =
+                MatchScoreDto.builder()
+                        .player1(Player.builder()
+                                .id(PLAYER_1_ID)
+                                .build())
+                        .player2(Player.builder()
+                                .id(PLAYER_2_ID)
+                                .build())
+                        .winner(null)
+                        .score1(Score.builder()
+                                .points(FORTY)
+                                .games(ZERO_AS_INT)
+                                .sets(ZERO_AS_INT)
+                                .build())
+                        .score2(Score.builder()
+                                .points(FORTY)
+                                .games(ZERO_AS_INT)
+                                .sets(ZERO_AS_INT)
+                                .build())
+                        .build();
 
         MatchScoreDto actual = service.calculateScore(request);
 
@@ -180,32 +257,51 @@ public class MatchScoreCalculationServiceTest {
 
     @Test
     void should_ReturnPoint_When_PlayerWinsPointAtTieBreak() {
+
         MatchScoreForUpdateRequestDto request =
                 MatchScoreForUpdateRequestDto.builder()
                         .matchScoreDto(MatchScoreDto.builder()
-                                .idPlayer1(PLAYER_1_ID)
-                                .idPlayer2(PLAYER_2_ID)
-                                .points1(ZERO_AS_STRING)
-                                .points2(ZERO_AS_STRING)
-                                .games1(MIN_GAMES_POINTS)
-                                .games2(MIN_GAMES_POINTS)
-                                .sets1(ZERO_AS_INT)
-                                .sets2(ZERO_AS_INT)
+                                .player1(Player.builder()
+                                        .id(PLAYER_1_ID)
+                                        .build())
+                                .player2(Player.builder()
+                                        .id(PLAYER_2_ID)
+                                        .build())
+                                .winner(null)
+                                .score1(Score.builder()
+                                        .points(ZERO_AS_STRING)
+                                        .games(MIN_GAMES_POINTS)
+                                        .sets(ZERO_AS_INT)
+                                        .build())
+                                .score2(Score.builder()
+                                        .points(ZERO_AS_STRING)
+                                        .games(MIN_GAMES_POINTS)
+                                        .sets(ZERO_AS_INT)
+                                        .build())
                                 .build())
                         .pointWinnerNumber(PLAYER_1_NUMBER)
                         .build();
 
-        MatchScoreDto expected = MatchScoreDto.builder()
-                .idPlayer1(PLAYER_1_ID)
-                .idPlayer2(PLAYER_2_ID)
-                .idWinner(null)
-                .points1(String.valueOf(POINT))
-                .points2(ZERO_AS_STRING)
-                .games1(MIN_GAMES_POINTS)
-                .games2(MIN_GAMES_POINTS)
-                .sets1(ZERO_AS_INT)
-                .sets2(ZERO_AS_INT)
-                .build();
+        MatchScoreDto expected =
+                MatchScoreDto.builder()
+                        .player1(Player.builder()
+                                .id(PLAYER_1_ID)
+                                .build())
+                        .player2(Player.builder()
+                                .id(PLAYER_2_ID)
+                                .build())
+                        .winner(null)
+                        .score1(Score.builder()
+                                .points(String.valueOf(POINT))
+                                .games(MIN_GAMES_POINTS)
+                                .sets(ZERO_AS_INT)
+                                .build())
+                        .score2(Score.builder()
+                                .points(ZERO_AS_STRING)
+                                .games(MIN_GAMES_POINTS)
+                                .sets(ZERO_AS_INT)
+                                .build())
+                        .build();
 
         MatchScoreDto actual = service.calculateScore(request);
 
@@ -216,32 +312,51 @@ public class MatchScoreCalculationServiceTest {
 
     @Test
     void should_ReturnPoint_When_PlayerStartTieBrakeAndGetOneMorePoint() {
+
         MatchScoreForUpdateRequestDto request =
                 MatchScoreForUpdateRequestDto.builder()
                         .matchScoreDto(MatchScoreDto.builder()
-                                .idPlayer1(PLAYER_1_ID)
-                                .idPlayer2(PLAYER_2_ID)
-                                .points1(FORTY)
-                                .points2(ONE_POINT_AS_SCORE)
-                                .games1(5)
-                                .games2(MIN_GAMES_POINTS)
-                                .sets1(ZERO_AS_INT)
-                                .sets2(ZERO_AS_INT)
+                                .player1(Player.builder()
+                                        .id(PLAYER_1_ID)
+                                        .build())
+                                .player2(Player.builder()
+                                        .id(PLAYER_2_ID)
+                                        .build())
+                                .winner(null)
+                                .score1(Score.builder()
+                                        .points(FORTY)
+                                        .games(5)
+                                        .sets(ZERO_AS_INT)
+                                        .build())
+                                .score2(Score.builder()
+                                        .points(ONE_POINT_AS_SCORE)
+                                        .games(MIN_GAMES_POINTS)
+                                        .sets(ZERO_AS_INT)
+                                        .build())
                                 .build())
                         .pointWinnerNumber(PLAYER_1_NUMBER)
                         .build();
 
-        MatchScoreDto expected = MatchScoreDto.builder()
-                .idPlayer1(PLAYER_1_ID)
-                .idPlayer2(PLAYER_2_ID)
-                .idWinner(null)
-                .points1(String.valueOf(POINT))
-                .points2(ZERO_AS_STRING)
-                .games1(MIN_GAMES_POINTS)
-                .games2(MIN_GAMES_POINTS)
-                .sets1(ZERO_AS_INT)
-                .sets2(ZERO_AS_INT)
-                .build();
+        MatchScoreDto expected =
+                MatchScoreDto.builder()
+                        .player1(Player.builder()
+                                .id(PLAYER_1_ID)
+                                .build())
+                        .player2(Player.builder()
+                                .id(PLAYER_2_ID)
+                                .build())
+                        .winner(null)
+                        .score1(Score.builder()
+                                .points(String.valueOf(POINT))
+                                .games(MIN_GAMES_POINTS)
+                                .sets(ZERO_AS_INT)
+                                .build())
+                        .score2(Score.builder()
+                                .points(ZERO_AS_STRING)
+                                .games(MIN_GAMES_POINTS)
+                                .sets(ZERO_AS_INT)
+                                .build())
+                        .build();
 
         MatchScoreDto actual = null;
         for (int i = 1; i <= 2; i++) {
@@ -256,32 +371,51 @@ public class MatchScoreCalculationServiceTest {
 
     @Test
     void should_ReturnSet_When_PlayerWinsTieBreakPointAfterPoint() {
+
         MatchScoreForUpdateRequestDto request =
                 MatchScoreForUpdateRequestDto.builder()
                         .matchScoreDto(MatchScoreDto.builder()
-                                .idPlayer1(PLAYER_1_ID)
-                                .idPlayer2(PLAYER_2_ID)
-                                .points1(ZERO_AS_STRING)
-                                .points2(ZERO_AS_STRING)
-                                .games1(MIN_GAMES_POINTS)
-                                .games2(MIN_GAMES_POINTS)
-                                .sets1(ZERO_AS_INT)
-                                .sets2(ZERO_AS_INT)
+                                .player1(Player.builder()
+                                        .id(PLAYER_1_ID)
+                                        .build())
+                                .player2(Player.builder()
+                                        .id(PLAYER_2_ID)
+                                        .build())
+                                .winner(null)
+                                .score1(Score.builder()
+                                        .points(ZERO_AS_STRING)
+                                        .games(MIN_GAMES_POINTS)
+                                        .sets(ZERO_AS_INT)
+                                        .build())
+                                .score2(Score.builder()
+                                        .points(ZERO_AS_STRING)
+                                        .games(MIN_GAMES_POINTS)
+                                        .sets(ZERO_AS_INT)
+                                        .build())
                                 .build())
                         .pointWinnerNumber(PLAYER_1_NUMBER)
                         .build();
 
-        MatchScoreDto expected = MatchScoreDto.builder()
-                .idPlayer1(PLAYER_1_ID)
-                .idPlayer2(PLAYER_2_ID)
-                .idWinner(null)
-                .points1(ZERO_AS_STRING)
-                .points2(ZERO_AS_STRING)
-                .games1(ZERO_AS_INT)
-                .games2(ZERO_AS_INT)
-                .sets1(POINT)
-                .sets2(ZERO_AS_INT)
-                .build();
+        MatchScoreDto expected =
+                MatchScoreDto.builder()
+                        .player1(Player.builder()
+                                .id(PLAYER_1_ID)
+                                .build())
+                        .player2(Player.builder()
+                                .id(PLAYER_2_ID)
+                                .build())
+                        .winner(null)
+                        .score1(Score.builder()
+                                .points(ZERO_AS_STRING)
+                                .games(ZERO_AS_INT)
+                                .sets(POINT)
+                                .build())
+                        .score2(Score.builder()
+                                .points(ZERO_AS_STRING)
+                                .games(ZERO_AS_INT)
+                                .sets(ZERO_AS_INT)
+                                .build())
+                        .build();
 
         MatchScoreDto actual = null;
         for (int i = 1; i <= MIN_TIE_BREAK_POINTS; i++) {
@@ -296,32 +430,51 @@ public class MatchScoreCalculationServiceTest {
 
     @Test
     void should_ReturnSet_When_PlayerWinsTieBreakWith8Points() {
+
         MatchScoreForUpdateRequestDto request =
                 MatchScoreForUpdateRequestDto.builder()
                         .matchScoreDto(MatchScoreDto.builder()
-                                .idPlayer1(PLAYER_1_ID)
-                                .idPlayer2(PLAYER_2_ID)
-                                .points1(ZERO_AS_STRING)
-                                .points2(String.valueOf(MIN_GAMES_POINTS))
-                                .games1(MIN_GAMES_POINTS)
-                                .games2(MIN_GAMES_POINTS)
-                                .sets1(ZERO_AS_INT)
-                                .sets2(ZERO_AS_INT)
+                                .player1(Player.builder()
+                                        .id(PLAYER_1_ID)
+                                        .build())
+                                .player2(Player.builder()
+                                        .id(PLAYER_2_ID)
+                                        .build())
+                                .winner(null)
+                                .score1(Score.builder()
+                                        .points(ZERO_AS_STRING)
+                                        .games(MIN_GAMES_POINTS)
+                                        .sets(ZERO_AS_INT)
+                                        .build())
+                                .score2(Score.builder()
+                                        .points(String.valueOf(MIN_GAMES_POINTS))
+                                        .games(MIN_GAMES_POINTS)
+                                        .sets(ZERO_AS_INT)
+                                        .build())
                                 .build())
                         .pointWinnerNumber(PLAYER_1_NUMBER)
                         .build();
 
-        MatchScoreDto expected = MatchScoreDto.builder()
-                .idPlayer1(PLAYER_1_ID)
-                .idPlayer2(PLAYER_2_ID)
-                .idWinner(null)
-                .points1(ZERO_AS_STRING)
-                .points2(ZERO_AS_STRING)
-                .games1(ZERO_AS_INT)
-                .games2(ZERO_AS_INT)
-                .sets1(POINT)
-                .sets2(ZERO_AS_INT)
-                .build();
+        MatchScoreDto expected =
+                MatchScoreDto.builder()
+                        .player1(Player.builder()
+                                .id(PLAYER_1_ID)
+                                .build())
+                        .player2(Player.builder()
+                                .id(PLAYER_2_ID)
+                                .build())
+                        .winner(null)
+                        .score1(Score.builder()
+                                .points(ZERO_AS_STRING)
+                                .games(ZERO_AS_INT)
+                                .sets(POINT)
+                                .build())
+                        .score2(Score.builder()
+                                .points(ZERO_AS_STRING)
+                                .games(ZERO_AS_INT)
+                                .sets(ZERO_AS_INT)
+                                .build())
+                        .build();
 
         MatchScoreDto actual = null;
         for (int i = 1; i <= MIN_TIE_BREAK_POINTS + 1; i++) {
@@ -336,32 +489,51 @@ public class MatchScoreCalculationServiceTest {
 
     @Test
     void should_ReturnSet_When_PlayerWins6GamePoints() {
+
         MatchScoreForUpdateRequestDto request =
                 MatchScoreForUpdateRequestDto.builder()
                         .matchScoreDto(MatchScoreDto.builder()
-                                .idPlayer1(PLAYER_1_ID)
-                                .idPlayer2(PLAYER_2_ID)
-                                .points1(FORTY)
-                                .points2(ZERO_AS_STRING)
-                                .games1(5)
-                                .games2(4)
-                                .sets1(ZERO_AS_INT)
-                                .sets2(ZERO_AS_INT)
+                                .player1(Player.builder()
+                                        .id(PLAYER_1_ID)
+                                        .build())
+                                .player2(Player.builder()
+                                        .id(PLAYER_2_ID)
+                                        .build())
+                                .winner(null)
+                                .score1(Score.builder()
+                                        .points(FORTY)
+                                        .games(5)
+                                        .sets(ZERO_AS_INT)
+                                        .build())
+                                .score2(Score.builder()
+                                        .points(ZERO_AS_STRING)
+                                        .games(4)
+                                        .sets(ZERO_AS_INT)
+                                        .build())
                                 .build())
                         .pointWinnerNumber(PLAYER_1_NUMBER)
                         .build();
 
-        MatchScoreDto expected = MatchScoreDto.builder()
-                .idPlayer1(PLAYER_1_ID)
-                .idPlayer2(PLAYER_2_ID)
-                .idWinner(null)
-                .points1(ZERO_AS_STRING)
-                .points2(ZERO_AS_STRING)
-                .games1(ZERO_AS_INT)
-                .games2(ZERO_AS_INT)
-                .sets1(POINT)
-                .sets2(ZERO_AS_INT)
-                .build();
+        MatchScoreDto expected =
+                MatchScoreDto.builder()
+                        .player1(Player.builder()
+                                .id(PLAYER_1_ID)
+                                .build())
+                        .player2(Player.builder()
+                                .id(PLAYER_2_ID)
+                                .build())
+                        .winner(null)
+                        .score1(Score.builder()
+                                .points(ZERO_AS_STRING)
+                                .games(ZERO_AS_INT)
+                                .sets(POINT)
+                                .build())
+                        .score2(Score.builder()
+                                .points(ZERO_AS_STRING)
+                                .games(ZERO_AS_INT)
+                                .sets(ZERO_AS_INT)
+                                .build())
+                        .build();
 
         MatchScoreDto actual = service.calculateScore(request);
 
@@ -372,32 +544,51 @@ public class MatchScoreCalculationServiceTest {
 
     @Test
     void should_ReturnSet_When_PlayerWins7GamePoints() {
+
         MatchScoreForUpdateRequestDto request =
                 MatchScoreForUpdateRequestDto.builder()
                         .matchScoreDto(MatchScoreDto.builder()
-                                .idPlayer1(PLAYER_1_ID)
-                                .idPlayer2(PLAYER_2_ID)
-                                .points1(FORTY)
-                                .points2(ZERO_AS_STRING)
-                                .games1(5)
-                                .games2(5)
-                                .sets1(ZERO_AS_INT)
-                                .sets2(ZERO_AS_INT)
+                                .player1(Player.builder()
+                                        .id(PLAYER_1_ID)
+                                        .build())
+                                .player2(Player.builder()
+                                        .id(PLAYER_2_ID)
+                                        .build())
+                                .winner(null)
+                                .score1(Score.builder()
+                                        .points(FORTY)
+                                        .games(5)
+                                        .sets(ZERO_AS_INT)
+                                        .build())
+                                .score2(Score.builder()
+                                        .points(ZERO_AS_STRING)
+                                        .games(5)
+                                        .sets(ZERO_AS_INT)
+                                        .build())
                                 .build())
                         .pointWinnerNumber(PLAYER_1_NUMBER)
                         .build();
 
-        MatchScoreDto expected = MatchScoreDto.builder()
-                .idPlayer1(PLAYER_1_ID)
-                .idPlayer2(PLAYER_2_ID)
-                .idWinner(null)
-                .points1(ZERO_AS_STRING)
-                .points2(ZERO_AS_STRING)
-                .games1(ZERO_AS_INT)
-                .games2(ZERO_AS_INT)
-                .sets1(POINT)
-                .sets2(ZERO_AS_INT)
-                .build();
+        MatchScoreDto expected =
+                MatchScoreDto.builder()
+                        .player1(Player.builder()
+                                .id(PLAYER_1_ID)
+                                .build())
+                        .player2(Player.builder()
+                                .id(PLAYER_2_ID)
+                                .build())
+                        .winner(null)
+                        .score1(Score.builder()
+                                .points(ZERO_AS_STRING)
+                                .games(ZERO_AS_INT)
+                                .sets(POINT)
+                                .build())
+                        .score2(Score.builder()
+                                .points(ZERO_AS_STRING)
+                                .games(ZERO_AS_INT)
+                                .sets(ZERO_AS_INT)
+                                .build())
+                        .build();
 
         MatchScoreDto actual = null;
 
@@ -413,32 +604,53 @@ public class MatchScoreCalculationServiceTest {
 
     @Test
     void should_ReturnWinnerId_When_PlayerWins2Sets() {
+
         MatchScoreForUpdateRequestDto request =
                 MatchScoreForUpdateRequestDto.builder()
                         .matchScoreDto(MatchScoreDto.builder()
-                                .idPlayer1(PLAYER_1_ID)
-                                .idPlayer2(PLAYER_2_ID)
-                                .points1(FORTY)
-                                .points2(ZERO_AS_STRING)
-                                .games1(5)
-                                .games2(ZERO_AS_INT)
-                                .sets1(POINT)
-                                .sets2(ZERO_AS_INT)
+                                .player1(Player.builder()
+                                        .id(PLAYER_1_ID)
+                                        .build())
+                                .player2(Player.builder()
+                                        .id(PLAYER_2_ID)
+                                        .build())
+                                .winner(null)
+                                .score1(Score.builder()
+                                        .points(FORTY)
+                                        .games(5)
+                                        .sets(POINT)
+                                        .build())
+                                .score2(Score.builder()
+                                        .points(ZERO_AS_STRING)
+                                        .games(ZERO_AS_INT)
+                                        .sets(ZERO_AS_INT)
+                                        .build())
                                 .build())
                         .pointWinnerNumber(PLAYER_1_NUMBER)
                         .build();
 
-        MatchScoreDto expected = MatchScoreDto.builder()
-                .idPlayer1(PLAYER_1_ID)
-                .idPlayer2(PLAYER_2_ID)
-                .idWinner(PLAYER_1_ID)
-                .points1(ZERO_AS_STRING)
-                .points2(ZERO_AS_STRING)
-                .games1(ZERO_AS_INT)
-                .games2(ZERO_AS_INT)
-                .sets1(SETS_TO_WIN)
-                .sets2(ZERO_AS_INT)
-                .build();
+        MatchScoreDto expected =
+                MatchScoreDto.builder()
+                        .player1(Player.builder()
+                                .id(PLAYER_1_ID)
+                                .build())
+                        .player2(Player.builder()
+                                .id(PLAYER_2_ID)
+                                .build())
+                        .winner(Player.builder()
+                                .id(PLAYER_1_ID)
+                                .build())
+                        .score1(Score.builder()
+                                .points(ZERO_AS_STRING)
+                                .games(ZERO_AS_INT)
+                                .sets(SETS_TO_WIN)
+                                .build())
+                        .score2(Score.builder()
+                                .points(ZERO_AS_STRING)
+                                .games(ZERO_AS_INT)
+                                .sets(ZERO_AS_INT)
+                                .build())
+                        .build();
 
         MatchScoreDto actual = service.calculateScore(request);
 

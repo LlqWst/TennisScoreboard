@@ -9,14 +9,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MatchScoreWinnerResponseDto {
+public class MatchScoreResponseDto {
 
     MatchScoreDto matchScoreDto;
 
-    String player1Name;
+    int numberPlayer1;
 
-    String player2Name;
-
-    String winnerName;
+    int numberPlayer2;
 
 }

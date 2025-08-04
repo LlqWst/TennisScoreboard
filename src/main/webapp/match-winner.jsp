@@ -20,7 +20,7 @@
                     <div class="header-column">
                         <p class="match-score-winner">
                             <span class="match-score-winner-text">!!! Winner is </span>
-                            <span class="match-score-winner-name">${matchScore.winnerName}</span>
+                            <span class="match-score-winner-name">${matchScore.matchScoreDto.winner.name}</span>
                             <span class="match-score-winner-text"> !!!</span>
                         </p>
                         <a href="${pageContext.request.contextPath}" class="button_home">Home</a>
@@ -37,16 +37,16 @@
                         <th>Points</th>
                     </tr>
                     <tr>
-                        <td>${matchScore.player1Name}</td>
-                        <td>${matchScore.matchScoreDto.sets1}</td>
-                        <td>${matchScore.matchScoreDto.games1}</td>
-                        <td>${matchScore.matchScoreDto.points1}</td>
+                        <td>${matchScore.matchScoreDto.player1.name}</td>
+                        <td>${matchScore.matchScoreDto.score1.sets}</td>
+                        <td>${matchScore.matchScoreDto.score1.games}</td>
+                        <td>${matchScore.matchScoreDto.score1.points}</td>
                     </tr>
                     <tr>
-                        <td>${matchScore.player2Name}</td>
-                        <td>${matchScore.matchScoreDto.sets2}</td>
-                        <td>${matchScore.matchScoreDto.games2}</td>
-                        <td>${matchScore.matchScoreDto.points2}</td>
+                        <td>${matchScore.matchScoreDto.player2.name}</td>
+                        <td>${matchScore.matchScoreDto.score2.sets}</td>
+                        <td>${matchScore.matchScoreDto.score2.games}</td>
+                        <td>${matchScore.matchScoreDto.score2.points}</td>
                     </tr>
                 </table>
             </div>

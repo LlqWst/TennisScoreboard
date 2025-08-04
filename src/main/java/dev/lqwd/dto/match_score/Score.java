@@ -6,19 +6,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
+@Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class MatchScoreUpdatedResponseDto {
+public class Score {
 
-    MatchScoreDto matchScoreDto;
+    @Builder.Default
+    private String points = "0";
 
-    String player1Name;
+    @Builder.Default
+    private int games = 0;
 
-    String player2Name;
-
-    int numberPlayer1;
-
-    int numberPlayer2;
+    @Builder.Default
+    private int sets = 0;
 
 }

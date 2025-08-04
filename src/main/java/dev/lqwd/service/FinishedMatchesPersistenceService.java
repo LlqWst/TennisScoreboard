@@ -15,13 +15,13 @@ public class FinishedMatchesPersistenceService {
 
         return matchesDao.save(Match.builder()
                 .player1(Player.builder()
-                        .id(MatchScoreUpdatedDto.getIdPlayer1())
+                        .id(MatchScoreUpdatedDto.getPlayer1().getId())
                         .build())
                 .player2(Player.builder()
-                        .id(MatchScoreUpdatedDto.getIdPlayer2())
+                        .id(MatchScoreUpdatedDto.getPlayer2().getId())
                         .build())
                 .winner(Player.builder()
-                        .id(MatchScoreUpdatedDto.getIdWinner())
+                        .id(MatchScoreUpdatedDto.getWinner().getId())
                         .build())
                 .build()
         );

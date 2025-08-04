@@ -8,6 +8,7 @@ import dev.lqwd.service.PlayerService;
 import dev.lqwd.utils.Validator;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +20,7 @@ import static jakarta.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 
 @Slf4j
 @WebServlet("/new-match")
-public class NewMatchController extends BasicServlet {
+public class NewMatchServlet extends HttpServlet {
 
     private static final PlayerService playerService = new PlayerService();
     private static final String MATCH_SCORE_URL = "match-score?uuid=%s";
@@ -57,7 +58,7 @@ public class NewMatchController extends BasicServlet {
                 .player2(player2)
                 .build();
 
-        MatchScoreDto matchScoreDto = playerService.getPLayersId(newMatchRequestDto);
+        MatchScoreDto matchScoreDto = playerService.getPLayers(newMatchRequestDto);
         UUID key = OngoingMatchesService.getInstance().addMatch(matchScoreDto);
 
         log.info("matchScoreDto created uuid: {}}", key);

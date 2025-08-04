@@ -7,6 +7,7 @@ import dev.lqwd.service.FinishedMatchesService;
 import dev.lqwd.utils.Validator;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +17,7 @@ import java.util.List;
 
 @Slf4j
 @WebServlet("/matches")
-public class FinishedMatchesController extends BasicServlet {
+public class FinishedMatchesServlet extends HttpServlet {
 
     private static final int DEFAULT_PAGE = 1;
     private static final String EMPTY_NAME = "";

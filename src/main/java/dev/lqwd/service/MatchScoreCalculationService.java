@@ -2,6 +2,7 @@ package dev.lqwd.service;
 
 import dev.lqwd.dto.match_score.MatchScoreDto;
 import dev.lqwd.dto.match_score.MatchScoreForUpdateRequestDto;
+import dev.lqwd.entity.Player;
 
 public class MatchScoreCalculationService {
 
@@ -39,11 +40,18 @@ public class MatchScoreCalculationService {
         }
 
         if (isWinner(matchScoreForUpdateDto)) {
-            matchScoreDtoUpdated.setIdWinner(matchScoreForUpdateDto.getIdByNumber(pointWinner));
+            matchScoreDtoUpdated.setWinner(setWinner(matchScoreForUpdateDto));
         }
 
         return matchScoreDtoUpdated;
 
+    }
+
+    private static Player setWinner(MatchScoreDto matchScoreForUpdateDto) {
+        if (pointWinner == PLAYER_1) {
+            return matchScoreForUpdateDto.getPlayer1();
+        }
+        return matchScoreForUpdateDto.getPlayer2();
     }
 
     private static int findSecondPlayerNumber(int pointWinner) {
@@ -54,8 +62,8 @@ public class MatchScoreCalculationService {
 
     private static MatchScoreDto updateScoreBasedOnTieBreak(MatchScoreDto matchScoreForUpdateDto) {
 
-        int winnerPoints = Integer.parseInt(matchScoreForUpdateDto.getPointsByNumber(pointWinner)) + POINT;
-        int nextPlayerPoints = Integer.parseInt(matchScoreForUpdateDto.getPointsByNumber(nextPlayer));
+        int winnerPoints = Integer.parseInt(matchScoreForUpdateDto.getScoreByNumber(pointWinner).getPoints()) + POINT;
+        int nextPlayerPoints = Integer.parseInt(matchScoreForUpdateDto.getScoreByNumber(nextPlayer).getPoints());
         int pointsDiff = Math.abs(winnerPoints - nextPlayerPoints);
 
         if (isTieBreakWinner(winnerPoints, pointsDiff)) {
@@ -65,7 +73,7 @@ public class MatchScoreCalculationService {
 
         } else {
 
-            matchScoreForUpdateDto.setPointsByNumber(pointWinner, Integer.toString(winnerPoints));
+            matchScoreForUpdateDto.getScoreByNumber(pointWinner).setPoints(Integer.toString(winnerPoints));
 
         }
         return matchScoreForUpdateDto;
@@ -94,22 +102,22 @@ public class MatchScoreCalculationService {
 
     private static void setDeuce(MatchScoreDto matchScoreForUpdateDto) {
 
-        matchScoreForUpdateDto.setPointsByNumber(nextPlayer, FORTY);
+        matchScoreForUpdateDto.getScoreByNumber(nextPlayer).setPoints(FORTY);
 
     }
 
     private static void setPoints(MatchScoreDto matchScoreForUpdateDto) {
         String winnerPoints = updateWinnerPoints(matchScoreForUpdateDto);
 
-        String nextPlayerPoints = matchScoreForUpdateDto.getPointsByNumber(nextPlayer);
+        String nextPlayerPoints = matchScoreForUpdateDto.getScoreByNumber(nextPlayer).getPoints();
 
         if (isAdvantageIn(winnerPoints, nextPlayerPoints)) {
 
-            matchScoreForUpdateDto.setPointsByNumber(pointWinner, ADVANTAGE);
+            matchScoreForUpdateDto.getScoreByNumber(pointWinner).setPoints(ADVANTAGE);
 
         } else if (winnerPoints.equals(THREE_POINTS)) {
 
-            matchScoreForUpdateDto.setPointsByNumber(pointWinner, FORTY);
+            matchScoreForUpdateDto.getScoreByNumber(pointWinner).setPoints(FORTY);
 
         } else if (winnerPoints.equals(FOUR_POINTS)) {
 
@@ -117,7 +125,7 @@ public class MatchScoreCalculationService {
 
         } else {
 
-            matchScoreForUpdateDto.setPointsByNumber(pointWinner, winnerPoints);
+            matchScoreForUpdateDto.getScoreByNumber(pointWinner).setPoints(winnerPoints);
 
         }
     }
@@ -143,7 +151,7 @@ public class MatchScoreCalculationService {
 
         return Integer.toString(
                 Integer.parseInt(
-                        matchScoreForUpdateDto.getPointsByNumber(pointWinner)
+                        matchScoreForUpdateDto.getScoreByNumber(pointWinner).getPoints()
                 ) + SCORE_POINTS);
 
     }
@@ -156,42 +164,41 @@ public class MatchScoreCalculationService {
 
     private static void addGamePoint(MatchScoreDto matchScoreForUpdateDto) {
 
-        matchScoreForUpdateDto.setGamesByNumber(pointWinner, matchScoreForUpdateDto.getGamesByNumber(pointWinner) + POINT);
+        matchScoreForUpdateDto.getScoreByNumber(pointWinner).setGames(matchScoreForUpdateDto.getScoreByNumber(pointWinner).getGames() + POINT);
         clearPoints(matchScoreForUpdateDto);
 
     }
 
     private static void updateSetsPoints(MatchScoreDto matchScoreForUpdateDto) {
 
-        int updatedSetsPoints = matchScoreForUpdateDto.getSetsByNumber(pointWinner) + POINT;
-        matchScoreForUpdateDto.setSetsByNumber(pointWinner, updatedSetsPoints);
+        int updatedSetsPoints = matchScoreForUpdateDto.getScoreByNumber(pointWinner).getSets() + POINT;
+        matchScoreForUpdateDto.getScoreByNumber(pointWinner).setSets(updatedSetsPoints);
         clearGames(matchScoreForUpdateDto);
 
     }
 
     private static void clearPoints(MatchScoreDto matchScoreForUpdateDto) {
 
-        matchScoreForUpdateDto.setPointsByNumber(pointWinner, ZERO_AS_STRING);
-        matchScoreForUpdateDto.setPointsByNumber(nextPlayer, ZERO_AS_STRING);
+        matchScoreForUpdateDto.getScoreByNumber(pointWinner).setPoints(ZERO_AS_STRING);
+        matchScoreForUpdateDto.getScoreByNumber(nextPlayer).setPoints(ZERO_AS_STRING);
 
     }
 
     private static void clearGames(MatchScoreDto matchScoreForUpdateDto) {
 
-        matchScoreForUpdateDto.setGamesByNumber(pointWinner, ZERO_AS_INT);
-        matchScoreForUpdateDto.setGamesByNumber(nextPlayer, ZERO_AS_INT);
-
+        matchScoreForUpdateDto.getScoreByNumber(pointWinner).setGames(ZERO_AS_INT);
+        matchScoreForUpdateDto.getScoreByNumber(nextPlayer).setGames(ZERO_AS_INT);
     }
 
     private static boolean hasWinnerAdvantage(MatchScoreDto matchScoreForUpdateDto) {
 
-        return matchScoreForUpdateDto.getPointsByNumber(pointWinner).equals(ADVANTAGE);
+        return matchScoreForUpdateDto.getScoreByNumber(pointWinner).getPoints().equals(ADVANTAGE);
 
     }
 
     private static boolean hasNextPlayerAdvantage(MatchScoreDto matchScoreForUpdateDto) {
 
-        return matchScoreForUpdateDto.getPointsByNumber(nextPlayer).equals(ADVANTAGE);
+        return matchScoreForUpdateDto.getScoreByNumber(nextPlayer).getPoints().equals(ADVANTAGE);
 
     }
 
@@ -203,22 +210,21 @@ public class MatchScoreCalculationService {
 
     private static boolean ShouldAddSetsPoint(MatchScoreDto matchScoreForUpdateDto) {
 
-        return matchScoreForUpdateDto.getGamesByNumber(pointWinner) == MIN_GAMES_POINTS
-               && matchScoreForUpdateDto.getGamesByNumber(nextPlayer) <= MIN_DIFF_FOR_SET_POINT
-               || matchScoreForUpdateDto.getGamesByNumber(pointWinner) > MIN_GAMES_POINTS;
-
+        return matchScoreForUpdateDto.getScoreByNumber(pointWinner).getGames() == MIN_GAMES_POINTS
+               && matchScoreForUpdateDto.getScoreByNumber(nextPlayer).getGames() <= MIN_DIFF_FOR_SET_POINT
+               || matchScoreForUpdateDto.getScoreByNumber(pointWinner).getGames() > MIN_GAMES_POINTS;
     }
 
     private static boolean isTieBreak(MatchScoreDto matchScoreForUpdateDto) {
 
-        return matchScoreForUpdateDto.getGamesByNumber(pointWinner) == MIN_GAMES_POINTS
-               && matchScoreForUpdateDto.getGamesByNumber(nextPlayer) == MIN_GAMES_POINTS;
+        return matchScoreForUpdateDto.getScoreByNumber(pointWinner).getGames() == MIN_GAMES_POINTS
+               && matchScoreForUpdateDto.getScoreByNumber(nextPlayer).getGames() == MIN_GAMES_POINTS;
 
     }
 
     private static Boolean isWinner(MatchScoreDto matchScoreForUpdateDto) {
 
-        return matchScoreForUpdateDto.getSetsByNumber(pointWinner) == SETS_TO_WIN;
+        return matchScoreForUpdateDto.getScoreByNumber(pointWinner).getSets() == SETS_TO_WIN;
 
     }
 
