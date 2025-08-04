@@ -40,14 +40,14 @@ public class MatchScoreCalculationService {
         }
 
         if (isWinner(matchScoreForUpdateDto)) {
-            matchScoreDtoUpdated.setWinner(setWinner(matchScoreForUpdateDto));
+            matchScoreDtoUpdated.setWinner(defineWinner(matchScoreForUpdateDto));
         }
 
         return matchScoreDtoUpdated;
 
     }
 
-    private static Player setWinner(MatchScoreDto matchScoreForUpdateDto) {
+    private static Player defineWinner(MatchScoreDto matchScoreForUpdateDto) {
         if (pointWinner == PLAYER_1) {
             return matchScoreForUpdateDto.getPlayer1();
         }

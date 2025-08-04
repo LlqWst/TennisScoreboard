@@ -1,8 +1,10 @@
 package dev.lqwd.servlets;
 
 import dev.lqwd.FinishedMatchMapper;
+import dev.lqwd.dto.PaginationResponseDto;
 import dev.lqwd.dto.finished_match.FinishedMatchResponseDto;
 import dev.lqwd.dto.finished_match.FinishedMatchRequestDto;
+import dev.lqwd.exception.BadRequestException;
 import dev.lqwd.service.FinishedMatchesService;
 import dev.lqwd.utils.Validator;
 import jakarta.servlet.ServletException;
@@ -15,7 +17,6 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
 import java.util.List;
 
-@Slf4j
 @WebServlet("/matches")
 public class FinishedMatchesServlet extends HttpServlet {
 
@@ -27,18 +28,26 @@ public class FinishedMatchesServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        int page = Validator.parseParameter(
-                req.getParameter("page"), DEFAULT_PAGE);
+        int page;
+        String name;
 
-        String name = Validator.parseParameter(
-                req.getParameter("filter_by_player_name"), EMPTY_NAME);
+        try {
+
+            page = Validator.parseParameter(
+                    req.getParameter("page"), DEFAULT_PAGE);
+
+            name = Validator.parseParameter(
+                    req.getParameter("filter_by_player_name"), EMPTY_NAME);
+
+        } catch (BadRequestException e){
+            redirectToMatchesUrl(req, resp);
+            return;
+        }
 
         FinishedMatchRequestDto finishedMatchRequestDto = FinishedMatchRequestDto.builder()
                 .page(page)
                 .name(name)
                 .build();
-
-        int pages = FINISHED_MATCHES_SERVICE.getMaxPages(name);
 
         List<FinishedMatchResponseDto> finishedMatchesResponseDto = FINISHED_MATCHES_SERVICE
                 .getFinishedMatches(finishedMatchRequestDto)
@@ -46,11 +55,26 @@ public class FinishedMatchesServlet extends HttpServlet {
                 .map(mapper::toMatchResponseDto)
                 .toList();
 
-        req.setAttribute("FinishedMatches", finishedMatchesResponseDto);
-        req.setAttribute("pages", pages);
+        PaginationResponseDto paginationResponseDto;
+
+        try {
+
+            paginationResponseDto = FINISHED_MATCHES_SERVICE.getPaginationPages(name, page);
+
+        } catch (BadRequestException e){
+            redirectToMatchesUrl(req, resp);
+            return;
+        }
+
+        req.setAttribute("finishedMatches", finishedMatchesResponseDto);
+        req.setAttribute("pages", paginationResponseDto);
 
         req.getRequestDispatcher("finishedMatches.jsp").forward(req, resp);
 
+    }
+
+    private static void redirectToMatchesUrl(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        resp.sendRedirect(req.getContextPath() + "/matches");
     }
 
 }

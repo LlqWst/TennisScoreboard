@@ -31,7 +31,7 @@
                     <th>Winner</th>
                 </tr>
 
-                <c:forEach items="${FinishedMatches}" var="match">
+                <c:forEach items="${finishedMatches}" var="match">
                     <tr>
                         <td>${match.player1.name}</td>
                         <td>${match.player2.name}</td>
@@ -42,7 +42,17 @@
             </table>
 
             <div>
-                <c:forEach begin="1" end="${pages}" var="page_number">
+
+                <a href="<c:url value='/matches'>
+                            <c:param name='page' value="${pages.prevList}"/>
+                            <c:if test='${not empty param.filter_by_player_name}'>
+                                <c:param name='filter_by_player_name' value='${param.filter_by_player_name}'/>
+                            </c:if>
+                            </c:url>"
+                   class="button"> <=
+                </a>
+
+                <c:forEach begin='${pages.firstPage}' end='${pages.lastPage}' var="page_number">
                     <a href="<c:url value='/matches'>
                             <c:param name='page' value='${page_number}'/>
                             <c:if test='${not empty param.filter_by_player_name}'>
@@ -52,6 +62,15 @@
                        class="button"> ${page_number}
                     </a>
                 </c:forEach>
+
+                <a href="<c:url value='/matches'>
+                            <c:param name='page' value="${pages.nextList}"/>
+                            <c:if test='${not empty param.filter_by_player_name}'>
+                                <c:param name='filter_by_player_name' value='${param.filter_by_player_name}'/>
+                            </c:if>
+                            </c:url>" class="button"> =>
+                </a>
+
             </div>
         </div>
     </main>
