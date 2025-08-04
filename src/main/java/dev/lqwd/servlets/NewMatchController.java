@@ -1,4 +1,4 @@
-package dev.lqwd.controllers;
+package dev.lqwd.servlets;
 
 import dev.lqwd.exception.BadRequestException;
 import dev.lqwd.service.OngoingMatchesService;

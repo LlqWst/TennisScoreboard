@@ -14,7 +14,6 @@ public class MatchScoreDto {
 
     private Long idWinner;
 
-
     @Builder.Default
     private int sets1 = 0;
 

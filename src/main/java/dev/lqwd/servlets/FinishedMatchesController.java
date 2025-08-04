@@ -1,4 +1,4 @@
-package dev.lqwd.controllers;
+package dev.lqwd.servlets;
 
 import dev.lqwd.FinishedMatchMapper;
 import dev.lqwd.dto.finished_match.FinishedMatchResponseDto;

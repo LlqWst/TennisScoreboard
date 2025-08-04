@@ -1,4 +1,4 @@
-package dev.lqwd.controllers;
+package dev.lqwd.servlets;
 
 import dev.lqwd.dao.PlayerDao;
 import dev.lqwd.dto.match_score.MatchScoreDto;
