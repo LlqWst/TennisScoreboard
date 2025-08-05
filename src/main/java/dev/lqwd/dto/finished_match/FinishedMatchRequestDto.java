@@ -13,6 +13,5 @@ public class FinishedMatchRequestDto {
 
     private int page;
     private String name;
-    private int maxSize;
 
 }

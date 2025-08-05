@@ -1,5 +1,5 @@
 
-INSERT INTO tennisScoreboard.Players (name)
+INSERT INTO players (name)
 VALUES
     ('Ivan'),
     ('Maxim'),
@@ -8,7 +8,7 @@ VALUES
     ('Believe'),
     ('Love');
 
-INSERT INTO tennisScoreboard.Matches (pLayer1, pLayer2, winner)
+INSERT INTO matches (pLayer1, pLayer2, winner)
 VALUES
     (1,2, 1),
     (2, 3, 2),

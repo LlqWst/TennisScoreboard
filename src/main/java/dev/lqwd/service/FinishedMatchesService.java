@@ -24,6 +24,7 @@ public class FinishedMatchesService {
         int maxPage = (int) Math.ceil((double) matchesDao.countPlayedMatches(name) / MAX_ELEMENTS_SIZE);
 
         if (isNoMatchesForName(page, maxPage) || isMoreThanPlayedMatches(page, maxPage)) {
+
             log.warn("Max pages from BD less then requested. Page num is requested {}, max pages: {}", page, maxPage);
             throw new BadRequestException(MAX_PAGES_MESSAGE);
         }
@@ -40,7 +41,24 @@ public class FinishedMatchesService {
                 .prevList(prevList)
                 .nextList(nextList)
                 .build();
+    }
 
+
+    public List<Match> getFinishedMatches(FinishedMatchRequestDto finishedMatchRequestDto) {
+
+        return matchesDao.findAllByFilters(finishedMatchRequestDto, MAX_ELEMENTS_SIZE)
+                .orElseGet(Collections::emptyList);
+    }
+
+    private static int getFirstPage(int page) {
+
+        return (int) Math.ceil((double) page / MAX_PAGES) * MAX_PAGES - MAX_PAGES + 1;
+    }
+
+    private static int getLastPage(int page, int maxPage) {
+
+        int lastPage = (int) Math.ceil((double) page / MAX_PAGES) * MAX_PAGES;
+        return Math.min(maxPage, lastPage);
     }
 
     private static boolean isMoreThanPlayedMatches(int page, int maxPage) {
@@ -49,30 +67,6 @@ public class FinishedMatchesService {
 
     private static boolean isNoMatchesForName(int page, int maxPage) {
         return maxPage == 0 && page != 1;
-    }
-
-
-    public List<Match> getFinishedMatches(FinishedMatchRequestDto finishedMatchRequestDto) {
-
-        finishedMatchRequestDto.setMaxSize(MAX_ELEMENTS_SIZE);
-
-        return matchesDao.findAllByFilters(finishedMatchRequestDto)
-                .orElseGet(Collections::emptyList);
-
-    }
-
-    private static int getFirstPage(int page) {
-
-        return (int) Math.ceil((double) page / MAX_PAGES) * MAX_PAGES - MAX_PAGES + 1;
-
-    }
-
-    private static int getLastPage(int page, int maxPage) {
-
-        int lastPage = (int) Math.ceil((double) page / MAX_PAGES) * MAX_PAGES;
-
-        return Math.min(maxPage, lastPage);
-
     }
 
 }

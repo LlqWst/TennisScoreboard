@@ -1,15 +1,14 @@
 package dev.lqwd.utils;
 
 import dev.lqwd.exception.BadRequestException;
+import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.regex.Pattern;
 
 @Slf4j
+@UtilityClass
 public final class Validator {
-
-    private Validator() {
-    }
 
     private static final Pattern PATTERN_NAME = Pattern.compile("^(?!\\s*$)(?:[a-zA-Z ]{1,15}|[а-яА-Я ]{1,15})$");
     private static final Pattern PATTERN_PAGE = Pattern.compile("^(?!0+$)([0-9]{1,3})$");

@@ -76,10 +76,9 @@ public class MatchesDao {
 
     }
 
-    public Optional<List<Match>> findAllByFilters(FinishedMatchRequestDto finishedMatchRequestDto) {
+    public Optional<List<Match>> findAllByFilters(FinishedMatchRequestDto finishedMatchRequestDto, int maxSize) {
 
         int page = finishedMatchRequestDto.getPage();
-        int maxSize = finishedMatchRequestDto.getMaxSize();
         String name = finishedMatchRequestDto.getName();
 
         String hql = """

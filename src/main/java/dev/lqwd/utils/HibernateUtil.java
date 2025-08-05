@@ -1,53 +1,70 @@
 package dev.lqwd.utils;
-
+;
 import jakarta.servlet.ServletContextEvent;
-import jakarta.servlet.ServletContextListener;
-import jakarta.servlet.annotation.WebListener;
+import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-import org.h2.tools.Server;
+import org.hibernate.boot.Metadata;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
+import java.net.PasswordAuthentication;
+import java.util.HashMap;
+import java.util.Map;
+
+@UtilityClass
 @Slf4j
-@WebListener
-public final class HibernateUtil implements ServletContextListener {
+public final class HibernateUtil {
 
     private static SessionFactory sessionFactory;
     private final static String user = System.getenv("DB_USER");
     private final static String password = System.getenv("DB_PASSWORD");
 
+    public static void openSessionFactory() {
+        if (sessionFactory == null) {
+            try {
 
-    @Override
-    public void contextInitialized(ServletContextEvent sce) {
-        try {
+                //Server.createWebServer("-web", "-webAllowOthers", "-webPort", "8082").start();
+                //Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", "9092").start();
 
-            //Server.createWebServer("-web", "-webAllowOthers", "-webPort", "8082").start();
-            //Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", "9092").start();
+                StandardServiceRegistry standardRegistry = new StandardServiceRegistryBuilder()
+                        .configure("hibernate.cfg.xml")
+                        .applySettings(getHibernateParameters())
+                        .build();
 
-            Configuration configuration = new Configuration();
+                MetadataSources sources = new MetadataSources(standardRegistry);
+                Metadata metadata = sources.getMetadataBuilder().build();
 
-            configuration.setProperty("hibernate.connection.username", user);
-            configuration.setProperty("hibernate.connection.password", password);
+                sessionFactory = metadata.getSessionFactoryBuilder().build();
 
-            configuration.configure("hibernate.cfg.xml");
-
-            sessionFactory = configuration.buildSessionFactory();
-            log.info("sessionFactory is build: {}}", sessionFactory);
-        } catch (Exception e) {
-            log.error("Error on initialisation BD, message: {}, stack.trace: {}", e.getMessage(), e.getStackTrace());
-            throw new RuntimeException("Error on initialisation BD", e);
+                log.info("sessionFactory is build: {}}", sessionFactory);
+            } catch (Exception e) {
+                log.error("Error on initialisation BD, message: {}, stack.trace: {}", e.getMessage(), e.getStackTrace());
+                throw new RuntimeException("Error on initialisation BD", e);
+            }
         }
+    }
+
+    private static Map<String, Object> getHibernateParameters() {
+        Map<String, Object> parameters = new HashMap<>();
+
+        parameters.put("hibernate.connection.username", user);
+        parameters.put("hibernate.connection.password", password);
+
+        return parameters;
+
     }
 
     public static Session openSession() throws RuntimeException {
         return sessionFactory.openSession();
     }
 
-    @Override
-    public void contextDestroyed(ServletContextEvent sce) {
+    public static void closeSessionFactory() {
         if (sessionFactory != null) {
             sessionFactory.close();
         }
     }
+
 }

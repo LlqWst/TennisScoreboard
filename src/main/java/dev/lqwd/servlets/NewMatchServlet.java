@@ -4,7 +4,7 @@ import dev.lqwd.exception.BadRequestException;
 import dev.lqwd.service.OngoingMatchesService;
 import dev.lqwd.dto.match_score.MatchScoreDto;
 import dev.lqwd.dto.NewMatchRequestDto;
-import dev.lqwd.service.PlayerService;
+import dev.lqwd.service.NewMatchPlayersService;
 import dev.lqwd.utils.Validator;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -22,7 +22,7 @@ import static jakarta.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 @WebServlet("/new-match")
 public class NewMatchServlet extends HttpServlet {
 
-    private static final PlayerService playerService = new PlayerService();
+    private static final NewMatchPlayersService NEW_MATCH_PLAYERS_SERVICE = new NewMatchPlayersService();
     private static final String MATCH_SCORE_URL = "match-score?uuid=%s";
 
 
@@ -36,13 +36,13 @@ public class NewMatchServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        String player1 = req.getParameter("player1Name");
-        String player2 = req.getParameter("player2Name");
+        String player1Name = req.getParameter("player1Name");
+        String player2Name = req.getParameter("player2Name");
 
 
         try {
 
-            Validator.validate(player1, player2);
+            Validator.validate(player1Name, player2Name);
 
         } catch (BadRequestException e) {
 
@@ -54,11 +54,11 @@ public class NewMatchServlet extends HttpServlet {
         }
 
         NewMatchRequestDto newMatchRequestDto = NewMatchRequestDto.builder()
-                .player1(player1)
-                .player2(player2)
+                .player1Name(player1Name)
+                .player2Name(player2Name)
                 .build();
 
-        MatchScoreDto matchScoreDto = playerService.getPLayers(newMatchRequestDto);
+        MatchScoreDto matchScoreDto = NEW_MATCH_PLAYERS_SERVICE.getPLayers(newMatchRequestDto);
         UUID key = OngoingMatchesService.getInstance().addMatch(matchScoreDto);
 
         log.info("matchScoreDto created uuid: {}}", key);
