@@ -1,6 +1,5 @@
 package dev.lqwd.utils;
-;
-import jakarta.servlet.ServletContextEvent;
+
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
@@ -10,7 +9,6 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
-import java.net.PasswordAuthentication;
 import java.util.HashMap;
 import java.util.Map;
 

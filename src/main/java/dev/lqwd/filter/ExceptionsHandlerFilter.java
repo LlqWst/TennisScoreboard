@@ -28,7 +28,7 @@ public class ExceptionsHandlerFilter extends HttpFilter {
             log.error("error to e.message: {}, e.stack.trace: {}", e.getMessage(), e.getStackTrace());
             req.setAttribute("error", ERROR_MESSAGE);
 
-            req.getRequestDispatcher(req.getContextPath() + "/").forward(req, res);
+            req.getRequestDispatcher("/").forward(req, res);
 
         }
     }

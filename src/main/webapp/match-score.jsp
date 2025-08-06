@@ -19,54 +19,52 @@
         <div class="top-centered-container">
             <div class="image-buttons-wrapper">
                 <img src="${pageContext.request.contextPath}/images/match-score.png" alt="Tennis" class="tennis-image">
-                <div class="header-column">
-                    <p class="match-score_header">
-                        <span class="first-line">Choose Point</span><br>
-                        <span class="second-line">Winner</span>
-                    </p>
+                <div class="column">
+                    <p class="match-score_header"> Choose Point Winner</p>
+
+                    <div class="score">
+                        <table class="match-score">
+                            <tr>
+                                <th>Name</th>
+                                <th>Sets</th>
+                                <th>Games</th>
+                                <th>Points</th>
+                            </tr>
+                            <tr>
+                                <td>${matchScore.matchScoreDto.player1.name}</td>
+                                <td>${matchScore.matchScoreDto.score1.sets}</td>
+                                <td>${matchScore.matchScoreDto.score1.games}</td>
+                                <td>${matchScore.matchScoreDto.score1.points}</td>
+                            </tr>
+                            <tr>
+                                <td>${matchScore.matchScoreDto.player2.name}</td>
+                                <td>${matchScore.matchScoreDto.score2.sets}</td>
+                                <td>${matchScore.matchScoreDto.score2.games}</td>
+                                <td>${matchScore.matchScoreDto.score2.points}</td>
+                            </tr>
+                        </table>
+
+                        <div class="buttons-column">
+                            <form action="match-score?uuid=${param.uuid}" method="post">
+                                <label>
+                                    <input type="hidden" name="playerNumber" value=${matchScore.numberPlayer1}>
+                                </label>
+
+                                <button type="submit" class="submit-button">Point🎾</button>
+                            </form>
+
+                            <form action="match-score?uuid=${param.uuid}" method="post">
+                                <label>
+                                    <input type="hidden" name="playerNumber" value=${matchScore.numberPlayer2}>
+                                </label>
+                                <button type="submit" class="submit-button">Point🎾</button>
+                            </form>
+                        </div>
+
+                    </div>
+
                 </div>
             </div>
-        </div>
-
-        <div class="score">
-            <table class="match-score">
-                <tr>
-                    <th>Name</th>
-                    <th>Sets</th>
-                    <th>Games</th>
-                    <th>Points</th>
-                </tr>
-                <tr>
-                    <td>${matchScore.matchScoreDto.player1.name}</td>
-                    <td>${matchScore.matchScoreDto.score1.sets}</td>
-                    <td>${matchScore.matchScoreDto.score1.games}</td>
-                    <td>${matchScore.matchScoreDto.score1.points}</td>
-                </tr>
-                <tr>
-                    <td>${matchScore.matchScoreDto.player2.name}</td>
-                    <td>${matchScore.matchScoreDto.score2.sets}</td>
-                    <td>${matchScore.matchScoreDto.score2.games}</td>
-                    <td>${matchScore.matchScoreDto.score2.points}</td>
-                </tr>
-            </table>
-
-            <div class="buttons-column">
-                <form action="match-score?uuid=${param.uuid}" method="post">
-                    <label>
-                        <input type="hidden" name="playerNumber" value=${matchScore.numberPlayer1}>
-                    </label>
-
-                    <button type="submit" class="submit-button">Point🎾</button>
-                </form>
-
-                <form action="match-score?uuid=${param.uuid}" method="post">
-                    <label>
-                        <input type="hidden" name="playerNumber" value=${matchScore.numberPlayer2}>
-                    </label>
-                    <button type="submit" class="submit-button">Point🎾</button>
-                </form>
-            </div>
-
         </div>
 
     </main>

@@ -23,9 +23,12 @@
     max-width: 1200px;
     width: 100%;
     padding: 0 20px; /* Боковые отступы */
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .tennis-image {
+    max-width: 100%;
     width: 700px; /* Фиксированная ширина изображения */
     height: auto;
     border-radius: 40px;
@@ -38,7 +41,6 @@
     margin-top: 100px; /* Дополнительный отступ сверху */
 }
 
-/* Ваши стили кнопок (оставляем без изменений) */
 .index_button_start_match {
     font-family: sans-serif;
     font-size: 30px;
@@ -75,4 +77,33 @@
 .index_button_matches:hover {
     background-color: #EAF3FA;
     transform: translateY(-2px);
+}
+
+@media (max-width: 1200px) {
+    .image-buttons-wrapper {
+        gap: 30px; /* Уменьшаем расстояние между элементами */
+    }
+    .buttons-column {
+        margin-top: 40px; /* Уменьшаем отступ сверху */
+    }
+}
+
+@media (max-width: 768px) {
+    .index_header {
+        font-size: 32px; /* Уменьшаем размер заголовка */
+    }
+    .tennis-image {
+        width: 100%; /* Полная ширина на маленьких экранах */
+        border-radius: 20px; /* Меньше скругление */
+    }
+    .buttons-column {
+        width: 100%; /* Кнопки занимают всю ширину */
+        margin-top: 30px;
+        gap: 15px;
+    }
+    .index_button_start_match,
+    .index_button_matches {
+        font-size: 24px; /* Уменьшаем размер текста */
+        padding: 25px 20px; /* Меньше отступы */
+    }
 }

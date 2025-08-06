@@ -14,42 +14,41 @@
             <a href="new-match" class="header_button"> Start a new match </a>
         </header>
         <main>
+
             <div class="top-centered-container">
-                <div class="image-buttons-wrapper">
-                    <img src="${pageContext.request.contextPath}/images/match-winner.jpg" alt="Tennis" class="tennis-image">
-                    <div class="header-column">
-                        <p class="match-score-winner">
-                            <span class="match-score-winner-text">!!! Winner is </span>
-                            <span class="match-score-winner-name">${matchScore.matchScoreDto.winner.name}</span>
-                            <span class="match-score-winner-text"> !!!</span>
-                        </p>
-                        <a href="${pageContext.request.contextPath}" class="button_home">Home</a>
-                    </div>
+
+                <div class="score">
+                    <table class="match-score">
+                        <caption>🏆 ${matchScore.matchScoreDto.winner.name} wins the match!</caption>
+                        <tr>
+                            <th>Name</th>
+                            <th>Sets</th>
+                            <th>Games</th>
+                            <th>Points</th>
+                        </tr>
+                        <tr>
+                            <td class="${matchScore.matchScoreDto.score1.sets > matchScore.matchScoreDto.score2.sets ? 'highlight' : ''}">
+                                ${matchScore.matchScoreDto.player1.name}
+                            </td>
+                            <td>${matchScore.matchScoreDto.score1.sets}</td>
+                            <td>${matchScore.matchScoreDto.score1.games}</td>
+                            <td>${matchScore.matchScoreDto.score1.points}</td>
+                        </tr>
+                        <tr>
+                            <td class="${matchScore.matchScoreDto.score2.sets > matchScore.matchScoreDto.score1.sets ? 'highlight' : ''}">
+                                ${matchScore.matchScoreDto.player2.name}
+                            </td>
+                            <td>${matchScore.matchScoreDto.score2.sets}</td>
+                            <td>${matchScore.matchScoreDto.score2.games}</td>
+                            <td>${matchScore.matchScoreDto.score2.points}</td>
+
+                        </tr>
+                    </table>
                 </div>
+
+                <a href="${pageContext.request.contextPath}" class="button_home">Home</a>
             </div>
 
-            <div class="score">
-                <table class="match-score">
-                    <tr>
-                        <th>Name</th>
-                        <th>Sets</th>
-                        <th>Games</th>
-                        <th>Points</th>
-                    </tr>
-                    <tr>
-                        <td>${matchScore.matchScoreDto.player1.name}</td>
-                        <td>${matchScore.matchScoreDto.score1.sets}</td>
-                        <td>${matchScore.matchScoreDto.score1.games}</td>
-                        <td>${matchScore.matchScoreDto.score1.points}</td>
-                    </tr>
-                    <tr>
-                        <td>${matchScore.matchScoreDto.player2.name}</td>
-                        <td>${matchScore.matchScoreDto.score2.sets}</td>
-                        <td>${matchScore.matchScoreDto.score2.games}</td>
-                        <td>${matchScore.matchScoreDto.score2.points}</td>
-                    </tr>
-                </table>
-            </div>
         </main>
         <footer>
             <p class="footer_button">

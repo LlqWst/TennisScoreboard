@@ -19,7 +19,7 @@
             <form class="search-form" action="matches" method="get">
                 <label class="search-label" for="search_name">Find games by Player name:</label>
                 <input class="search-input" type="text" id="search_name" name="filter_by_player_name"
-                       value="${param.filter_by_player_name}">
+                       value="${param.filter_by_player_name}" placeholder="Type name...">
                 <button class="search-button search-button-search" type="submit">Search</button>
                 <a href="matches" class="search-button search-button-clear">Clear</a>
             </form>
@@ -41,7 +41,7 @@
 
             </table>
 
-            <div>
+            <div class="pagination">
 
                 <a href="<c:url value='/matches'>
                             <c:param name='page' value="${pages.prevList}"/>
@@ -49,7 +49,7 @@
                                 <c:param name='filter_by_player_name' value='${param.filter_by_player_name}'/>
                             </c:if>
                             </c:url>"
-                   class="button"> <=
+                   class="pagination_next_list"> <<
                 </a>
 
                 <c:forEach begin='${pages.firstPage}' end='${pages.lastPage}' var="page_number">
@@ -59,7 +59,7 @@
                                 <c:param name='filter_by_player_name' value='${param.filter_by_player_name}'/>
                             </c:if>
                             </c:url>"
-                       class="button"> ${page_number}
+                       class="pagination_current_list"> ${page_number}
                     </a>
                 </c:forEach>
 
@@ -68,7 +68,7 @@
                             <c:if test='${not empty param.filter_by_player_name}'>
                                 <c:param name='filter_by_player_name' value='${param.filter_by_player_name}'/>
                             </c:if>
-                            </c:url>" class="button"> =>
+                            </c:url>" class="pagination_next_list"> >>
                 </a>
 
             </div>

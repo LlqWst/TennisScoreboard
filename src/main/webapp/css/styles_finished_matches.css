@@ -57,6 +57,7 @@
     color: #22429E;
     box-shadow: 0 0 0 2px rgba(146, 194, 253, 0.2);
     text-decoration: none;
+    text-align: center;
 }
 
 .search-button-search:hover {
@@ -76,8 +77,8 @@
 
 .tb-matches {
     width: 100%;
-    justify-content: center;
-    white-space: nowrap;
+    table-layout: auto;
+    white-space: normal;
     border-collapse: separate; /* Изменяем на separate */
     border-spacing: 0; /* Убираем промежутки между ячейками */
     margin: 20px auto;
@@ -87,16 +88,18 @@
 
 .tb-matches th,
 .tb-matches td {
-    padding: 20px 12px;
+    padding: 12px;
     text-align: center;
     font-family: sans-serif;
+    word-wrap: break-word; /* Перенос длинных слов */
+    overflow-wrap: break-word; /* Альтернатива для некоторых браузеров */
 }
 
 .tb-matches th {
     font-weight: bold;
     background-color: #f2f2f2;
     color: #22429E;
-    font-size: 26px;
+    font-size: 1.2rem;
     border: none;
 }
 
@@ -104,19 +107,39 @@
     border-top: 1px solid #E0E0E0; /* Только верхняя граница */
     background-color: white;
     color: black;
-    font-size: 23px;
+    font-size: 1rem;
 }
 
-/*.match-score tr:first-child th:first-child {*/
-/*    border-top-left-radius: 40px;*/
-/*}*/
-/*.match-score tr:first-child th:last-child {*/
-/*    border-top-right-radius: 40px;*/
-/*}*/
+.pagination {
+    font-family: sans-serif;
+    margin-top: 20px;
+    text-align: center;
+    color: #1a2f85;
+    font-weight: 600;
+}
 
-/*.match-score tr:last-child td:first-child {*/
-/*    border-bottom-left-radius: 40px;*/
-/*}*/
-/*.match-score tr:last-child td:last-child {*/
-/*    border-bottom-right-radius: 40px;*/
-/*}*/
+.pagination a {
+    margin: 0 5px;
+    text-decoration: none;
+    color: #1a2f85;
+}
+
+.pagination a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .tb-matches th,
+    .tb-matches td {
+        padding: 8px 4px; /* Еще меньше padding на маленьких экранах */
+        font-size: 0.9rem; /* Уменьшаем размер шрифта */
+    }
+
+    .search-form {
+        flex-direction: column; /* Элементы формы друг под другом */
+    }
+
+    .search-input {
+        width: 100%; /* Полная ширина на маленьких экранах */
+    }
+}

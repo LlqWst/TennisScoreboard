@@ -31,7 +31,8 @@ public class MatchScoreServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        UUID uuid = UUID.fromString(req.getParameter("uuid"));
+        UUID uuid = UUID.fromString(
+                req.getParameter("uuid"));
 
         log.info("uuid is redirected: {}}", uuid);
 
@@ -47,11 +48,6 @@ public class MatchScoreServlet extends HttpServlet {
 
         UUID uuid = UUID.fromString(
                 req.getParameter("uuid"));
-
-        if (!ongoingMatchesService.isContainsKey(uuid)){
-            resp.sendRedirect(req.getContextPath() + "/");
-            return;
-        }
 
         int pointWinnerNumber = Integer.parseInt(
                 req.getParameter("playerNumber"));

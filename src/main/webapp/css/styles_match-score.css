@@ -1,134 +1,157 @@
+.top-centered-container {
+    display: flex;
+    justify-content: center; /* Горизонтальное центрирование */
+    padding-top: 120px; /* Отступ сверху */
+    width: 100%;
+    flex-direction: column; /* Добавляем колоночную ориентацию */
+    align-items: center; /* Центрируем содержимое */
+}
+
+.image-buttons-wrapper {
+    display: flex;
+    align-items: flex-start; /* Выравнивание по верхнему краю */
+    gap: 20px; /* Расстояние между изображением и кнопками */
+    max-width: 1800px;
+    width: 100%;
+    padding: 0 20px; /* Боковые отступы */
+    justify-content: center;
+    flex-wrap: wrap; /* Разрешаем перенос на новую строку */
+}
+
+.tennis-image {
+    max-width: 100%; /*гибкая ширина*/
+    width: 750px; /* Фиксированная ширина изображения */
+    height: auto;
+    border-radius: 70px;
+}
+
+.column {
+    background: #EBF5FB;
+    border-radius: 70px;
+    padding: 20px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Уменьшаем общий промежуток между элементами */
+    width: 1000px;
+    height: 500px;
+    max-width: 100%; /* Не выходит за пределы экрана */
+    box-sizing: border-box; /* Учитываем padding в ширине */
+    overflow: hidden;
+
+}
+
 .match-score_header {
     font-family: sans-serif;
     font-size: 40px;
     font-weight: 800;
     color: #1E3A8A;
-    margin: 0;
+    margin-bottom: 20px; /* Добавляем отступ снизу */
     text-align: center;
     padding: 0;
     line-height: 1.3; /* Улучшает вертикальное выравнивание */
-}
-
-.match-score_header .first-line,
-.match-score_header .second-line {
     display: inline-block;
     width: 100%;
-}
 
-.top-centered-container {
-    display: flex;
-    justify-content: center;
-    align-items: center; /* Добавляем вертикальное центрирование */
-    padding-top: 20px;
-    width: 100%;
-    min-height: 10vh; /* Гарантирует достаточную высоту для центрирования */
-}
-
-.image-buttons-wrapper {
-    display: flex;
-    align-items: center; /* Меняем на center вместо flex-start */
-    gap: 60px;
-    max-width: 1200px;
-    width: 100%;
-    padding: 0 20px;
-}
-
-.tennis-image {
-    width: 500px; /* Фиксированная ширина изображения */
-    height: auto;
-    border-radius: 70px;
-}
-
-.header-column {
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* Центрируем содержимое по вертикали */
-    align-items: center; /* Центрируем по горизонтали */
-    gap: 15px;
-    margin-top: 0; /* Убираем верхний отступ */
 }
 
 .score {
     display: flex;
     justify-content: center;
     align-items: center; /* Добавляем вертикальное центрирование */
-    padding-top: 20px;
     width: 100%;
     min-height: 10vh; /* Гарантирует достаточную высоту для центрирования */
+    border-radius: 50px; /* Скругляем углы таблицы */
 }
 
 .match-score {
-    width: 28%;
+    width: 100%;
+    table-layout: fixed;
     white-space: nowrap;
     border-collapse: separate; /* Изменяем на separate */
     border-spacing: 0; /* Убираем промежутки между ячейками */
-    margin: 40px 0;
-    border-radius: 12px; /* Скругляем углы таблицы */
+    margin: 0 auto;
+    border-radius: 35px; /* Скругляем углы таблицы */
     overflow: hidden; /* Скрываем выступающие углы */
 }
 
 .match-score th,
 .match-score td {
-    padding: 20px 12px;
+    padding: 15px 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 300px;
+    text-overflow: ellipsis;
     text-align: center;
     font-family: sans-serif;
 }
 
 .match-score th {
-    font-weight: bold;
-    background-color: #f2f2f2;
+    font-weight: bolder;
+    background-color: #f8f8f8;
     color: black;
-    font-size: 26px;
+    font-size: 31px;
     border: none;
 }
 
 .match-score td {
     border-top: 1px solid #E0E0E0; /* Только верхняя граница */
-    background-color: #3965B5;
-    color: white;
-    font-size: 23px;
+    color: black;
+    background: white;
+    font-size: 30px;
+    letter-spacing: 1px;
 }
 
-.match-score td:nth-child(1) { /* Первый столбец */
-    background-color: #22429E;
-    text-align: left;/* Синий */
+.match-score td:nth-child(1) { /* Первый столбец */ /* Ширина ровно на 18 символов */
+    background-color: white;
+    color: #1E3A8A;
+    text-align: left;
+    padding-left: 20px; /* Отступ для текста */
+    white-space: nowrap;
+    overflow: hidden;
+    font-family: "Segoe UI", Frutiger, "Frutiger Linotype", sans-serif;
+    font-weight: bold;
+    font-size: 33px;
+    width: 40%;
+    max-width: 250px;
+    text-overflow: ellipsis;
 }
 
-.match-score td:nth-child(3) { /* Первый столбец */
-    background-color: #4472C4; /* Синий */
+
+.match-score th:nth-child(1) {
+    width: 40%;
+    text-align: left;
 }
 
-/* Скругляем углы у первой и последней ячейки первой строки */
-.match-score tr:first-child th:first-child {
-    border-top-left-radius: 40px;
-}
-.match-score tr:first-child th:last-child {
-    border-top-right-radius: 40px;
-}
-
-/* Скругляем углы у первой и последней ячейки последней строки */
-.match-score tr:last-child td:first-child {
-    border-bottom-left-radius: 40px;
-}
-.match-score tr:last-child td:last-child {
-    border-bottom-right-radius: 40px;
+.match-score td:nth-child(2),
+.match-score td:nth-child(3),
+.match-score td:nth-child(4),
+.match-score th:nth-child(2),
+.match-score th:nth-child(3),
+.match-score th:nth-child(4) {
+    width: 20%;
 }
 
 .buttons-column {
+    width: auto;
+    max-width: 100%;
+    margin: 85px 20px 0;
     display: flex;
     flex-direction: column;
     gap: 13px; /* Уменьшаем общий промежуток между элементами */
-    margin-top: 80px; /* Уменьшаем отступ сверху */
-    margin-left: 15px;
+
 }
 
 .submit-button {
+    min-width: 120px;
+    width: auto;
+    height: auto;
     background-color: #1F7F21;
     font-family: sans-serif;
     font-weight: bold;
     color: white;
     border: none;
-    padding: 5px 15px 5px 15px;
+    padding: 5px 25px;
+    white-space: nowrap;
     font-size: 25px;
     border-radius: 10px;
     cursor: pointer;
@@ -138,4 +161,109 @@
 .submit-button:hover {
     background-color: #249427;
     transform: translateY(-2px);
+}
+
+@media (max-width: 1600px) {
+    .match-score th {
+        font-size: 26px;
+    }
+    .match-score td {
+        font-size: 25px;
+    }
+    .match-score td:nth-child(1) {
+        font-size: 28px;
+    }
+
+@media (max-width: 1200px) {
+    .score {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .buttons-column {
+        margin-top: 20px;
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .column {
+        width: 100%;
+        height: auto;
+    }
+
+    .tennis-image {
+        width: 100%;
+        max-width: 750px;
+    }
+}
+
+    .match-score th {
+        font-size: 22px;
+        padding: 12px 15px;
+    }
+    .match-score td {
+        font-size: 21px;
+        padding: 12px 15px;
+    }
+    .match-score td:nth-child(1) {
+        font-size: 23px;
+    }
+    .match-score_header {
+        font-size: 32px;
+    }
+    .submit-button {
+        font-size: 22px;
+        padding: 4px 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .match-score th {
+        font-size: 18px;
+        padding: 10px 12px;
+    }
+    .match-score td {
+        font-size: 17px;
+        padding: 10px 12px;
+    }
+    .match-score td:nth-child(1) {
+        font-size: 19px;
+    }
+    .match-score_header {
+        font-size: 28px;
+    }
+    .submit-button {
+        font-size: 18px;
+        padding: 3px 15px;
+    }
+    .column {
+        padding: 15px 20px;
+        border-radius: 50px;
+    }
+}
+
+@media (max-width: 480px) {
+    .match-score th {
+        font-size: 16px;
+        padding: 8px 10px;
+    }
+    .match-score td {
+        font-size: 15px;
+        padding: 8px 10px;
+    }
+    .match-score td:nth-child(1) {
+        font-size: 17px;
+    }
+    .match-score_header {
+        font-size: 24px;
+    }
+    .submit-button {
+        font-size: 16px;
+        padding: 2px 12px;
+    }
+    .column {
+        padding: 10px 15px;
+        border-radius: 40px;
+    }
 }

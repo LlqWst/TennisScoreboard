@@ -1,3 +1,20 @@
+.error-message {
+    color: #d32f2f; /* Красный цвет для ошибки */
+    font-size: 14px;
+    margin: -20px 0 15px 0; /* Поднимаем ближе к заголовку */
+    padding: 0 10px;
+    word-wrap: break-word; /* Разрешаем перенос длинных слов */
+    white-space: normal; /* Разрешаем перенос строк */
+    text-align: center;
+    width: 100%;
+    max-width: 400px; /* Такая же ширина как у формы */
+    align-self: center; /* Центрируем относительно колонки */
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .new-match_header {
     font-family: sans-serif;
     font-size: 40px;
@@ -22,9 +39,12 @@
     max-width: 1200px;
     width: 100%;
     padding: 0 20px; /* Боковые отступы */
+    flex-wrap: nowrap;
+    justify-content: center;
 }
 
 .tennis-image {
+    max-width: 100%; /*гибкая ширина*/
     width: 700px; /* Фиксированная ширина изображения */
     height: auto;
     border-radius: 70px;
@@ -33,22 +53,19 @@
 .buttons-column {
     background: #EBF5FB;
     border-radius: 30px;
-    padding: 20px 20px 20px 20px;
+    padding: 20px 30px;
     display: flex;
     flex-direction: column;
-    margin: 40px;
+    margin: 15px;
     gap: 15px; /* Уменьшаем общий промежуток между элементами */
-    justify-content: center/* Уменьшаем отступ сверху */
-}
-
-.form-container {
-    max-width: 500px;
-    margin: 30px auto;
-    padding: 20px;
-    font-family: sans-serif;
+    justify-content: center; /* Уменьшаем отступ сверху */
+    width: 420px; /* Убираем фиксированную ширину */
+    max-width: 100%; /* Не выходит за пределы экрана */
+    box-sizing: border-box; /* Учитываем padding в ширине */
 }
 
 .form-group {
+    max-width: 400px;
     margin-bottom: 20px;
 }
 
@@ -101,4 +118,45 @@
 
 .submit-button:hover {
     background-color: #249427;
+}
+
+/* Адаптация для планшетов */
+@media (max-width: 1024px) {
+    .image-buttons-wrapper {
+        flex-wrap: wrap; /* Разрешаем перенос на планшетах */
+    }
+    .buttons-column {
+        min-height: auto; /* Убираем фиксированную высоту */
+    }
+    .tennis-image {
+        border-radius: 40px;
+    }
+}
+
+/* Адаптация для мобильных устройств */
+@media (max-width: 768px) {
+    .new-match_header {
+        font-size: 32px;
+    }
+    .top-centered-container {
+        padding-top: 40px;
+    }
+    .tennis-image {
+        width: 100%;
+        border-radius: 20px;
+    }
+    .buttons-column {
+        margin: 20px 10px;
+        padding: 15px 20px;
+        width: calc(100% - 20px); /* Полная ширина с учетом margin */
+    }
+    .submit-button {
+        font-size: 20px;
+        padding: 10px 20px;
+    }
+    .error-message {
+        font-size: 13px;
+        margin: -5px 0 10px 0;
+        max-width: 100%;
+    }
 }
