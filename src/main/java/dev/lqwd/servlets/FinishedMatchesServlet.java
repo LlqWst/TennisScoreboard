@@ -16,6 +16,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+import static jakarta.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
+
 @WebServlet("/matches")
 public class FinishedMatchesServlet extends HttpServlet {
 
@@ -32,15 +34,17 @@ public class FinishedMatchesServlet extends HttpServlet {
 
         try {
 
-            page = Validator.parseParameter(
+            page = Validator.parsePage(
                     req.getParameter("page"), DEFAULT_PAGE);
 
-            name = Validator.parseParameter(
+            name = Validator.parseName(
                     req.getParameter("filter_by_player_name"), EMPTY_NAME);
 
-        } catch (BadRequestException e){
-            redirectToMatchesUrl(req, resp);
+        } catch (BadRequestException e) {
+
+            redirectToMatchesUrl(req, resp, e);
             return;
+
         }
 
         FinishedMatchRequestDto finishedMatchRequestDto = FinishedMatchRequestDto.builder()
@@ -60,9 +64,11 @@ public class FinishedMatchesServlet extends HttpServlet {
 
             paginationResponseDto = FINISHED_MATCHES_SERVICE.getPaginationPages(name, page);
 
-        } catch (BadRequestException e){
-            redirectToMatchesUrl(req, resp);
+        } catch (BadRequestException e) {
+
+            redirectToMatchesUrl(req, resp, e);
             return;
+
         }
 
         req.setAttribute("finishedMatches", finishedMatchesResponseDto);
@@ -72,8 +78,20 @@ public class FinishedMatchesServlet extends HttpServlet {
 
     }
 
-    private static void redirectToMatchesUrl(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.sendRedirect(req.getContextPath() + "/matches");
+    private static void redirectToMatchesUrl(HttpServletRequest req, HttpServletResponse resp, Exception e) throws IOException, ServletException {
+
+        req.setAttribute("pages",
+                PaginationResponseDto.builder()
+                        .firstPage(DEFAULT_PAGE)
+                        .lastPage(DEFAULT_PAGE)
+                        .prevList(DEFAULT_PAGE)
+                        .nextList(DEFAULT_PAGE)
+                        .build());
+
+        req.setAttribute("error", e.getMessage());
+        resp.setStatus(SC_BAD_REQUEST);
+        req.getRequestDispatcher("finishedMatches.jsp").forward(req, resp);
+
     }
 
 }

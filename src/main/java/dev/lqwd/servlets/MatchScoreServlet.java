@@ -34,8 +34,6 @@ public class MatchScoreServlet extends HttpServlet {
         UUID uuid = UUID.fromString(
                 req.getParameter("uuid"));
 
-        log.info("uuid is redirected: {}}", uuid);
-
         MatchScoreDto matchScoreDto = ongoingMatchesService.getMatchScoreDto(uuid);
 
         req.setAttribute("matchScore", setUpdatedMatchScore(matchScoreDto));
@@ -45,14 +43,19 @@ public class MatchScoreServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         UUID uuid = UUID.fromString(
                 req.getParameter("uuid"));
 
+        if (!ongoingMatchesService.isContainsKey(uuid)) {
+
+            log.warn("Redirect from post method - servlet 'new-matches'");
+            resp.sendRedirect(req.getContextPath() + "/");
+            return;
+
+        }
+
         int pointWinnerNumber = Integer.parseInt(
                 req.getParameter("playerNumber"));
-
-        log.info("point for player number: {}}", pointWinnerNumber);
 
         MatchScoreForUpdateRequestDto matchScoreForUpdateRequestDto = MatchScoreForUpdateRequestDto.builder()
                 .matchScoreDto(ongoingMatchesService.getMatchScoreDto(uuid).toBuilder().build())
@@ -74,8 +77,6 @@ public class MatchScoreServlet extends HttpServlet {
         } else {
 
             OngoingMatchesService.getInstance().updateScore(uuid, matchScoreDtoUpdated);
-
-            log.info("score updated for uuid: {}, score: {} }", uuid, matchScoreDtoUpdated);
 
             resp.sendRedirect(MATCH_SCORE_URL.formatted(uuid));
         }

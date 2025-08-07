@@ -48,20 +48,17 @@ public class MatchesDao {
 
     public long countPlayedMatches(String name) {
 
-        String hql = "SELECT count(m) FROM Match m" + SPACE;
+        StringBuilder hql = new StringBuilder("SELECT count(m) FROM Match m").append(SPACE);
 
         if (!name.isEmpty()) {
 
-            hql += """
-                    WHERE upper(m.player1.name) = upper(:playerName)
-                    OR upper(m.player2.name) = upper(:playerName)
-                    """;
+            hql.append(getFilterByName());
 
         }
 
         try (Session session = HibernateUtil.openSession()) {
 
-            Query<Long> query = session.createQuery(hql, Long.class);
+            Query<Long> query = session.createQuery(hql.toString(), Long.class);
 
             if (!name.isEmpty()) {
                 query.setParameter("playerName", name);
@@ -81,24 +78,22 @@ public class MatchesDao {
         int page = finishedMatchRequestDto.getPage();
         String name = finishedMatchRequestDto.getName();
 
-        String hql = """
+        StringBuilder hql = new StringBuilder("""
                              SELECT m FROM Match m
                              JOIN FETCH m.player1
                              JOIN FETCH m.player2
                              JOIN FETCH m.winner
-                             """
-                     + SPACE;
+                             """).append(SPACE);
 
         if (!name.isEmpty()) {
-            hql += """
-                    WHERE upper(m.player1.name) = upper(:playerName)
-                       OR upper(m.player2.name) = upper(:playerName)
-                    """;
+
+            hql.append(getFilterByName());
+
         }
 
         try (Session session = HibernateUtil.openSession()) {
 
-            Query<Match> query = session.createQuery(hql, Match.class)
+            Query<Match> query = session.createQuery(hql.toString(), Match.class)
                     .setFirstResult((page - 1) * maxSize)
                     .setMaxResults(maxSize);
 
@@ -143,6 +138,13 @@ public class MatchesDao {
             log.error("Failed to save transaction for matchScoreDto {}:", match);
             throw new DataBaseException(SAVE_DB_ERROR.formatted(match));
         }
+    }
+
+    private static String getFilterByName() {
+        return """
+                WHERE m.player1.name ILIKE CONCAT('%', :playerName, '%')
+                OR m.player2.name ILIKE CONCAT('%', :playerName, '%')
+                """;
     }
 
 }

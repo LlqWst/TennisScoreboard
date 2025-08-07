@@ -39,7 +39,6 @@ public class NewMatchServlet extends HttpServlet {
         String player1Name = req.getParameter("player1Name");
         String player2Name = req.getParameter("player2Name");
 
-
         try {
 
             Validator.validate(player1Name, player2Name);
@@ -54,8 +53,8 @@ public class NewMatchServlet extends HttpServlet {
         }
 
         NewMatchRequestDto newMatchRequestDto = NewMatchRequestDto.builder()
-                .player1Name(player1Name)
-                .player2Name(player2Name)
+                .player1Name(player1Name.trim())
+                .player2Name(player2Name.trim())
                 .build();
 
         MatchScoreDto matchScoreDto = NEW_MATCH_PLAYERS_SERVICE.getPLayers(newMatchRequestDto);

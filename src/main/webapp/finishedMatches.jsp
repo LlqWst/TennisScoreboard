@@ -16,6 +16,7 @@
     <main>
 
         <div class="finished-matches">
+            <p class="error-message">${error}</p>
             <form class="search-form" action="matches" method="get">
                 <label class="search-label" for="search_name">Find games by Player name:</label>
                 <input class="search-input" type="text" id="search_name" name="filter_by_player_name"

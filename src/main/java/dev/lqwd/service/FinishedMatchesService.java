@@ -16,18 +16,20 @@ public class FinishedMatchesService {
     private static final MatchesDao matchesDao = new MatchesDao();
     private final static int MAX_ELEMENTS_SIZE = 5;
     private final static int MAX_PAGES = 5;
-    private final static String MAX_PAGES_MESSAGE = "Max pages from BD less then requested";
+    private final static String MAX_PAGES_MESSAGE = "For name %s, page %s is not available";
 
 
     public PaginationResponseDto getPaginationPages(String name, int page) {
 
-        int maxPage = (int) Math.ceil((double) matchesDao.countPlayedMatches(name) / MAX_ELEMENTS_SIZE);
+        int maxPagesForName = (int) Math.ceil((double) matchesDao.countPlayedMatches(name) / MAX_ELEMENTS_SIZE);
 
-        if (isNoMatchesForName(page, maxPage) || isMoreThanPlayedMatches(page, maxPage)) {
+        if (isNoMatchesForName(page, maxPagesForName) || isMoreThanPlayedMatches(page, maxPagesForName)) {
 
-            log.warn("Max pages from BD less then requested. Page num is requested {}, max pages: {}", page, maxPage);
-            throw new BadRequestException(MAX_PAGES_MESSAGE);
+            log.warn("Max pages from BD less than requested. Page num is requested {}, max pages: {}", page, maxPagesForName);
+            throw new BadRequestException(MAX_PAGES_MESSAGE.formatted(name, page));
         }
+
+        int maxPage = Math.max(1, maxPagesForName);
 
         int firstPage = getFirstPage(page);
         int lastPage = getLastPage(page, maxPage);
@@ -62,11 +64,15 @@ public class FinishedMatchesService {
     }
 
     private static boolean isMoreThanPlayedMatches(int page, int maxPage) {
+
         return maxPage != 0 && maxPage < page;
+
     }
 
     private static boolean isNoMatchesForName(int page, int maxPage) {
+
         return maxPage == 0 && page != 1;
+
     }
 
 }

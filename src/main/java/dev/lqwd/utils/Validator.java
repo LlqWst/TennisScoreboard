@@ -11,19 +11,22 @@ import java.util.regex.Pattern;
 public final class Validator {
 
     private static final Pattern PATTERN_NAME = Pattern.compile("^(?!\\s*$)(?:[a-zA-Z ]{1,15}|[а-яА-Я ]{1,15})$");
-    private static final Pattern PATTERN_PAGE = Pattern.compile("^(?!0+$)([0-9]{1,3})$");
+    private static final Pattern PATTERN_PAGE = Pattern.compile("^([0-9]{1,3})$");
     private static final String SUPPORTS_CHARS_MESSAGE = "'Player name' supports latina and cyrillic only, max 15 chars";
     private static final String EQUALS_NAMES_MESSAGE = "Players names should be different";
     private static final String PAGE_MESSAGE = "Incorrect page number";
 
-    public static int parseParameter(String parameter, int defaultValue) {
+    public static int parsePage(String parameter, int defaultValue) {
 
         if (parameter == null || parameter.isBlank()) {
             return defaultValue;
         }
 
         if (PATTERN_PAGE.matcher(parameter).matches()) {
-            return Integer.parseInt(parameter);
+
+            int value = Integer.parseInt(parameter);
+            return value == 0 ? defaultValue : value;
+
         }
 
         log.warn("incorrect page number: {}", parameter);
@@ -31,7 +34,7 @@ public final class Validator {
 
     }
 
-    public static String parseParameter(String parameter, String defaultValue) {
+    public static String parseName(String parameter, String defaultValue) {
 
         if (parameter == null || parameter.isBlank()) {
             return defaultValue;

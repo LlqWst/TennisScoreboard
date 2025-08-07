@@ -18,7 +18,7 @@ public class WebListener implements ServletContextListener {
     private static final String PATH_TO_INIT_DATA = "/sql_scripts/init_data.sql";
     private static final String INIT_SCRIPT_ERROR_MESSAGE = "DB Error: file with init data wasn't found";
     private static final String DB_ERROR_MESSAGE = "DB Error";
-    
+
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         HibernateUtil.openSessionFactory();
@@ -30,13 +30,13 @@ public class WebListener implements ServletContextListener {
         HibernateUtil.closeSessionFactory();
     }
 
-    private static void loadInitData(){
+    private static void loadInitData() {
         try (Session session = HibernateUtil.openSession();
              InputStream inputStream = HibernateUtil.class.getResourceAsStream(PATH_TO_INIT_DATA)) {
 
             Transaction transaction = session.beginTransaction();
 
-            if (inputStream == null){
+            if (inputStream == null) {
                 log.error("Initial load error: InputStream is null");
                 throw new DataBaseException(INIT_SCRIPT_ERROR_MESSAGE);
             }
