@@ -134,11 +134,10 @@
 .buttons-column {
     width: auto;
     max-width: 100%;
-    margin: 85px 20px 0;
+    margin: 70px 20px 0;
     display: flex;
     flex-direction: column;
     gap: 13px; /* Уменьшаем общий промежуток между элементами */
-
 }
 
 .submit-button {
@@ -196,6 +195,7 @@
         width: 100%;
         max-width: 750px;
     }
+
 }
 
     .match-score th {
