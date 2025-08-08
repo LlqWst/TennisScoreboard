@@ -12,6 +12,4 @@ public interface FinishedMatchMapper {
 
     FinishedMatchResponseDto toMatchResponseDto(Match match);
 
-    Match toMatch(FinishedMatchResponseDto finishedMatchedResponseDto);
-
 }

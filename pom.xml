@@ -17,7 +17,7 @@
         <lombok.version>1.18.30</lombok.version>
         <junit.version>5.13.4</junit.version>
         <mockito.version>5.18.0</mockito.version>
-        <log4j.verstion>2.25.1</log4j.verstion>
+        <log4j.version>2.25.1</log4j.version>
         <mapstruct>1.6.3</mapstruct>
     </properties>
 
@@ -45,7 +45,7 @@
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.vladmihalcea/hibernate-types-60 -->
         <dependency>
-            <groupId>org.hibernate</groupId>
+            <groupId>org.hibernate.orm</groupId>
             <artifactId>hibernate-core</artifactId>
             <version>6.6.17.Final</version>
         </dependency>
@@ -53,12 +53,12 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
-            <version>${log4j.verstion}</version> <!--интерфейс логирования-->
+            <version>${log4j.version}</version> <!--интерфейс логирования-->
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j2-impl</artifactId>
-            <version>${log4j.verstion}</version> <!--конкретная реализация логирования-->
+            <version>${log4j.version}</version> <!--конкретная реализация логирования-->
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -102,29 +102,11 @@
             <artifactId>h2</artifactId>
             <version>2.3.232</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.19.0</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/com.zaxxer/HikariCP -->
-        <dependency>
-            <groupId>com.zaxxer</groupId>
-            <artifactId>HikariCP</artifactId>
-            <version>6.3.0</version>
-        </dependency>
         <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13.2</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 

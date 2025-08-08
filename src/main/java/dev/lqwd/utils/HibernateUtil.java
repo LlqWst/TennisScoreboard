@@ -25,8 +25,8 @@ public final class HibernateUtil {
         if (sessionFactory == null) {
             try {
 
-                Server.createWebServer("-web", "-webAllowOthers", "-webPort", "8082").start();
-                Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", "9092").start();
+                //Server.createWebServer("-web", "-webAllowOthers", "-webPort", "8082").start();
+                //Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", "9092").start();
 
                 StandardServiceRegistry standardRegistry = new StandardServiceRegistryBuilder()
                         .configure("hibernate.cfg.xml")
