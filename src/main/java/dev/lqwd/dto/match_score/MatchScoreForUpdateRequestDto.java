@@ -10,6 +10,6 @@ public class MatchScoreForUpdateRequestDto {
 
     MatchScoreDto matchScoreDto;
 
-    int pointWinnerNumber;
+    Long pointWinnerId;
 
 }

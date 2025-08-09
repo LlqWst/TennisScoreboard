@@ -13,8 +13,4 @@ public class MatchScoreResponseDto {
 
     MatchScoreDto matchScoreDto;
 
-    int numberPlayer1;
-
-    int numberPlayer2;
-
 }

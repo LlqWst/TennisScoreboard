@@ -1,4 +1,4 @@
-import dev.lqwd.FinishedMatchMapper;
+import dev.lqwd.mapper.FinishedMatchMapper;
 import dev.lqwd.dto.finished_match.FinishedMatchResponseDto;
 import dev.lqwd.dto.finished_match.FinishedMatchRequestDto;
 import dev.lqwd.entity.Match;

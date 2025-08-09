@@ -23,7 +23,6 @@ public class MatchScoreCalculationServiceTest {
     private static final int MIN_TIE_BREAK_POINTS = 7;
     private static final long PLAYER_1_ID = 1L;
     private static final long PLAYER_2_ID = 2L;
-    private static final int PLAYER_1_NUMBER = 1;
     private static final int MIN_POINTS_FOR_GAME = 4;
     private static final int SETS_TO_WIN = 2;
 
@@ -54,7 +53,7 @@ public class MatchScoreCalculationServiceTest {
                                         .sets(ZERO_AS_INT)
                                         .build())
                                 .build())
-                        .pointWinnerNumber(PLAYER_1_NUMBER)
+                        .pointWinnerId(PLAYER_1_ID)
                         .build();
 
         MatchScoreDto expected =
@@ -114,7 +113,7 @@ public class MatchScoreCalculationServiceTest {
                                         .sets(ZERO_AS_INT)
                                         .build())
                                 .build())
-                        .pointWinnerNumber(PLAYER_1_NUMBER)
+                        .pointWinnerId(PLAYER_1_ID)
                         .build();
 
         MatchScoreDto expected =
@@ -169,7 +168,7 @@ public class MatchScoreCalculationServiceTest {
                                         .sets(ZERO_AS_INT)
                                         .build())
                                 .build())
-                        .pointWinnerNumber(PLAYER_1_NUMBER)
+                        .pointWinnerId(PLAYER_1_ID)
                         .build();
 
         MatchScoreDto expected =
@@ -224,7 +223,7 @@ public class MatchScoreCalculationServiceTest {
                                         .sets(ZERO_AS_INT)
                                         .build())
                                 .build())
-                        .pointWinnerNumber(PLAYER_1_NUMBER)
+                        .pointWinnerId(PLAYER_1_ID)
                         .build();
 
         MatchScoreDto expected =
@@ -279,7 +278,7 @@ public class MatchScoreCalculationServiceTest {
                                         .sets(ZERO_AS_INT)
                                         .build())
                                 .build())
-                        .pointWinnerNumber(PLAYER_1_NUMBER)
+                        .pointWinnerId(PLAYER_1_ID)
                         .build();
 
         MatchScoreDto expected =
@@ -334,7 +333,7 @@ public class MatchScoreCalculationServiceTest {
                                         .sets(ZERO_AS_INT)
                                         .build())
                                 .build())
-                        .pointWinnerNumber(PLAYER_1_NUMBER)
+                        .pointWinnerId(PLAYER_1_ID)
                         .build();
 
         MatchScoreDto expected =
@@ -393,7 +392,7 @@ public class MatchScoreCalculationServiceTest {
                                         .sets(ZERO_AS_INT)
                                         .build())
                                 .build())
-                        .pointWinnerNumber(PLAYER_1_NUMBER)
+                        .pointWinnerId(PLAYER_1_ID)
                         .build();
 
         MatchScoreDto expected =
@@ -452,7 +451,7 @@ public class MatchScoreCalculationServiceTest {
                                         .sets(ZERO_AS_INT)
                                         .build())
                                 .build())
-                        .pointWinnerNumber(PLAYER_1_NUMBER)
+                        .pointWinnerId(PLAYER_1_ID)
                         .build();
 
         MatchScoreDto expected =
@@ -511,7 +510,7 @@ public class MatchScoreCalculationServiceTest {
                                         .sets(ZERO_AS_INT)
                                         .build())
                                 .build())
-                        .pointWinnerNumber(PLAYER_1_NUMBER)
+                        .pointWinnerId(PLAYER_1_ID)
                         .build();
 
         MatchScoreDto expected =
@@ -557,16 +556,16 @@ public class MatchScoreCalculationServiceTest {
                                 .winner(null)
                                 .score1(Score.builder()
                                         .points(FORTY)
-                                        .games(5)
+                                        .games(MIN_GAMES_POINTS - POINT)
                                         .sets(ZERO_AS_INT)
                                         .build())
                                 .score2(Score.builder()
                                         .points(ZERO_AS_STRING)
-                                        .games(5)
+                                        .games(MIN_GAMES_POINTS - POINT)
                                         .sets(ZERO_AS_INT)
                                         .build())
                                 .build())
-                        .pointWinnerNumber(PLAYER_1_NUMBER)
+                        .pointWinnerId(PLAYER_1_ID)
                         .build();
 
         MatchScoreDto expected =
@@ -617,7 +616,7 @@ public class MatchScoreCalculationServiceTest {
                                 .winner(null)
                                 .score1(Score.builder()
                                         .points(FORTY)
-                                        .games(5)
+                                        .games(MIN_GAMES_POINTS - POINT)
                                         .sets(POINT)
                                         .build())
                                 .score2(Score.builder()
@@ -626,7 +625,7 @@ public class MatchScoreCalculationServiceTest {
                                         .sets(ZERO_AS_INT)
                                         .build())
                                 .build())
-                        .pointWinnerNumber(PLAYER_1_NUMBER)
+                        .pointWinnerId(PLAYER_1_ID)
                         .build();
 
         MatchScoreDto expected =

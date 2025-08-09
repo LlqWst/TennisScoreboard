@@ -47,7 +47,7 @@
                         <div class="buttons-column">
                             <form action="match-score?uuid=${param.uuid}" method="post">
                                 <label>
-                                    <input type="hidden" name="playerNumber" value=${matchScore.numberPlayer1}>
+                                    <input type="hidden" name="winnerPointId" value=${matchScore.matchScoreDto.player1.id}>
                                 </label>
 
                                 <button type="submit" class="submit-button">Point🎾</button>
@@ -55,7 +55,7 @@
 
                             <form action="match-score?uuid=${param.uuid}" method="post">
                                 <label>
-                                    <input type="hidden" name="playerNumber" value=${matchScore.numberPlayer2}>
+                                    <input type="hidden" name="winnerPointId" value=${matchScore.matchScoreDto.player2.id}>
                                 </label>
                                 <button type="submit" class="submit-button">Point🎾</button>
                             </form>
