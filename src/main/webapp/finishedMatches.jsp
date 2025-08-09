@@ -43,15 +43,16 @@
             </table>
 
             <div class="pagination">
-
-                <a href="<c:url value='/matches'>
+                <c:if test='${pages.prevList != 0}'>
+                    <a href="<c:url value='/matches'>
                             <c:param name='page' value="${pages.prevList}"/>
                             <c:if test='${not empty param.filter_by_player_name}'>
                                 <c:param name='filter_by_player_name' value='${param.filter_by_player_name}'/>
                             </c:if>
-                            </c:url>"
-                   class="pagination_next_list"> <<
-                </a>
+                            </c:url>"> <<
+                    </a>
+                </c:if>
+                <c:if test='${pages.prevList == 0}'> << </c:if>
 
                 <c:forEach begin='${pages.firstPage}' end='${pages.lastPage}' var="page_number">
                     <a href="<c:url value='/matches'>
@@ -60,18 +61,21 @@
                                 <c:param name='filter_by_player_name' value='${param.filter_by_player_name}'/>
                             </c:if>
                             </c:url>"
-                       class="pagination_current_list"> ${page_number}
+                        ${page_number == param.page or (empty param.page and page_number == 1) ? 'class="current_page"' : ""}> ${page_number}
                     </a>
                 </c:forEach>
 
-                <a href="<c:url value='/matches'>
-                            <c:param name='page' value="${pages.nextList}"/>
-                            <c:if test='${not empty param.filter_by_player_name}'>
-                                <c:param name='filter_by_player_name' value='${param.filter_by_player_name}'/>
-                            </c:if>
-                            </c:url>" class="pagination_next_list"> >>
-                </a>
+                <c:if test='${pages.nextList != 0}'>
+                    <a href="<c:url value='/matches'>
+                                <c:param name='page' value="${pages.nextList}"/>
+                                <c:if test='${not empty param.filter_by_player_name}'>
+                                    <c:param name='filter_by_player_name' value='${param.filter_by_player_name}'/>
+                                </c:if>
+                                </c:url>"> >>
+                    </a>
+                </c:if>
 
+                <c:if test='${pages.nextList == 0}'> >> </c:if>
             </div>
         </div>
     </main>

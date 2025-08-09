@@ -21,21 +21,21 @@ public class FinishedMatchesService {
 
     public PaginationResponseDto getPaginationPages(String name, int page) {
 
-        int maxPagesForName = (int) Math.ceil((double) matchesDao.countPlayedMatches(name) / MAX_ELEMENTS_SIZE);
+        int maxPageForName = (int) Math.ceil((double) matchesDao.countPlayedMatches(name) / MAX_ELEMENTS_SIZE);
 
-        if (isNoMatchesForName(page, maxPagesForName) || isMoreThanPlayedMatches(page, maxPagesForName)) {
+        if (isNoMatchesForName(page, maxPageForName) || isMoreThanPlayedMatches(page, maxPageForName)) {
 
-            log.warn("Max pages from BD less than requested. Page num is requested {}, max pages: {}", page, maxPagesForName);
+            log.warn("Max pages from BD less than requested. Page num is requested {}, max pages: {}", page, maxPageForName);
             throw new BadRequestException(MAX_PAGES_MESSAGE.formatted(name, page));
         }
 
-        int maxPage = Math.max(1, maxPagesForName);
+        int maxPage = Math.max(1, maxPageForName);
 
         int firstPage = getFirstPage(page);
         int lastPage = getLastPage(page, maxPage);
 
-        int prevList = Math.max(firstPage - 1, 1);
-        int nextList = Math.min(lastPage + 1, maxPage);
+        int prevList = Math.max(firstPage - 1, 0);
+        int nextList = getNextList(lastPage, maxPage);
 
         return PaginationResponseDto.builder()
                 .firstPage(firstPage)
@@ -44,7 +44,6 @@ public class FinishedMatchesService {
                 .nextList(nextList)
                 .build();
     }
-
 
     public List<Match> getFinishedMatches(FinishedMatchRequestDto finishedMatchRequestDto) {
 
@@ -61,6 +60,16 @@ public class FinishedMatchesService {
 
         int lastPage = (int) Math.ceil((double) page / MAX_PAGES) * MAX_PAGES;
         return Math.min(maxPage, lastPage);
+    }
+
+    private static int getNextList(int lastPage, int maxPage) {
+        int nextList = lastPage + 1;
+
+        if (nextList > maxPage) {
+            return 0;
+        }
+
+        return nextList;
     }
 
     private static boolean isMoreThanPlayedMatches(int page, int maxPage) {

@@ -84,8 +84,8 @@ public class FinishedMatchesServlet extends HttpServlet {
                 PaginationResponseDto.builder()
                         .firstPage(DEFAULT_PAGE)
                         .lastPage(DEFAULT_PAGE)
-                        .prevList(DEFAULT_PAGE)
-                        .nextList(DEFAULT_PAGE)
+                        .prevList(0)
+                        .nextList(0)
                         .build());
 
         req.setAttribute("error", e.getMessage());
