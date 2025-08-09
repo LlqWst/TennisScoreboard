@@ -23,6 +23,7 @@ public class FinishedMatchesServlet extends HttpServlet {
 
     private static final int DEFAULT_PAGE = 1;
     private static final String EMPTY_NAME = "";
+    private static final int EMPTY_LIST = 0;
     private static final FinishedMatchesService FINISHED_MATCHES_SERVICE = new FinishedMatchesService();
     private static final FinishedMatchMapper mapper = FinishedMatchMapper.INSTANCE;
 
@@ -84,8 +85,8 @@ public class FinishedMatchesServlet extends HttpServlet {
                 PaginationResponseDto.builder()
                         .firstPage(DEFAULT_PAGE)
                         .lastPage(DEFAULT_PAGE)
-                        .prevList(0)
-                        .nextList(0)
+                        .prevList(EMPTY_LIST)
+                        .nextList(EMPTY_LIST)
                         .build());
 
         req.setAttribute("error", e.getMessage());
