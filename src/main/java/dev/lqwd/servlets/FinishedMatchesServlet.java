@@ -42,7 +42,7 @@ public class FinishedMatchesServlet extends HttpServlet {
 
         } catch (BadRequestException e) {
 
-            redirectToMatchesUrl(req, resp, e);
+            forwardError(req, resp, e);
             return;
 
         }
@@ -66,7 +66,7 @@ public class FinishedMatchesServlet extends HttpServlet {
 
         } catch (BadRequestException e) {
 
-            redirectToMatchesUrl(req, resp, e);
+            forwardError(req, resp, e);
             return;
 
         }
@@ -78,7 +78,7 @@ public class FinishedMatchesServlet extends HttpServlet {
 
     }
 
-    private static void redirectToMatchesUrl(HttpServletRequest req, HttpServletResponse resp, Exception e) throws IOException, ServletException {
+    private static void forwardError(HttpServletRequest req, HttpServletResponse resp, Exception e) throws IOException, ServletException {
 
         req.setAttribute("pages",
                 PaginationResponseDto.builder()

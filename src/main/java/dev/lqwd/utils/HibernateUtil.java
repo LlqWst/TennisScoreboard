@@ -18,15 +18,15 @@ import java.util.Map;
 public final class HibernateUtil {
 
     private static SessionFactory sessionFactory;
-    private final static String user = System.getenv("DB_USER");
-    private final static String password = System.getenv("DB_PASSWORD");
+    private final static String password = System.getenv("PASS_BD");
+    private final static String user = System.getenv("USER_BD");
 
     public static void openSessionFactory() {
         if (sessionFactory == null) {
             try {
 
-                //Server.createWebServer("-web", "-webAllowOthers", "-webPort", "8082").start();
-                //Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", "9092").start();
+                Server.createWebServer("-web", "-webAllowOthers", "-webPort", "8083").start();
+                Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", "9093").start();
 
                 StandardServiceRegistry standardRegistry = new StandardServiceRegistryBuilder()
                         .configure("hibernate.cfg.xml")
