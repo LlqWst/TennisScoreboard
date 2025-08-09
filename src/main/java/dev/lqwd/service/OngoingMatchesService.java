@@ -4,24 +4,30 @@ import dev.lqwd.dto.match_score.MatchScoreDto;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 public class OngoingMatchesService {
 
-    private static OngoingMatchesService instance;
-    private final Map<UUID, MatchScoreDto> matches;
+    private final ConcurrentHashMap<UUID, MatchScoreDto> matches;
+
+
+    private static class Holder {
+
+        static final OngoingMatchesService INSTANCE = new OngoingMatchesService();
+
+    }
 
     private OngoingMatchesService() {
-        matches = new HashMap<>();
+
+        matches = new ConcurrentHashMap<>();
+
     }
 
     public static OngoingMatchesService getInstance() {
 
-        if (instance == null) {
-            instance = new OngoingMatchesService();
-        }
+        return Holder.INSTANCE;
 
-        return instance;
     }
 
     public UUID addMatch(MatchScoreDto currentMatch) {

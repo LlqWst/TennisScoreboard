@@ -76,7 +76,7 @@ public class MatchScoreServlet extends HttpServlet {
 
         } else {
 
-            OngoingMatchesService.getInstance().updateScore(uuid, matchScoreDtoUpdated);
+            ongoingMatchesService.updateScore(uuid, matchScoreDtoUpdated);
 
             resp.sendRedirect(MATCH_SCORE_URL.formatted(uuid));
         }

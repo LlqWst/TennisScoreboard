@@ -15,6 +15,16 @@
 
     <property name="hibernate.hbm2ddl.auto">create</property>
 
+    <property name="hibernate.connection.provider_class">
+      com.zaxxer.hikari.hibernate.HikariConnectionProvider
+    </property>
+
+    <property name="hibernate.hikari.minimumIdle">5</property>
+    <property name="hibernate.hikari.maximumPoolSize">20</property>
+    <property name="hibernate.hikari.idleTimeout">30000</property>
+    <property name="hibernate.hikari.connectionTimeout">10000</property>
+    <property name="hibernate.hikari.maxLifetime">1800000</property>
+
     <mapping class="dev.lqwd.entity.Player"/>
     <mapping class="dev.lqwd.entity.Match"/>
 

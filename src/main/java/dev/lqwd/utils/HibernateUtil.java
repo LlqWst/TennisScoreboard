@@ -18,8 +18,8 @@ import java.util.Map;
 public final class HibernateUtil {
 
     private static SessionFactory sessionFactory;
-    private final static String password = System.getenv("PASS_BD");
-    private final static String user = System.getenv("USER_BD");
+    private final static String password = System.getenv("PASS_DB");
+    private final static String user = System.getenv("USER_DB");
 
     public static void openSessionFactory() {
         if (sessionFactory == null) {
