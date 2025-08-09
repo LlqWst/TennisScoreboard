@@ -18,8 +18,8 @@ import java.util.Map;
 public final class HibernateUtil {
 
     private static SessionFactory sessionFactory;
-    private final static String password = System.getenv("PASS_DB");
-    private final static String user = System.getenv("USER_DB");
+    private final static String PASSWORD = System.getenv("PASS_DB");
+    private final static String USER = System.getenv("USER_DB");
 
     public static void openSessionFactory() {
         if (sessionFactory == null) {
@@ -51,8 +51,8 @@ public final class HibernateUtil {
     private static Map<String, Object> getHibernateParameters() {
         Map<String, Object> parameters = new HashMap<>();
 
-        parameters.put("hibernate.connection.username", user);
-        parameters.put("hibernate.connection.password", password);
+        parameters.put("hibernate.connection.username", USER);
+        parameters.put("hibernate.connection.password", PASSWORD);
 
         return parameters;
 
