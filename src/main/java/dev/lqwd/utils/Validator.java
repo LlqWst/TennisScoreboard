@@ -72,7 +72,7 @@ public final class Validator {
 
     private static void validateOnEquals(String name1, String name2) {
 
-        if (name1.equalsIgnoreCase(name2)) {
+        if (name1.trim().equalsIgnoreCase(name2.trim())) {
             log.warn("Equal names: {} and {}", name1, name2);
             throw new BadRequestException(EQUALS_NAMES_MESSAGE + " " + SUPPORTS_CHARS_MESSAGE);
         }
