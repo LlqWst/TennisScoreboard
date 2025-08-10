@@ -52,8 +52,6 @@ public class NewMatchServlet extends HttpServlet {
 
         }
 
-player2Name = player2Name.trim();
-
         NewMatchRequestDto newMatchRequestDto = NewMatchRequestDto.builder()
                 .player1Name(player1Name.trim())
                 .player2Name(player2Name.trim())
